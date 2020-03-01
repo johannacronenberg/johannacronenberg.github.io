@@ -1,15 +1,15 @@
 {
-  "name": "Johanna Cronenberg",
-  "short_name": "Johanna Cronenberg",
+  "name": "[jo:hana]",
+  "short_name": "[jo:hana]",
   "lang": "en-us",
   "theme_color": "hsl(212, 68%, 43%)",
   "background_color": "hsl(212, 68%, 43%)",
   "icons": [{
-    "src": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png",
+    "src": "/images/icon_hu324f82d363688900c47de4645567d9c7_22237_192x192_fill_lanczos_center_2.png",
     "sizes": "192x192",
     "type": "image/png"
     }, {
-    "src": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png",
+    "src": "/images/icon_hu324f82d363688900c47de4645567d9c7_22237_512x512_fill_lanczos_center_2.png",
     "sizes": "512x512",
     "type": "image/png"
      }],
