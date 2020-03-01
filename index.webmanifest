@@ -2,8 +2,8 @@
   "name": "Academic",
   "short_name": "Academic",
   "lang": "en-us",
-  "theme_color": "hsla(180, 82%, 18%, 1)",
-  "background_color": "hsla(180, 82%, 18%, 1)",
+  "theme_color": "hsl(212, 68%, 43%)",
+  "background_color": "hsl(212, 68%, 43%)",
   "icons": [{
     "src": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png",
     "sizes": "192x192",
