@@ -2,8 +2,8 @@
   "name": "[jo:hana]",
   "short_name": "[jo:hana]",
   "lang": "en-us",
-  "theme_color": "rgb(190, 199, 209)",
-  "background_color": "rgb(190, 199, 209)",
+  "theme_color": "rgb(118, 136, 173)",
+  "background_color": "rgb(118, 136, 173)",
   "icons": [{
     "src": "/images/icon_hu324f82d363688900c47de4645567d9c7_22237_192x192_fill_lanczos_center_2.png",
     "sizes": "192x192",
