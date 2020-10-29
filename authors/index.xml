@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Authors | [jo:hana]</title>
+    <title>Authors | [jo&amp;#720;&amp;apos;hana]</title>
     <link>https://johannacronenberg.github.io/authors/</link>
       <atom:link href="https://johannacronenberg.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
@@ -20,7 +20,7 @@
       <description>&lt;p&gt;I first fell in love with phonetics in 2013 in an introductory class that was part of my B.A. in Language and Communication.
 After finishing my philological and linguistic undergraduate studies, I came to Munich to study at the Institute of Phonetics and
 Speech Processing. It is here that I am currently pursuing my PhD in phonetics as part of the ERC project 
-&lt;a href=&#34;https://www.phonetik.uni-muenchen.de/Forschung/interaccent/interAccent.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&amp;ldquo;InterAccent&amp;rdquo;&lt;/a&gt;
+&lt;a href=&#34;https://www.phonetik.uni-muenchen.de/Forschung/interaccent/interAccent.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&amp;quot;InterAccent&amp;quot;&lt;/a&gt;
 supervised by Prof. Jonathan Harrington. My research interests include all facets of sound change as well as computational
 modelling techniques such as agent-based modelling as a method of investigating sound change.&lt;/p&gt;
 </description>
