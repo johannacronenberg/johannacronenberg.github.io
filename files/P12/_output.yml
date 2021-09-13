@@ -1,0 +1,33 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      collapse: subsection
+      scroll_highlight: true
+      before: |
+        <li><a href="./index.html">Programmieren und Statistik in R</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+    toolbar:
+      position: fixed
+    edit: null
+    download: null
+    search: null
+    sharing:
+      facebook: false
+      github: false
+      twitter: false
+      linkedin: false
+      weibo: false
+      instapaper: false
+      vk: false
+      whatsapp: false
+    info: false
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+bookdown::epub_book: default
+bookdown::bs4_book: default

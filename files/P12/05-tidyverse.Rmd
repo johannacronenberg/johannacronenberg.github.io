@@ -1,0 +1,127 @@
+# Daten manipulieren mit `dplyr` (Fortsetzung)
+
+## Grouping & Summarising
+
+Laden Sie die folgenden Libraries und Data Frames:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+int <- read.table(file.path(url, "intdauer.txt"))
+coronal <- read.table(file.path(url, "coronal.txt"))
+vdata <- read.table(file.path(url, "vdata.txt"))
+```
+
+In Kapitel \@ref(summary-statistics) haben wir *summary statistics* für F1-Werte aus dem Data Frame `vdata` berechnet. Natürlich geht das auch innerhalb der *tidyverse*-Syntax, nämlich mit der Funktion `summarise()` aus dem Package `dplyr`. Diese Funktion verändert den Data Frame grundlegend, denn die ursprünglichen Daten werden zu neuen Werten zusammengefasst. Dies betrifft sowohl die Anzahl der Spalten als auch der Anzahl der Zeilen. `summarise()` erstellt neue Spalten und keine der originalen Spalten werden beibehalten. Die Funktion bekommt als Argument also den/die neuen Spaltennamen und wie die Werte in dieser neuen Spalte berechnet werden sollen:
+
+```{r}
+vdata %>% summarise(mittelwert = mean(F1))
+```
+
+Der Output dieser Pipe ist ein Data Frame mit nur einer Spalte und einer Zeile. Wir können aber auch mehrere deskriptive Werte gleichzeitig berechnen und erhalten dadurch mehr Spalten:
+
+```{r}
+vdata %>% summarise(mittelwert = mean(F1),
+                    std_abw = sd(F1),
+                    summe = sum(F1),
+                    maximum = max(F1),
+                    Q1 = quantile(F1, 0.25))
+```
+
+Die Funktionen `mutate()` und `summarise()` haben also gemein, dass sie neue Spalten erstellen; während in `mutate()` aber alle ursprünglichen Zeilen und Spalten erhalten bleiben, erstellt `summarise()` einen ganz neuen Data Frame mit deutlich weniger Zeilen als ursprünglich vorhanden waren (denn hier wurden Werte *zusammengefasst*).
+
+Was würden Sie jetzt tun, wenn Sie den F1-Mittelwert für nur einen bestimmten Vokal `V` aus dem Data Frame berechnen wollen? Vermutlich würden Sie dies wie folgt lösen (für den Vokal `V == "E"`):
+
+```{r}
+vdata %>% 
+  filter(V == "E") %>% 
+  summarise(mittelwert = mean(F1))
+```
+
+Der F1-Mittelwert für "E" ist also ca. 426 Hz. Wenn Sie sich für die vokalspezifischen F1-Mittelwerte interessieren, dann ist es nicht mehr sinnvoll, für jeden einzelnen Vokal den obigen Code zu benutzen. Stattdessen gibt es die Funktion `group_by()`. `group_by()` bekommt als Argumente alle Spalten, nach denen gruppiert werden soll. `summarise()` berechnet die gewünschten *summary statistics* anschließend **pro Gruppe**. In unserem Beispiel gruppieren wir nach Vokal und berechnen dann den Mittelwert pro Vokal:
+
+```{r}
+vdata %>% 
+  group_by(V) %>% 
+  summarise(mittelwert = mean(F1))
+```
+
+Es wurden zwei Spalten erstellt: Die eine enthält die sieben verschiedenen Vokale aus dem originalen Data Frame, die andere die vokalspezifischen F1-Mittelwerte. Sie können natürlich auch nach mehr als einer Spalte gruppieren. Es ist zum Beispiel anzunehmen, dass sich der mittlere F1 nicht nur von Vokal zu Vokal unterscheidet, sondern dass auch der Gespanntheitsgrad `Tense` einen Einfluss hat. Deshalb gruppieren wir nach Vokal und Gespanntheitsgrad und berechnen dann den mittleren F1:
+
+```{r}
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(mittelwert = mean(F1))
+```
+
+Wir sehen jetzt also den F1-Mittelwert für nicht gespannte "%", gespannte "%" (ignorieren Sie die seltsame Vokal-Kodierung), nicht gespannte "A", gespannte "A", usw.
+
+<div class="gray">
+**Weiterführende Infos: `summarise()` warning**
+
+Oben sehen Sie eine Warnmeldung, die von `summarise()` geworfen wurde. Warnmeldungen sind dazu da, Sie auf etwas aufmerksam zu machen -- Sie sollten sie also nicht ignorieren. Diese Warnmeldung zeigt erstmal an, dass das Ergebnis des Codes ein gruppierter Data Frame ist (Objektklasse `grouped_df`) und dass die Gruppierungsvariable `V` ist:
+
+```{r}
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(mittelwert = mean(F1)) %>% 
+  class()
+```
+
+Die Warnmeldung zeigt außerdem, dass man die Gruppierung des Ergebnisses auch verändern kann, indem man das `summarise()`-Argument `.groups` verwendet. Dieses Argument kann verschiedene Werte annehmen, wie Sie auf der Hilfsseite der Funktion `summarise()` nachlesen können.
+
+Bei den vorherigen Code Snippets, bei denen wir `group_by()` im Zusammenspiel mit `summarise()` verwendet haben, ist die Warnmeldung übrigens deshalb nicht aufgetaucht, weil wir nur nach einer Variable gruppiert haben; im Ergebnis wird diese Gruppierung automatisch aufgehoben.
+</div>
+
+Es ist wichtig zu verstehen, dass nur nach kategorialen Spalten gruppiert werden kann. Es ergibt keinen Sinn, nach nicht-kategorialen numerischen Spalten zu gruppieren, denn hier gibt es keine Gruppen (jeder Wert ist vermutlich einzigartig). Der Sinn von `summarise()` ist es aber ja gerade, deskriptive Statistiken für kategoriale Gruppen zu berechnen.
+
+Zuletzt wollen wir noch die Funktionen `n()` und `n_distinct()` vorstellen. `n()` benötigt keine Argumente und wird nach `group_by()` innerhalb `summarise()` verwendet, um die Anzahl an Beobachtungen (Zeilen) pro Gruppe zurückzugeben. `n_distinct()` bekommt als Argument den Namen einer Spalte und findet heraus, wie viele unterschiedliche (einzigartige) Werte einer Variable es pro Gruppe gibt.
+
+```{r}
+# Anzahl an Zeilen für jede Kombination von V und Tense
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(count = n())
+# Anzahl der einzigartigen Sprecher pro Region und sozialer Klasse
+coronal %>% 
+  group_by(Region, Socialclass) %>% 
+  summarise(count = n_distinct(Vpn))
+```
+
+<div class="gray">
+**Weiterführende Infos: Funktionen eindeutig beschreiben**
+
+Da die Funktionen aus dem *tidyverse*, insbesonderen aus `dplyr`, sehr gängige Namen haben (`filter()`, `summarise()`, `rename()`), werden sie leicht von Funktionen mit demselben Namen aus anderen Paketen maskiert. Wenn Sie also von einer dieser Funktionen einen Fehler bekommen, laden Sie entweder noch einmal das Paket, aus dem die Funktion stammen soll (z.B. `library(dplyr)`), oder nutzen Sie die folgende Schreibweise: `dplyr::filter()`.
+
+</div>
+
+## Arranging
+
+In der alltäglichen Arbeit mit Data Frames kann es sinnvoll sein, den Data Frame nach Zeilen oder Spalten zu ordnen. Für das Ordnen der Zeilen wird `arrange()` benutzt, für das Ordnen der Spalten `relocate()`. Hier ordnen wir den Data Frame `int` aufsteigend nach Dauer:
+
+```{r}
+int %>% arrange(Dauer)
+```
+
+`arrange()` kann auch alphabetisch oder nach mehreren Spalten ordnen:
+
+```{r}
+int %>% arrange(Vpn, Dauer)
+```
+
+Um absteigend zu ordnen, wird `desc()` (*descending*) innerhalb von `arrange()` genutzt:
+
+```{r}
+int %>% arrange(Vpn, desc(Dauer))
+```
+
+`relocate()` bekommt als Argumente die Namen aller Spalten, die umsortiert werden sollen. Wenn sonst keine weiteren Argumente angegeben werden, werden die Spalten an den Anfang des Data Frames gesetzt. Ansonsten können die Argumente `.before` und `.after` verwendet werden, um anzugeben, vor oder nach welche Spalten die anderen Spalten gesetzt werden sollen:
+
+```{r}
+vdata %>% slice(1)
+vdata %>% relocate(Subj) %>% slice(1)
+vdata %>% relocate(Subj, Cons) %>% slice(1)
+vdata %>% relocate(where(is.numeric), .after = Subj) %>% slice(1)
+vdata %>% relocate(where(is.character), .before = dur) %>% slice(1)
+```

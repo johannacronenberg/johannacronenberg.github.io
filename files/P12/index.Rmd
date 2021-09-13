@@ -1,0 +1,179 @@
+--- 
+title: "Programmieren und Statistik in R"
+author: "Johanna Cronenberg"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+---
+
+# Setup
+
+## Installation und Kursverzeichnis
+
+- Laden Sie die [Statistik-Software R](https://ftp.fau.de/cran/) herunter und installieren Sie sie. Die neueste Version ist derzeit `4.1.x` (Stand: September 2021).
+
+- Laden Sie außerdem [RStudio](https://rstudio.com/products/rstudio/download/#download) herunter und installieren Sie es.
+
+- Schauen Sie sich diese [kurze Einführung in RStudio](https://www.youtube.com/watch?v=tyvEHQszZJs) an.
+
+- Legen Sie außerdem ein Verzeichnis für diesen Kurs auf Ihrer Festplatte an.
+
+## R projects
+
+Für diesen Kurs werden wir ein *R project* anlegen, da Ihnen dies die Arbeit mit R auf lange Sicht erleichtern wird.
+
+- Öffnen Sie RStudio und klicken Sie oben rechts auf die Schaltfläche `Project: (None)`.
+
+- Klicken Sie dann auf `New Project` und im Folgenden auf `Existing Directory` und wählen Sie mit `Browse` das Kursverzeichnis aus, das Sie eben angelegt haben. 
+
+- Schließen Sie den Vorgang ab, indem Sie auf `Create Project` klicken. 
+
+RStudio öffnet nun automatisch das Projekt, das genauso benannt ist wie Ihr Kursverzeichnis (siehe Schaltfläche oben rechts). Sie können das Projekt über diese Schaltfläche schließen und anschließend auch wieder öffnen. Das Projekt lässt sich außerdem öffnen, indem Sie in Ihrem Kursverzeichnis auf die neu angelegte Datei mit der Endung `.Rproj` klicken.
+
+Sollten Sie Probleme beim Erstellen des Projekts haben, empfehlen wir Ihnen diese [Video-Kurzanleitung](https://www.youtube.com/watch?v=hKoSJGWnFFA).
+
+<div class="gray">
+**Weiterführende Infos: R Projekte**
+
+R Projekte haben viele Vorteile, insbesondere wenn Sie in mehreren Kursen mit R arbeiten und für jeden ein eigenes R Projekt haben. Das Projekt merkt sich, welche Dateien Sie geöffnet haben, und stellt diese beim nächsten Öffnen des Projekts wieder her, sodass Sie da weiterarbeiten können, wo Sie aufgehört haben. Außerdem ist das *working directory* des Projekts Ihr Kursverzeichnis, das heißt alle Dateien, die Sie im Verlauf des Kurses dort ablegen, können Sie ganz einfach über das Panel unten links (Tab `Files`) oder über relative Pfade öffnen. Ihr Arbeitsverzeichnis können Sie übrigens überprüfen, indem Sie in der Konsole `getwd()` eingeben und Enter drücken.
+</div>
+
+## Packages und R Version
+
+Für R gibt es viele Tausend *packages* bzw. *libraries*, die uns die Arbeit erleichtern werden. Bitte installieren Sie nun folgende Packages (das dauert eine Weile!):
+
+```{r, eval = F}
+install.packages(c("Rcpp", "remotes", "knitr", "tidyverse", "magrittr", "rmarkdown", "emuR", "gridExtra", "emmeans", "broom", "lmerTest", "pbkrtest", "MuMIn"))
+```
+
+<div class="gray">
+**Weiterführende Infos: Installation von R Paketen**
+
+Sollte der obige Befehl den Fehler `installation of package had non-zero exit status` werfen, hat die Installation nicht geklappt. Für Windows kann es sein, dass Sie in diesem Fall zusätzlich [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installieren müssen. Für MacOS müssen Sie ggf. die *XCode command-line tools* installieren und/oder resetten. Öffnen Sie dafür ein Mac Terminal und führen Sie folgende Befehle aus:
+
+```{bash, eval = F}
+xcode-select --install
+# Falls die Installation der R Packages dann immer noch nicht klappt:
+xcode-select --reset
+```
+
+**Wenn Sie sich unsicher sind, wie Sie auftretende Fehler bei der Installation der R Packages für Ihr Betriebssystem beheben können, können Sie uns auch gerne fragen!**
+</div>
+
+Einige Basispakete werden automatisch aktiviert beim Öffnen von RStudio, die meisten aber müssen Sie erst laden, bevor Sie die Funktionen verwenden können, die die Pakete anbieten. Zum Laden von Packages benutzen Sie den Befehl `library()`:
+
+```{r, eval = F}
+library(tidyverse)
+library(emuR)
+```
+
+<div class="gray">
+**Weiterführende Infos: Updates**
+
+Bitte überprüfen Sie regelmäßig, ob Ihre Packages Updates benötigen -- die Updates werden in R nicht automatisch eingespielt! Klicken Sie hierfür in der Werkzeugleiste auf `Tools > Check for Package Updates`. Auch RStudio selbst erhält ab und zu Updates, dies können Sie überprüfen mit `Help > Check for Updates`.
+
+R muss ebenfalls aktuell gehalten werden. Sie können Ihre R Version überprüfen mit `getRversion()`. Besuchen Sie einfach in regelmäßigen Abständen die [R Webseite](https://ftp.fau.de/cran/) und schauen Sie, ob eine neue stabile Version verfügbar ist.
+</div>
+
+## Sessions
+
+Eine Session beginnt, wenn man R bzw. RStudio startet bzw. wenn man ein Projekt öffnet. Man beendet eine Session entweder mit `Session > Quit Session` in der Werkzeugleiste oder mit `Strg+Q` bzw. `Ctrl+Q`. Die Session endet außerdem automatisch, wenn Sie RStudio schließen. 
+
+Sie werden dann gefragt, ob Sie das *workspace image* speichern wollen. Wenn Sie die Variablen, die Sie in der Session angelegt haben, im Environment behalten und in der nächsten Session wieder verwenden wollen, klicken Sie auf `Save`. Der *workspace* wird dann in Ihrem Kursverzeichnis in einer Datei mit der Endung `.RData` abgelegt. Wenn Sie den *workspace* nicht speichern möchten, klicken Sie auf `Don't save`. Falls Sie die Session doch nicht beenden wollen, klicken Sie auf `Cancel`. 
+
+**Für diesen Kurs bitten wir Sie, den *workspace* nicht zu speichern (`Don't save`).**
+
+## Dokumentarten
+
+### R Skripte
+
+Die Konsole in RStudio ist die direkte Verbindung zu R, d.h. dort kann R Code direkt ausgeführt werden, so wie Sie das in dieser Vorlesung bisher gemacht haben. Um aber Ihren Code jederzeit replizieren zu können, müssen Sie ihn in einem Dokument festhalten. Üblicherweise werden Sie das in Ihrem Arbeitsalltag in einem **R Skript** machen. Ein R Skript kann einfach erstellt werden über `File > New File > R Script` (bzw. `Strg + Shift + N`) und sollte immer mit der Dateiendung `.R` abgespeichert werden. Ein R Skript enthält ausschließlich ausführbaren Code. Beim Ausführen eines Skriptes wird eine Zeile nur dann von R ignoriert, wenn sie mit `#` beginnt; dann ist die Zeile auskommentiert. Es gibt verschiedene Möglichkeiten, ein R Skript auszuführen. Markieren Sie die gewünschten Zeilen (wenn es nur eine Zeile ist, setzen Sie einfach den Cursor in die Zeile), und klicken Sie in der kleinen Werkzeugleiste im Panel mit dem geöffneten Skript auf `Run` oder drücken Sie `Strg+Enter` bzw. `Ctrl+Enter`. Das Ergebnis sehen Sie sofort in der Konsole.
+
+### R Markdown
+
+In den letzten Jahren hat sich aber auch eine andere Dokumentart etabliert, insbesondere für die Erstellung von Berichten und Lehrmaterial: das **R Markdown**. R Markdown ist eine Art Textdokument, in das man Code Snippets einbetten kann, die ganz normal ausgeführt werden können (wie oben beschrieben). Ein solches Dokument enthält häufig mehr Text als Code. Sie können ein R Markdown erstellen mit `File > New File > R Markdown` und es ist Konvention, das Dokument mit der Dateiendung `.Rmd` abzuspeichern. Eine R Markdown Datei wird im Normalfall in ein anderes Format umgewandelt ("ge-*knitted*"), z.B. in eine HTML, eine PDF, oder sogar ein Word Dokument. Dies geschieht entweder über den Wollknäuel-Button mit der Aufschrift `Knit` oder mittels:
+
+```{r, eval = F}
+library(rmarkdown)
+render("Uebung1.Rmd")
+```
+
+Wir benutzen R Markdown, um z.B. die HTML herzustellen, die Sie gerade lesen. **Auch Ihre Übungen werden Sie in einem R Markdown erledigen.** Der Vorteil davon ist, dass Sie für jede Ihrer Übungen einen schönen HTML-Report haben und trotzdem gut am Code arbeiten können.
+
+Für das erstmalige Durcharbeiten des Lehrstoffs eignet sich die Ansicht als R Markdown in unkompilierter Form. Dies wird es Ihnen erleichern, den Code auszuprobieren, denn im Markdown können die Code Snippets wie gesagt direkt ausgeführt werden (u.a. auch über den kleinen grünen Pfeil oben rechts in jedem Code Snippet). Trotzdem können Sie die Vorlesung, wenn Sie sie in eine HTML umgewandelt haben, entspannt im Browser oder im RStudio Viewer (Panel unten rechts) lesen.
+
+Im Markdown Dokument werden für Textmarkierungen besondere Zeichen verwendet, die dann beim *knitten* interpretiert und umgesetzt werden:
+
+\# Überschrift: Mit einem Hashtag bekommt man die größtmögliche Überschrift; je mehr Hashtags man benutzt, desto kleiner wird die Überschrift
+
+\*\*fett\*\*: Mit doppeltem Asterisk vor und hinter einer Textpassage wird der Text fett gesetzt
+
+\*kursiv\*: Mit einfachem Asterisk wird der Text kursiv
+
+\`code\`: die einfachen rückwärts gewandten Anführungszeichen heben den darin enthaltenen Text hervor; das wird üblicherweise für Code oder Variablen benutzt, wenn man sich außerhalb eines Code Snippets befindet; dieser Code kann aber nicht ausgeführt werden!
+
+\`\`\`: Die dreifachen rückwarts gewandten Anführungszeichen markieren den Anfang und das Ende eine Code Snippets (auch Code Block genannt). Dazwischen darf nur Code geschrieben werden; Text muss mit einem Hashtag als Kommentar verfasst werden. Am Anfang des Code Snippets wird außerdem in geschweiften Klammern angegeben, welche Programmiersprache man im Code Block schreibt (in unserem Fall: {r}).
+
+Noch mehr Informationen dazu finden Sie im [Cheatsheet zu R Markdown](https://www.rstudio.org/links/r_markdown_cheat_sheet) (insb. Seite 2, linke Spalte).
+
+## Hilfe zur Selbsthilfe
+
+### Fehler erkennen
+
+- Warnzeichen: Wenn Sie einen Syntaxfehler in einem Dokument haben (beispielsweise eine vergessene Klammer), sehen Sie am Rand kleine rote Warnzeichen. Diese sollten nicht ignoriert werden, denn sie weisen darauf hin, dass Sie einen Fehler gemacht haben. Wenn Sie den Fehler korrigieren, verschwinden die Warnzeichen.
+
+- "Knit": Wir empfehlen, dass Sie Ihr Markdown-Dokument regelmäßig, während Sie an der Übung arbeiten, in eine HTML überführen, indem Sie oben in der Werkzeugleiste auf "Knit" klicken. Wenn alles klappt, sehen Sie hoffentlich in einem neuen Fenster oder im Viewer (Panel unten rechts in RStudio) die kompilierte HTML. Wenn Sie aber Syntaxfehler oder andere Fehler in Ihrem Code haben, wird die HTML nicht erstellt und Sie kriegen stattdessen einen Fehler in der Konsole angezeigt. Dort sehen Sie auch, in welcher Zeile der Fehler ist.
+
+- Code einzeln ausführen: Führen Sie jede neu geschriebene Zeile Code aus. So sehen Sie Ihr Ergebnis und können überlegen, ob das Ergebnis das gewünschte ist oder nicht.
+
+### Community nutzen
+
+Es gibt eine sehr große und hilfsbereite R Community, die Ihnen das Programmieren lernen mit R erleichtern wird. Hier ein paar gute Links und Befehle, falls Sie mal nicht weiter wissen:
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r): Ein Blog, auf dem Sie höchstwahrscheinlich eine Antwort auf Ihre Frage zu R finden werden. Am einfachsten googlen Sie Ihre Frage auf Englisch; die Antwort eines Mitglieds von Stack Overflow wird bei den ersten Suchergebnissen dabei sein.
+
+- [Hadley Wickham's "R for Data Science"](https://r4ds.had.co.nz/): Hadley Wickham ist der Chief Programmer des "tidyverse", mit dem wir uns noch auseinandersetzen werden. Seine Bücher sind sehr verständlich, gut strukturiert und kurzweilig zu lesen.
+
+- Cheatsheets: Das sind PDFs, die eine Funktionsübersicht mit Erklärungen und ggf. Beispielen in absoluter Kurzform bieten. Sie finden einige Cheatsheets in der obersten Werkzeugleiste unter `Help > Cheatsheets`. Insbesondere die ersten drei sind für Sie interessant. Ansonsten kann man Cheatsheets auch googlen und findet dann z.B. [Data Transformation with dplyr](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf) oder diese sehr ausführliche [Reference Card](https://cran.r-project.org/doc/contrib/Short-refcard.pdf).
+
+- Vignetten: Zu einigen essentiellen Paketen gibt es so genannte "Vignetten", das sind meist HTMLs oder PDFs, die die AutorInnen eines Pakets geschrieben haben. Sie können mit folgender Konsoleneingabe nach Vignetten suchen:
+
+```{r, eval = F}
+# zum Beispiel zu einer Library aus dem tidyverse:
+vignette("dplyr")
+```
+
+- In RStudio können Sie sich über die Eigenschaften einer Funktion informieren, indem Sie im Panel unten rechts mit dem Tab `Help` die gewünschte Funktion ins Suchfeld eingeben. Sie erhalten dann u.a. Informationen über die Argumente der Funktion und Beispiele. Dasselbe erreichen Sie über diese Konsoleneingaben (beispielhaft für Hilfe zur Funktion `getwd()`):
+
+```{r, eval = F}
+?getwd
+help("getwd")
+```
+
+### Hilfe zu `ggplot2`
+
+`ggplot2` ist nicht nur bekannt, sondern auch beliebt! Dementsprechend viel Hilfe bekommen Sie von der R Community. Hier ein paar gute Quellen für Hilfe bei der Erstellung von Abbildungen:
+
+- Kapitel [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) in Hadley Wickham's "R for Data Science"
+
+- [Cookbook for R](http://www.cookbook-r.com/Graphs/)
+
+- [Cheatsheet ggplot2](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/ggplot2?sort=faq)
+
+### Statistik in R: Literatur
+
+Wenn Sie mehr Informationen zu benötigen, seien Ihnen folgende Werke ans Herz gelegt:
+
+- Bodo Winter's "Statistics for Linguists: An Introduction using R": Ein frisch erschienenes Buch voller hervorragender Erklärungen zu allen wichtigen Themen der Inferenzstatistik. Ist über die Uni-Bib digital verfügbar.
+
+- Stefan Gries' "Statistics for Linguistics with R: A Practical Introduction": Nützlich für die Entscheidungsfindung, welches statistische Modell zu den eigenen Daten und der eigenen Fragestellung passt. Da das Buch von 2009 ist, ist der Code z.T. veraltet, aber aus statistischer Sicht ist der Inhalt noch aktuell. Ist über die Uni-Bib digital verfügbar.
+
+- Harald Baayen's "Analyzing Linguistic Data: A Practical Introduction to Statistics": Einführung für eher Fortgeschrittene. Hier ist der R Code ebenfalls oft veraltet, aber die Erklärungen und Beispiele zu den Statistikgrundlagen sind hilfreich. Als physisches Exemplar in der Unibib verfügbar.
+

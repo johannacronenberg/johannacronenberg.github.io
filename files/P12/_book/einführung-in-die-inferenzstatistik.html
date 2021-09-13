@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>11 Einführung in die Inferenzstatistik | Programmieren und Statistik in R</title>
+  <meta name="description" content="11 Einführung in die Inferenzstatistik | Programmieren und Statistik in R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="11 Einführung in die Inferenzstatistik | Programmieren und Statistik in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="11 Einführung in die Inferenzstatistik | Programmieren und Statistik in R" />
+  
+  
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2021-09-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="pretty-plots.html"/>
+<link rel="next" href="einfache-lineare-regression.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programmieren und Statistik in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation-und-kursverzeichnis"><i class="fa fa-check"></i><b>1.1</b> Installation und Kursverzeichnis</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-und-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages und R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#dokumentarten"><i class="fa fa-check"></i><b>1.5</b> Dokumentarten</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-skripte"><i class="fa fa-check"></i><b>1.5.1</b> R Skripte</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#hilfe-zur-selbsthilfe"><i class="fa fa-check"></i><b>1.6</b> Hilfe zur Selbsthilfe</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#fehler-erkennen"><i class="fa fa-check"></i><b>1.6.1</b> Fehler erkennen</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#community-nutzen"><i class="fa fa-check"></i><b>1.6.2</b> Community nutzen</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#hilfe-zu-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Hilfe zu <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistik-in-r-literatur"><i class="fa fa-check"></i><b>1.6.4</b> Statistik in R: Literatur</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html"><i class="fa fa-check"></i><b>2</b> Erste Berechnungen in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#variablen-funktionen"><i class="fa fa-check"></i><b>2.1</b> Variablen &amp; Funktionen</a></li>
+<li class="chapter" data-level="2.2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#objektklassen"><i class="fa fa-check"></i><b>2.2</b> Objektklassen</a></li>
+<li class="chapter" data-level="2.3" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren"><i class="fa fa-check"></i><b>2.3</b> Vektoren</a></li>
+<li class="chapter" data-level="2.4" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#arithmetik-und-logische-operatoren"><i class="fa fa-check"></i><b>2.4</b> Arithmetik und logische Operatoren</a></li>
+<li class="chapter" data-level="2.5" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren-manipulieren"><i class="fa fa-check"></i><b>2.5</b> Vektoren manipulieren</a></li>
+<li class="chapter" data-level="2.6" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#faktoren"><i class="fa fa-check"></i><b>2.6</b> Faktoren</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#eigenschaften"><i class="fa fa-check"></i><b>3.2</b> Eigenschaften</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#auf-spalten-zugreifen"><i class="fa fa-check"></i><b>3.3</b> Auf Spalten zugreifen</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Einführung ins <em>tidyverse</em></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#daten-manipulieren-mit-dplyr"><i class="fa fa-check"></i><b>4.2</b> Daten manipulieren mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#weitere-beispiele-für-komplexe-pipes"><i class="fa fa-check"></i><b>4.3</b> Weitere Beispiele für komplexe Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mittelwert-median"><i class="fa fa-check"></i><b>5.1</b> Mittelwert &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#varianz-standardabweichung"><i class="fa fa-check"></i><b>5.2</b> Varianz &amp; Standardabweichung</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantile"><i class="fa fa-check"></i><b>5.3</b> Quantile</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#beispiel-boxplot"><i class="fa fa-check"></i><b>5.4</b> Beispiel Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html"><i class="fa fa-check"></i><b>6</b> Daten manipulieren mit <code>dplyr</code> (Fortsetzung)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Daten abbilden mit <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#histogramme-wahrscheinlichkeitsdichte"><i class="fa fa-check"></i><b>7.4</b> Histogramme &amp; Wahrscheinlichkeitsdichte</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html"><i class="fa fa-check"></i><b>8</b> Daten aufräumen mit <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#achsenbeschriftungen"><i class="fa fa-check"></i><b>10.1</b> Achsenbeschriftungen</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#koordinatensystem-begrenzen"><i class="fa fa-check"></i><b>10.2</b> Koordinatensystem begrenzen</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#farben"><i class="fa fa-check"></i><b>10.3</b> Farben</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#weitere-spezifikationen"><i class="fa fa-check"></i><b>10.4</b> Weitere Spezifikationen</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#schriftzeichengröße"><i class="fa fa-check"></i><b>10.5</b> Schriftzeichengröße</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen-und-anordnen"><i class="fa fa-check"></i><b>10.6</b> Plots unterteilen und anordnen</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen"><i class="fa fa-check"></i><b>10.6.1</b> Plots unterteilen</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-anordnen"><i class="fa fa-check"></i><b>10.6.2</b> Plots anordnen</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html"><i class="fa fa-check"></i><b>11</b> Einführung in die Inferenzstatistik</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#population-stichprobe-hypothesenbildung"><i class="fa fa-check"></i><b>11.1</b> Population, Stichprobe, Hypothesenbildung</a></li>
+<li class="chapter" data-level="11.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#normalverteilung"><i class="fa fa-check"></i><b>11.2</b> Normalverteilung</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#auf-normalverteilung-testen"><i class="fa fa-check"></i><b>11.2.1</b> Auf Normalverteilung testen</a></li>
+<li class="chapter" data-level="11.2.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#regel-konfidenzintervalle"><i class="fa fa-check"></i><b>11.2.2</b> 68–95–99.7 Regel &amp; Konfidenzintervalle</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html"><i class="fa fa-check"></i><b>12</b> Einfache lineare Regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#korrelation"><i class="fa fa-check"></i><b>12.1</b> Korrelation</a></li>
+<li class="chapter" data-level="12.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#die-regressionslinie"><i class="fa fa-check"></i><b>12.2</b> Die Regressionslinie</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#theoretische-informationen"><i class="fa fa-check"></i><b>12.2.1</b> Theoretische Informationen</a></li>
+<li class="chapter" data-level="12.2.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionslinien-mit-ggplot2"><i class="fa fa-check"></i><b>12.2.2</b> Regressionslinien mit <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#lineare-regression-mit-lm"><i class="fa fa-check"></i><b>12.3</b> Lineare Regression mit <code>lm()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#residuals"><i class="fa fa-check"></i><b>12.4</b> Residuals</a></li>
+<li class="chapter" data-level="12.5" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#annahmen-überprüfen"><i class="fa fa-check"></i><b>12.5</b> Annahmen überprüfen</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#normalität-der-residuals"><i class="fa fa-check"></i><b>12.5.1</b> Normalität der Residuals</a></li>
+<li class="chapter" data-level="12.5.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#konstante-varianz-der-residuals"><i class="fa fa-check"></i><b>12.5.2</b> Konstante Varianz der Residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#alle-ergebnisse-von-lm-verstehen"><i class="fa fa-check"></i><b>12.6</b> Alle Ergebnisse von <code>lm()</code> verstehen</a>
+<ul>
+<li class="chapter" data-level="12.6.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#geschätzte-y-werte-und-residuals"><i class="fa fa-check"></i><b>12.6.1</b> Geschätzte y-Werte und Residuals</a></li>
+<li class="chapter" data-level="12.6.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionskoeffizienten-und-t-statistik"><i class="fa fa-check"></i><b>12.6.2</b> Regressionskoeffizienten und <span class="math inline">\(t\)</span>-Statistik</a></li>
+<li class="chapter" data-level="12.6.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#gütekriterien-für-das-modell-und-f-statistik"><i class="fa fa-check"></i><b>12.6.3</b> Gütekriterien für das Modell und <span class="math inline">\(F\)</span>-Statistik</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#ergebnis-berichten"><i class="fa fa-check"></i><b>12.7</b> Ergebnis berichten</a></li>
+<li class="chapter" data-level="12.8" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#zusammenfassung"><i class="fa fa-check"></i><b>12.8</b> Zusammenfassung</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html"><i class="fa fa-check"></i><b>13</b> Multiple lineare Regression</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kontinuierliche-unabhängige-variablen"><i class="fa fa-check"></i><b>13.1</b> Kontinuierliche unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion"><i class="fa fa-check"></i><b>13.1.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion"><i class="fa fa-check"></i><b>13.1.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kategorische-unabhängige-variablen"><i class="fa fa-check"></i><b>13.2</b> Kategorische unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-1"><i class="fa fa-check"></i><b>13.2.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.2.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-1"><i class="fa fa-check"></i><b>13.2.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mix-aus-kontinuierlichen-und-kategorischen-unabhängigen-variablen"><i class="fa fa-check"></i><b>13.3</b> Mix aus kontinuierlichen und kategorischen unabhängigen Variablen</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-2"><i class="fa fa-check"></i><b>13.3.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.3.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-2"><i class="fa fa-check"></i><b>13.3.2</b> Mit Interaktion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html"><i class="fa fa-check"></i><b>14</b> Mixed Models (LMERs)</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts-vs.-random-slopes"><i class="fa fa-check"></i><b>14.1</b> Random Intercepts vs. Random Slopes</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts"><i class="fa fa-check"></i><b>14.1.1</b> Random Intercepts</a></li>
+<li class="chapter" data-level="14.1.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-slopes"><i class="fa fa-check"></i><b>14.1.2</b> Random Slopes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects-struktur-für-word-bestimmen"><i class="fa fa-check"></i><b>14.1.3</b> Random Effects Struktur für <code>word</code> bestimmen</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#lmer-in-r"><i class="fa fa-check"></i><b>14.2</b> LMER in R</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#fixed-effects"><i class="fa fa-check"></i><b>14.2.1</b> Fixed Effects</a></li>
+<li class="chapter" data-level="14.2.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects"><i class="fa fa-check"></i><b>14.2.2</b> Random Effects</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#konvergenzprobleme-und-modell-vereinfachen"><i class="fa fa-check"></i><b>14.3</b> Konvergenzprobleme und Modell vereinfachen</a></li>
+<li class="chapter" data-level="14.4" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#ergebnisse-berichten"><i class="fa fa-check"></i><b>14.4</b> Ergebnisse berichten</a></li>
+<li class="chapter" data-level="14.5" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#gütekriterien-für-mixed-models"><i class="fa fa-check"></i><b>14.5</b> Gütekriterien für Mixed Models</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#marginal-und-conditional-r2"><i class="fa fa-check"></i><b>14.5.1</b> Marginal und Conditional <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="14.5.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>14.5.2</b> Likelihood Ratio Tests</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./index.html">Programmieren und Statistik in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="einführung-in-die-inferenzstatistik" class="section level1" number="11">
+<h1><span class="header-section-number">11</span> Einführung in die Inferenzstatistik</h1>
+<p>Laden Sie das <em>tidyverse</em> und den folgenden Data Frame:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="einführung-in-die-inferenzstatistik.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="einführung-in-die-inferenzstatistik.html#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb5-2"><a href="einführung-in-die-inferenzstatistik.html#cb5-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="einführung-in-die-inferenzstatistik.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">vokal =</span> V, <span class="at">spannung =</span> Tense, <span class="at">konsonant =</span> Cons, <span class="at">tempo =</span> Rate, <span class="at">subject =</span> Subj) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="einführung-in-die-inferenzstatistik.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dauer =</span> <span class="fu">log</span>(dur)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="einführung-in-die-inferenzstatistik.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(X, Y))</span></code></pre></div>
+<div id="population-stichprobe-hypothesenbildung" class="section level2" number="11.1">
+<h2><span class="header-section-number">11.1</span> Population, Stichprobe, Hypothesenbildung</h2>
+<p><em>Statistical analysis […] is a strikingly subjective process</em> – Bodo Winter</p>
+<p>Eine <strong>Population</strong> oder Grundgesamtheit ist im statistischen Sinne die Menge aller Einheiten (d.h. Personen, Wörter, etc.), die in bestimmten Identifikationskriterien (z.B. Geschlecht, Herkunft, grammatikalische Funktion, etc.) übereinstimmen. Stellen Sie sich z.B. vor, Sie möchten die durchschnittliche Grundfrequenz (F0) aller Frauen in Deutschland erfassen. Dann ist Ihre Population die Menge aller Frauen in Deutschland, also ca. 40 Mio. Menschen. Den Populationsmittelwert <span class="math inline">\(\mu\)</span> (sprich: /myː/, geschrieben oft: mu) können Sie in diesem Beispiel nur ermitteln, indem Sie zu jeder einzelnen Frau in Deutschland fahren und deren Grundfrequenz messen, was natürlich schon rein zeitlich und wirtschaftlich unmöglich ist.</p>
+<p>Stattdessen erhebt man in der Wissenschaft meist <strong>Stichproben</strong> (<em>samples</em>), also z.B. nur einen Teil der weiblichen Bevölkerung, und geht davon aus, dass der so erhaltene Stichprobenmittelwert <span class="math inline">\(m\)</span> nicht allzu weit weg ist vom tatsächlichen Populationsmittelwert <span class="math inline">\(\mu\)</span>. Je größer die Stichprobe ist, desto mehr wird sich deren Mittelwert <span class="math inline">\(m\)</span> und Standardabweichung <span class="math inline">\(s\)</span> dem tatsächlichen Populationsmittelwert <span class="math inline">\(\mu\)</span> und der Populationsstandardabweichung <span class="math inline">\(\sigma\)</span> (sigma) annähern. Für die Merkmale einer Population werden im Normalfall griechische Symbole verwendet, für die Merkmale einer empirisch erhobenen Verteilung (d.h. einer Stichprobe) werden römische Buchstaben benutzt.</p>
+<p>Die Methoden der <strong>Inferenzstatistik</strong> ermöglichen uns Rückschlüsse von der Stichprobe auf die Population. Genauer gesagt: die Inferenzstatistik hilft uns dabei, die Parameter der Population zu <strong>schätzen</strong>. Es gibt auch Maße wie z.B. den Standard Error, die beschreiben wie gut oder schlecht die Schätzung ist. Bevor ein statistischer Test durchgeführt wird, muss klar sein, was getestet wird: die sogenannte Null-Hypothese (H0). Wir handeln dabei nach dem Prinzip der Falsifizierung, d.h. wir versuchen H0 mit einem statistischen Test zu widerlegen. Zusätzlich spricht man häufig von der Alternativ-Hypothese (H1), die genau das Gegenteil der Null-Hypothese ist. Hier ein Beispiel:</p>
+<p>Wir haben ein Experiment durchgeführt, weil wir herausfinden wollen, ob die Spannung einen Einfluss auf die Vokaldauer hat. Die gesammelten Daten sind im Data Frame <code>df</code> festgehalten. Dann stellen wir folgende Hypothesen auf:</p>
+<ul>
+<li>H0: <em>Die Vokaldauer wird nicht von der Spannung beeinflusst.</em></li>
+<li>H1: <em>Die Vokaldauer wird von der Spannung beeinflusst.</em></li>
+</ul>
+<p>Wir führen dann einen statistischen Test aus, um H0 zu falsifizieren. Aber Achtung: Wenn wir H0 falsifiziert haben, heißt das <em>nicht</em>, dass wir H1 verifiziert haben!</p>
+<p>Zusätzlich müssen wir <em>vor</em> unserem statistischen Test das sog. <strong>Signifikanzniveau</strong>, auch <strong><span class="math inline">\(\alpha\)</span>-Level</strong> (alpha Level) genannt, festlegen. Das ist der Wahrscheinlichkeitswert, ab dem wir unsere Null-Hypothese verwerfen bzw. als falsifiziert betrachten. In der Wissenschaft gibt es drei (arbiträr festgelegte!) <span class="math inline">\(\alpha\)</span>-Level: <strong>0.05, 0.01, und 0.001</strong> (wir verwenden hier immer die englische Schreibweise und nutzen Punkte als Dezimalzeichen). Wenn das Ergebnis unseres statistischen Tests das festgelegte Signifikanzniveau <em>unter</em>schreitet, betrachten wir H0 als widerlegt und bezeichnen das Ergebnis als “signifikant.” Im Falle der hier vorgestellten statistischen Tests wird jeweils der <strong><span class="math inline">\(p\)</span>-value</strong> (<span class="math inline">\(p\)</span>-Wert) berechnet, der uns Auskunft über das Signifikanzniveau gibt. Bei einem <em><span class="math inline">\(p\)</span>-value</em> von <code>p &lt; 0.05</code> ist das Ergebnis des Tests statistisch signifikant.</p>
+</div>
+<div id="normalverteilung" class="section level2" number="11.2">
+<h2><span class="header-section-number">11.2</span> Normalverteilung</h2>
+<p>In Kapitel <a href="einführung-in-die-inferenzstatistik.html#population-stichprobe-hypothesenbildung">11.1</a> haben wir auf den Unterschied zwischen einer Population und einer Stichprobe hingewiesen. Analog dazu unterscheidet man auch zwischen theoretischen und empirischen Verteilungen. <strong>Theoretische Verteilungen</strong> haben häufig feststehende Namen (Normalverteilung, Poisson-Verteilung, Student-t-Verteilung, etc.) und es wird davon ausgegangen, dass Messwerte, die für eine gesamte Population erhoben wurden, einer bestimmten theoretischen Verteilung folgen. Wie wir aber festgestellt haben, können wir so gut wie nie eine Population vermessen und nutzen stattdessen eine Stichprobe. Die Messwerte einer Stichprobe stellen eine <strong>empirische Verteilung</strong> dar, weil sie empirisch erhoben wurden. Wir werden häufig testen müssen, welcher theoretischen Verteilung die erhobene empirische Verteilung am ehesten entspricht.</p>
+<p>In vielen empirischen Experimenten entsprechen die Daten einer Normalverteilung (auch Gauss-Verteilung genannt). Diese Verteilung lässt sich durch die zwei Parameter Mittelwert und Standardabweichung vollständig beschreiben. Hier sehen Sie drei verschiedene Normalverteilungen:</p>
+<ul>
+<li>schwarz: Mittelwert <span class="math inline">\(\mu = 0\)</span> und Standardabweichung <span class="math inline">\(\sigma = 1\)</span></li>
+<li>blau: Mittelwert <span class="math inline">\(\mu = 3\)</span> und Standardabweichung <span class="math inline">\(\sigma = 2\)</span></li>
+<li>grün: Mittelwert <span class="math inline">\(\mu = -2\)</span> und Standardabweichung <span class="math inline">\(\sigma = 1.5\)</span></li>
+</ul>
+<p><img src="img/normalverteilung.png" /></p>
+<p>Wie Sie sehen, verschiebt der Mittelwert die Normalverteilung entlang der x-Achse, während die Standardabweichung zu Veränderungen in der Breite der Verteilung führt: je größer die Standardabweichung, desto breiter die Normalverteilung. Außerdem zeigt die Abbildung, dass die Verteilung <em>kontinuierlich</em> ist, d.h. sie deckt den Wertebereich von minus bis plus unendlich ab.</p>
+<div id="auf-normalverteilung-testen" class="section level3" number="11.2.1">
+<h3><span class="header-section-number">11.2.1</span> Auf Normalverteilung testen</h3>
+<p>Im Data Frame <code>df</code> wurde die Dauer von Vokalen festgehalten. Hier wollen wir testen, ob die empirische Verteilung der Dauer der Normalverteilung entspricht. Hier ist zunächst die empirisch gemessene Dauer in einer Wahrscheinlichkeitsdichteverteilung:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="einführung-in-die-inferenzstatistik.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
+<span id="cb6-2"><a href="einführung-in-die-inferenzstatistik.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dauer) <span class="sc">+</span> </span>
+<span id="cb6-3"><a href="einführung-in-die-inferenzstatistik.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="einführung-in-die-inferenzstatistik.html#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fl">3.0</span>, <span class="fl">7.0</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="gray">
+<p><strong>Weiterführende Infos: Logarithmierung von Daten</strong></p>
+<p>In der Abbildung sehen Sie die Vokaldauer nicht in Millisekunden, sondern in logarithmierter Form, d.h. wir haben den natürlichen Logarithmus auf die Daten angewendet (s. Code Snippet, in dem <code>df</code> geladen wurde). Bei bestimmten Messwerten kann es sinnvoll sein, die Daten zu logarithmieren, nämlich dann, wenn die empirische Verteilung ge-<em>skewed</em> ist. Bei Reaktionszeiten ist es z.B. nicht möglich, dass es Werte unter Null gibt; auch niedrige Werte (unter 100ms) sind sehr unwahrscheinlich, aber sehr lange Reaktionszeiten kommen durchaus vor. Bei Dauerwerten ist es ähnlich. Die tatsächlichen Dauerwerte in Millisekunden sehen so aus:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="einführung-in-die-inferenzstatistik.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="einführung-in-die-inferenzstatistik.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dur) <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="einführung-in-die-inferenzstatistik.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="einführung-in-die-inferenzstatistik.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Dauer (ms)&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Diese Verteilung hat einen starken rechtsseitigen <em>Skew</em>, eben weil lange Dauerwerte vorkommen, während sehr kurze Dauerwerte selten sind.</p>
+</div>
+<div id="überlagerung-der-normalverteilung" class="section level4" number="11.2.1.1">
+<h4><span class="header-section-number">11.2.1.1</span> Überlagerung der Normalverteilung</h4>
+<p>Um zu testen, ob Daten normalverteilt sind, sind visuelle Methoden unter angewandten Statistikern und Statistikerinnen beliebter als statistische Tests. Die erste Möglichkeit ist die Überlagerung der Normalverteilung über die empirische Verteilung. Dafür nutzen wir die Funktion <code>dnorm()</code>, die als Argumente den Mittelwert <code>mean</code> und die Standardabweichung <code>sd</code> bekommt. In <code>ggplot2</code> können wir nicht einfach “fremde” Funktionen wie <code>dnorm()</code> an unseren <code>ggplot()</code>-Code anhängen. Wir benutzen stattdessen die <code>ggplot2</code>-eigene Funktion <code>stat_function()</code>. Diese Funktion hat folgende Argumente:</p>
+<ul>
+<li><p><code>fun</code>: Die Funktion, mittels derer eine neue Kurve (in unserem Fall: die Kurve der Normalverteilung) erzeugt werden soll.</p></li>
+<li><p><code>args</code>: Eine Liste von Argumenten der unter <code>fun</code> angegebenen Funktion. In unserem Fall braucht die Funktion <code>dnorm()</code> die Argumente <code>mean</code> und <code>sd</code>.</p></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="einführung-in-die-inferenzstatistik.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="einführung-in-die-inferenzstatistik.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dauer) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="einführung-in-die-inferenzstatistik.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="einführung-in-die-inferenzstatistik.html#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fl">3.0</span>, <span class="fl">7.0</span>) <span class="sc">+</span> </span>
+<span id="cb8-5"><a href="einführung-in-die-inferenzstatistik.html#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
+<span id="cb8-6"><a href="einführung-in-die-inferenzstatistik.html#cb8-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(df<span class="sc">$</span>dauer), <span class="at">sd =</span> <span class="fu">sd</span>(df<span class="sc">$</span>dauer)),</span>
+<span id="cb8-7"><a href="einführung-in-die-inferenzstatistik.html#cb8-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Es gibt leichte Unterschiede zwischen der blauen Normalverteilung und der schwarzen empirischen Verteilung. Wahrscheinlich sind unsere Daten also nicht perfekt normalverteilt, aber zumindest annähernd.</p>
+</div>
+<div id="q-q-plot" class="section level4" number="11.2.1.2">
+<h4><span class="header-section-number">11.2.1.2</span> Q-Q-Plot</h4>
+<p>Neben der Überlagerung der Normalverteilung auf die empirische Verteilung werden häufig sogenannte <strong>Q-Q-Plots</strong> benutzt, wobei Q für <strong>Quantil</strong> steht. Schauen Sie folgendes <a href="https://www.youtube.com/watch?v=X9_ISJ0YpGw">YouTube-Video</a>, um zu verstehen, wie ein Q-Q-Plot berechnet wird. Und lassen Sie sich nicht verwirren: Obwohl im Video auf der y-Achse “<em>sample quantiles</em>” steht, sind das einfach nur die aufsteigend geordneten Datenpunkte!</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="einführung-in-die-inferenzstatistik.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="einführung-in-die-inferenzstatistik.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">sample =</span> dauer) <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="einführung-in-die-inferenzstatistik.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb9-4"><a href="einführung-in-die-inferenzstatistik.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span> </span>
+<span id="cb9-5"><a href="einführung-in-die-inferenzstatistik.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;samples&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb9-6"><a href="einführung-in-die-inferenzstatistik.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;theoretical quantiles&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>In <code>ggplot2</code> kann diese Abbildung mittels <code>stat_qq()</code> erstellt werden. Zusätzlich plotten wir mit <code>stat_qq_line()</code> eine gerade Linie, die wir zur Orientierung nutzen können. Wenn die Punkte von der Linie abweichen, sind die Daten nicht normalverteilt (wobei leichte Abweichungen am oberen und unteren Ende der Linie recht häufig sind). In diesem Fall ist ebenfalls eine leichte Abweichung von der Normalverteilung zu erkennen.</p>
+</div>
+<div id="interpretation-trainieren" class="section level4" number="11.2.1.3">
+<h4><span class="header-section-number">11.2.1.3</span> Interpretation trainieren</h4>
+<p>Anfänglich kann es schwierig sein, anhand einer oder zwei Abbildungen festzulegen, ob die geplotteten Daten normalverteilt sind. Hier zeigen wir deshalb vier Beispiele für eindeutig nicht normalverteilte Daten, damit Sie Ihren Blick dafür schärfen können, wie Q-Q-Plots und überlagerte Wahrscheinlichkeitsverteilungen <em>nicht</em> aussehen sollten, wenn Ihre Daten normalverteilt sind.</p>
+<p>Im folgenden sehen Sie vier Wahrscheinlichkeitsverteilungen: für bimodale Daten (es gibt zwei Peaks), für links und rechts ge-<em>skew</em>-te Daten, sowie für uniform verteilte Daten (wo jeder Wert theoretisch gleich häufig vorkommt).</p>
+<p><img src="img/dists.png" /></p>
+<p>Hier sind dieselben Wahrscheinlichkeitsverteilungen mit der jeweils parametrisch angepassten Normalverteilung (d.h. für jede Normalverteilung wurden der der abgebildeten Verteilung entsprechende Mittelwert und die entsprechende Standardabweichung verwendet):</p>
+<p><img src="img/dists_norm.png" /></p>
+<p>Zuletzt erstellen wir noch für alle vier Verteilungen die Q-Q-Plots, die deutlich von der geraden Linie abweichen:</p>
+<p><img src="img/dists_qq.png" /></p>
+</div>
+<div id="shapiro-wilk-test" class="section level4" number="11.2.1.4">
+<h4><span class="header-section-number">11.2.1.4</span> Shapiro-Wilk Test</h4>
+<p>Zuletzt schauen wir uns noch den <strong>Shapiro-Wilk Test</strong> an, weil das der am häufigsten verwendete Test für Normalverteilungen ist. In R ist dazu die Funktion <code>shapiro.test()</code> gedacht, die als einziges Argument die Daten als Vektor bekommt:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="einführung-in-die-inferenzstatistik.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(df<span class="sc">$</span>dauer)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  df$dauer
+## W = 0.99242, p-value = 2.062e-11</code></pre>
+<p>Die Null-Hypothese dieses Tests ist, dass die Daten tatsächlich normalverteilt sind. Wenn der <span class="math inline">\(p\)</span>-Wert unter dem allgemein anerkannten Signifikanzniveau von <span class="math inline">\(\alpha = 0.05\)</span> liegt, müssen wir diese Hypothese ablehnen und daher davon ausgehen, dass die Daten nicht normalverteilt sind. Unsere logarithmierten Dauerwerte sind laut diesem Test also nicht normalverteilt. Für den Shapiro-Wilk Test sollte Ihr Datensatz aus weniger als 5000 Beobachtungen bestehen und nicht zu viele Ausreißer oder identische Werte besitzen, da dies die Aussagekraft des Ergebnisses stark beeinflussen kann. Trotz dieses Testergebnisses würde ich wegen der zuvor erstellten Abbildungen davon ausgehen, dass unsere Daten annähernd normalverteilt sind.</p>
+<div class="gray">
+<p><strong>Weiterführende Infos: Wissenschaftliche Notation von Zahlen</strong></p>
+<p>Sehr große und sehr kleine Zahlen werden in R häufig in der wissenschaftlichen Notation dargestellt, also z.B. 1e+02 anstatt 100. “e” steht hierbei für Basis 10 und die Zahlen danach sind der Exponent:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="einführung-in-die-inferenzstatistik.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e+02</span> <span class="sc">==</span> <span class="dv">1</span> <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="einführung-in-die-inferenzstatistik.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1e-02</span> <span class="sc">==</span> <span class="dv">1</span> <span class="sc">*</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Bei Zahlen wie 100 oder 0.01 kann man die wissenschaftliche Notation noch ganz gut im Kopf umformen. Aber natürlich kann Ihnen R dies auch abnehmen, und zwar mit der Funktion <code>format()</code>, die das Argument <code>scientific = FALSE</code> bekommt:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="einführung-in-die-inferenzstatistik.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fl">1e+02</span>, <span class="at">scientific =</span> F)</span></code></pre></div>
+<pre><code>## [1] &quot;100&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="einführung-in-die-inferenzstatistik.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fl">1e-02</span>, <span class="at">scientific =</span> F)</span></code></pre></div>
+<pre><code>## [1] &quot;0.01&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="einführung-in-die-inferenzstatistik.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># und für unseren p-value aus dem Shapiro-Wilk Test oben:</span></span>
+<span id="cb20-2"><a href="einführung-in-die-inferenzstatistik.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(<span class="fl">2.062e-11</span>, <span class="at">scientific =</span> F)</span></code></pre></div>
+<pre><code>## [1] &quot;0.00000000002062&quot;</code></pre>
+<p>Achtung, die Funktion gibt nur Schriftzeichenobjekte zurück, sie müssen also (falls Sie mit der umgewandelten Zahl arbeiten wollen) <code>as.numeric()</code> verwenden, um das Ergebnis von <code>format()</code> wieder in eine Zahl umzuwandeln:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="einführung-in-die-inferenzstatistik.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(<span class="fu">format</span>(<span class="fl">1e+02</span>, <span class="at">scientific =</span> F))</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="einführung-in-die-inferenzstatistik.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">format</span>(<span class="fl">1e+02</span>, <span class="at">scientific =</span> F))</span></code></pre></div>
+<pre><code>## [1] 100</code></pre>
+</div>
+</div>
+</div>
+<div id="regel-konfidenzintervalle" class="section level3" number="11.2.2">
+<h3><span class="header-section-number">11.2.2</span> 68–95–99.7 Regel &amp; Konfidenzintervalle</h3>
+<div id="theoretisch" class="section level4" number="11.2.2.1">
+<h4><span class="header-section-number">11.2.2.1</span> Theoretisch</h4>
+<p>Für Normalverteilungen (und in Annäherung auch für normalverteilte empirische Daten) gilt die sogenannte <strong>68–95–99.7 Regel</strong>. Wir illustrieren dies an einer Normalverteilung mit Mittelwert <span class="math inline">\(\mu = 0\)</span> und Standardabweichung <span class="math inline">\(\sigma = 1\)</span>:</p>
+<p><img src="img/area_norm.png" /></p>
+<p>Die Gesamtfläche unter der Normalverteilung ist 1 (s. Wahrscheinlichkeitsdichteverteilung in Kapitel <a href="daten-abbilden-mit-ggplot2.html#histogramme-wahrscheinlichkeitsdichte">7.4</a>), d.h. wir können mithilfe der Fläche bestimmen, mit welcher Wahrscheinlichkeit Datenpunkte in einen Wertebereich fallen. Bei der Normalverteilung fallen 68% der Daten in den blauen Bereich, 95% der Daten in den blauen + roten Bereich und 99.7% aller Daten in den gesamten eingefärbten Bereich. Wie Sie anhand der x-Achse dieser Abbildung sehen können, entspricht dies <span class="math inline">\(\mu\pm1\sigma\)</span> (blau), <span class="math inline">\(\mu\pm2\sigma\)</span> (blau+rot) und <span class="math inline">\(\mu\pm3\sigma\)</span> (blau+rot+gelb). Die 68–95–99.7 Regel ist also eine Art Eselsbrücke oder Daumenregel, mit der man sich merken kann, dass bei (annähernd) normalverteilten Daten 68% der Datenpunkte in einem Wertebereich von <span class="math inline">\(\mu\pm1\sigma\)</span> liegen, usw.</p>
+<p>Die Fläche unter der Normalverteilung können wir mit <strong><code>pnorm()</code></strong> berechnen. Diese Funktion bekommt einen x-Wert und den Mittelwert und die Standardabweichung, die die Normalverteilung beschreiben (der <em>default</em> ist Null und Eins, deshalb lasse ich hier diese beiden Argumente weg). Dann berechnet <code>pnorm()</code> die Fläche von minus unendlich bis zu dem genannten x-Wert. Wenn wir einen ganz hohen x-Wert eintragen, sollte klar werden, dass die Fläche unter der Normalverteilung tatsächlich 1 ist:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="einführung-in-die-inferenzstatistik.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>Für <code>x = 0</code> (also unseren Mittelwert) sollte die Fläche 0.5 betragen:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="einführung-in-die-inferenzstatistik.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 0.5</code></pre>
+<p>Das heißt 50% aller Datenpunkte fallen in den Bereich von minus unendlich bis null. Nun können wir auch die oben eingefärbten Flächen berechnen:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="einführung-in-die-inferenzstatistik.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># blaue Flächen:</span></span>
+<span id="cb30-2"><a href="einführung-in-die-inferenzstatistik.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">0</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.3413447</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="einführung-in-die-inferenzstatistik.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">1</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## [1] 0.3413447</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="einführung-in-die-inferenzstatistik.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rote Flächen:</span></span>
+<span id="cb34-2"><a href="einführung-in-die-inferenzstatistik.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">1</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1359051</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="einführung-in-die-inferenzstatistik.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">2</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1359051</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="einführung-in-die-inferenzstatistik.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gelbe Flächen:</span></span>
+<span id="cb38-2"><a href="einführung-in-die-inferenzstatistik.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">2</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02140023</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="einführung-in-die-inferenzstatistik.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">3</span>) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02140023</code></pre>
+<p>In der Statistik interessieren wir uns häufig dafür, ob Daten in das <strong>Konfidenzintervall</strong> fallen, meist wird vom 95%-Konfidenzintervall gesprochen. Das heißt bei normalverteilten Daten prüfen wir, ob ein Datenpunkt in den Wertebereich <span class="math inline">\(\mu \pm 2\sigma\)</span> fällt. Um wiederum herauszufinden, welcher Wertebereich das genau ist, nutzen wir die <strong><code>qnorm()</code></strong> Funktion, die wieder Mittelwert und Standardabweichung als Argumente bekommt und zusätzlich die gewünschte Fläche unter der Verteilung. Wenn wir symmetrisch um den Mittelwert eine Fläche von insgesamt 0.95 haben wollen, ist die Fläche am linken und rechten Rand der Verteilung jeweils <span class="math inline">\((1 - 0.95) / 2 = 0.025\)</span>. Für unsere Normalverteilung oben können wir dann berechnen:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="einführung-in-die-inferenzstatistik.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.025</span>)</span></code></pre></div>
+<pre><code>## [1] -1.959964</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="einführung-in-die-inferenzstatistik.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="dv">1</span><span class="fl">-0.025</span>)</span></code></pre></div>
+<pre><code>## [1] 1.959964</code></pre>
+<p>Das heißt für die Normalverteilung mit Mittelwert <span class="math inline">\(\mu = 0\)</span> und Standardabweichung <span class="math inline">\(\sigma = 1\)</span> liegt eine Fläche von 0.95 (d.h. 95% der Datenpunkte) zwischen -1.96 und 1.96. Oben hatten wir gesagt, dass die Fläche von 0.95 <span class="math inline">\(\mu \pm2\sigma\)</span> entspricht – genauer hätten wir schreiben müssen <span class="math inline">\(\mu \pm 1.96\sigma\)</span>.</p>
+</div>
+<div id="empirisch" class="section level4" number="11.2.2.2">
+<h4><span class="header-section-number">11.2.2.2</span> Empirisch</h4>
+<p>Nehmen wir an, dass wir festgestellt haben, dass die Dauerwerte in <code>df</code> normalverteilt sind. Was wir nun mit unserem Wissen über die 68–95–99.7 Regel und Konfidenzintervalle anstellen können, ist zum Beispiel herauszufinden, mit welcher Wahrscheinlichkeit ein neuer Messpunkt aus demselben Experiment in einen gewissen Wertebereich fällt. Die folgenden Abbildungen zeigen die Normalverteilung mit Mittelwert <code>mean(df$dauer)</code> und Standardabweichung <code>sd(df$dauer)</code> und nicht die empirische Datenverteilung.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="einführung-in-die-inferenzstatistik.html#cb46-1" aria-hidden="true" tabindex="-1"></a>mittel <span class="ot">&lt;-</span> <span class="fu">mean</span>(df<span class="sc">$</span>dauer)</span>
+<span id="cb46-2"><a href="einführung-in-die-inferenzstatistik.html#cb46-2" aria-hidden="true" tabindex="-1"></a>stdabw <span class="ot">&lt;-</span> <span class="fu">sd</span>(df<span class="sc">$</span>dauer)</span></code></pre></div>
+<p>Wenn wir also dasselbe Experiment, aus dem <code>df</code> entstanden ist, nochmal durchführen, mit welcher Wahrscheinlichkeit würde ein neuer Datenpunkt in einem Wertebereich unter 4.5 (logarithmierte Dauer) liegen?</p>
+<p><img src="img/norm_area1.png" /></p>
+<p>Das ist äquivalent zu der Frage, wie groß die blaue Fläche ist, denn die gesamte Fläche unter der Normalverteilung ist immer gleich 1. Hierfür benutzen wir die Funktion <code>pnorm()</code>:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="einführung-in-die-inferenzstatistik.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">4.5</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw)</span></code></pre></div>
+<pre><code>## [1] 0.07421627</code></pre>
+<p>Die Wahrscheinlichkeit, dass ein neuer Datenpunkt in einen Wertebereich von minus unendlich bis 4.5 fällt, liegt also bei 7.4%.</p>
+<p>Nun dasselbe für die folgende blaue Fläche:</p>
+<p><img src="img/norm_area2.png" /></p>
+<p>Wir fragen uns also, wie groß diese Fläche ist bzw. mit welcher Wahrscheinlichkeit ein neuer Datenpunkt in den Bereich über 5.1 fällt. Bei der Berechnung müssen wir nun aber zwei Dinge beachten: Erstens berechnet <code>pnorm()</code> immer die Fläche zwischen minus unendlich und einem Wert, zweitens ist die Fläche unter der Normalverteilung gleich 1. Deshalb:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="einführung-in-die-inferenzstatistik.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">5.1</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw)</span></code></pre></div>
+<pre><code>## [1] 0.2536412</code></pre>
+<p>Die Fläche hat also eine Größe von 0.254, bzw. die Wahrscheinlichkeit liegt bei 25.4%.</p>
+<p>Wenn es uns nun um die Wahrscheinlichkeit geht, mit der Werte dem Experiment in einen Wertebereich von 4.9 bis 5.5 fallen, müssen wir <code>pnorm()</code> wie folgt austricksen:</p>
+<p><img src="img/norm_area3.png" /></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="einführung-in-die-inferenzstatistik.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="fl">5.5</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw) <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fl">4.9</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw)</span></code></pre></div>
+<pre><code>## [1] 0.4965169</code></pre>
+<p>Hier liegt die Wahrscheinlichkeit, dass ein neuer Datenpunkt in den abgefragten Wertebereich fällt, bei 49.7%.</p>
+<p>Nun wollen wir für unsere Verteilung von Dauerwerten noch das 95%-Konfidenzintervall bestimmen, d.h. den Wertebereich, in dem 95% der Daten liegen. Das bedeutet nichts anderes, als dass wir den Wertebereich zu errechnen versuchen, für den die Fläche unter der Normalverteilung 0.95 ist. Da die Fläche symmetrisch um den Mittelwert verteilt sein soll, muss auf jeder Seite der Randbereich berechnet werden, für den die Fläche jeweils <span class="math inline">\((1 - 0.95) / 2 = 0.025\)</span> ist.</p>
+<p><img src="img/norm_area4.png" /></p>
+<p>Hierfür verwenden wir wieder <code>qnorm()</code>:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="einführung-in-die-inferenzstatistik.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.025</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw)</span></code></pre></div>
+<pre><code>## [1] 4.353463</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="einführung-in-die-inferenzstatistik.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(<span class="fl">0.975</span>, <span class="at">mean =</span> mittel, <span class="at">sd =</span> stdabw)</span></code></pre></div>
+<pre><code>## [1] 5.469104</code></pre>
+<p>Das bedeutet, dass ein neuer Wert aus dem Experiment mit einer Wahrscheinlichkeit von 95% in den Wertebereich von 4.35 bis 5.47 fallen wird bzw. dass 95% der Daten aus dem aktuellen Experiment in diesem Bereich liegen (unter der Annahme, dass die Daten normalverteilt sind).</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="einführung-in-die-inferenzstatistik.html#cb57-1" aria-hidden="true" tabindex="-1"></a>anzahl <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="einführung-in-die-inferenzstatistik.html#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dauer <span class="sc">&gt;</span> <span class="fl">4.35</span> <span class="sc">&amp;</span> dauer <span class="sc">&lt;</span> <span class="fl">5.47</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-3"><a href="einführung-in-die-inferenzstatistik.html#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span>
+<span id="cb57-4"><a href="einführung-in-die-inferenzstatistik.html#cb57-4" aria-hidden="true" tabindex="-1"></a>anzahl</span></code></pre></div>
+<pre><code>## [1] 2877</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="einführung-in-die-inferenzstatistik.html#cb59-1" aria-hidden="true" tabindex="-1"></a>anzahl <span class="sc">/</span> <span class="fu">nrow</span>(df)</span></code></pre></div>
+<pre><code>## [1] 0.9647887</code></pre>
+<p>Tatsächlich liegen 96.5% der Daten in dem berechneten Wertebereich. Hier zeigt sich noch einmal der Unterschied zwischen theoretischer und empirischer Verteilung: Wir haben geprüft, dass unsere empirischen Daten annähernd normalverteilt sind und daraufhin mit dem Mittelwert und der Standardabweichung der Daten eine Normalverteilung erstellt. Es ist eine <em>theoretische</em> Berechnung, dass 95% der Daten im Wertebereich zwischen 4.35 und 5.47 liegen (und dass 7.4% der Daten in einem Bereich unter 4.5 liegen, etc.), denn dies beruht auf der theoretischen Normalverteilung. Wenn wir uns die tatsächliche Proportion der Werte in den Bereichen und im Konfidenzintervall anschauen, kann sie sich von den theoretisch berechneten Proportionen unterscheiden.</p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pretty-plots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="einfache-lineare-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

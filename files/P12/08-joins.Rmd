@@ -1,0 +1,128 @@
+# Joining mit `dplyr`
+
+Laden Sie die folgenden Packages un Data Frames:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+vcv <- read.table(file.path(url, "vcvC.txt"))
+```
+
+Vielleicht kennen Sie von der Arbeit mit relationalen Daten(banken) und/oder SQL den sogenannten *join*. Das Prinzip relationaler Daten beruht darauf, alle Informationen und Messwerte, die man gesammelt und erhoben hat, in thematisch sinnvoll aufgeteilten Tabellen abzuspeichern. So könnte man nach einem Experiment zum Beispiel eine Tabelle mit den Messwerten (Formantwerte, Grundfrequenz, etc.) und eine Tabelle mit den Metadaten (Alter, Herkunft, Bildungsstand, etc.) zu den Sprechern erstellen. Zusätzlich bietet es sich vielleicht an, eine Tabelle mit Informationen über das erhobene Material (Wörter, Betonung, Phoneme, Stimuli, etc.) und über die getesteten Bedingungen (Sprechtempo, welcher Gesprächspartner, etc.) zu haben. Wenn nötig, kann man jederzeit (und ggf. nur temporär) zwei Tabellen über einen **key**, d.h. eine Identifikationsspalte, miteinander verbinden. Bei `dplyr` unterscheiden wir zwischen *mutating joins* und *filtering joins*.
+
+## Mutating Joins
+
+Wie auch bei `mutate()` werden einem Data Frame `x` durch einen *mutating join* weitere Spalten hinzugefügt. Im Gegensatz zu `mutate()` stammen die neuen Spalten aber aus einem anderen Data Frame `y`. In beiden Data Frames `x` und `y` muss es mindestens eine Spalte geben, die einen *identifier* oder *key* enthält, über den die Tabellen verbunden werden können.
+
+### Inner Join
+
+Die einfachste Form des *mutating join* ist der sogenannte *inner join*, der mittels der Funktion `inner_join()` durchgeführt wird. Die Funktion bekommt als Argumente zwei Data Frames `x` und `y` und den Identifier im Argument `by`. Das Ergebnis eines *inner join* enthält alle Spalten von `x` und `y` sowie alle Zeilen, für die es einen Match in beiden Data Frames gibt. Fehlende Werte (`NA`) tauchen **nicht** im Ergebnis eines *inner join* auf, daher ist hier immer Vorsicht angebracht.
+
+Als einfaches Beispiel verwenden wir hier eine Tabelle mit Grundfrequenzwerten von zehn Sprechern und eine Tabelle mit Metadaten über die zehn Sprecher:
+
+```{r}
+measures <- tibble(subject = rep(paste0("s", 1:10), each = 10),
+                   F0 = rnorm(100, 120, 15))
+measures
+meta <- tibble(subject = paste0("s", 1:10),
+               age = rep(c("old", "young"), each = 5))
+meta
+```
+
+Beide *tibbles* haben die Spalte `subject`, die wir als *key* bei unserem *inner join* benutzen werden:
+
+```{r}
+inner_join(x = measures, y = meta, by = "subject")
+```
+
+Es kann vorkommen, dass die *key*-Spalte in den zwei Data Frames unterschiedlich benannt ist. In diesem Fall sagen wir der Funktion mittels `by = c("a"="b")`, dass die Spalte `a` aus dem Data Frame `x` mit der Spalte `b` aus dem Data Frame `y` ge*matched* werden soll (das gilt für alle *join* Funktionen):
+
+```{r}
+measures %<>% rename(Vpn = subject)
+inner_join(x = measures, y = meta, by = c("Vpn"="subject"))
+measures %<>% rename(subject = Vpn)
+```
+
+In diesem Beispiel werden bislang immer alle Zeilen von `measures` zurückgegeben und alle Spalten beider Data Frames. Das liegt daran, dass es sowohl in `measures` als auch in `meta` Informationen zu denselben zehn Probanden gibt. Wenn wir in einem der Data Frames mehr oder weniger Informationen haben, werden plötzlich Zeilen weggelassen.
+
+```{r}
+# Messwerte von 20 statt 10 Sprechern:
+measures <- tibble(subject = rep(paste0("s", 1:20), each = 10),
+                   F0 = rnorm(200, 120, 15))
+inner_join(x = measures, y = meta, by = "subject")
+```
+
+In diesem Ergebnis gibt es keine Zeilen für die Sprecher 11 bis 20, weil es zu diesen Sprechern keine Informationen im Data Frame `meta` gibt!
+
+### Outer Join
+
+Im Unterschied zum *inner join* werden beim *outer join* auch Zeilen mit fehlenden Werten beibehalten. Diese fehlenden Werte werden als `NA` gekennzeichnet. Die einfachste Version eines *outer join* ist der *full join*, bei dem alle Zeilen und alle Spalten aus beiden Data Frames beibehalten werden. Die entsprechende Funktion dazu heißt `full_join()` (wir frisieren das Ergebnis hier mit `slice()`, um einen interessanten Teil des Ergebnisses hervorzuheben):
+
+```{r}
+full_join(x = measures, y = meta, by = "subject") %>% 
+  slice(95:105)
+```
+
+Dieses Ergebnis besteht aus 200 Zeilen (wenn wir nicht `slice()` darauf anwenden) -- als wir oben die Funktion `inner_join()` auf die exakt selben *tibbles* ausgeführt haben, hatte das Ergebnis nur 100 Zeilen. Das liegt daran, dass `full_join()` die 100 Zeilen mit den Messwerten der Sprecher 11 bis 20 beibehalten hat, während `inner_join()` diese Zeilen gelöscht hat, weil es für diese Sprecher keine Informationen aus `meta` zu holen gab. Beim Ergebnis des `full_join()` finden sich deshalb `NA`-Werte in der angehängten Spalte `age` für die Sprecher 11 bis 20.
+
+Wenn Sie nicht alle Zeilen aus beiden Data Frames übernehmen wollen, stehen Ihnen die Funktionen `left_join()` und `right_join()` zur Verfügung. Beim `left_join()` werden alle Zeilen aus Data Frame `x` und beim `right_join()` alle Zeilen aus dem Data Frame `y` übernommen. In unserem Beispiel wollen wir alle Zeilen aus `measures` erhalten und nur die Altersinformation aus `meta` hinzufügen:
+
+```{r}
+left_join(x = measures, y = meta, by = "subject")
+right_join(x = meta, y = measures, by = "subject")
+```
+
+## Filtering Joins
+
+Die zweite Art von *joins* in R sind die sogenannten *filtering joins*, die keine neuen Spalten hinzufügen, sondern nur ausgewählte Zeilen zurückgeben. Hierfür gibt es im *tidyverse* zwei Funktionen:
+
+- `semi_join()`: Gibt alle Beobachtungen des Data Frames `x` zurück, für die es einen Match im Data Frame `y` gibt
+- `anti_join()`: Gibt alle Beobachtungen des Data Frames `x` zurück, für die es keinen Match im Data Frame `y` gibt
+
+Wir werden diese beiden Funktionen anhand der folgenden Data Frames demonstrieren:
+
+```{r}
+vcv %<>% as_tibble()
+vcv
+vcv_summary <- vcv %>% 
+  group_by(Subject, Vowel) %>% 
+  summarise(mean_rt = mean(RT)) %>% 
+  ungroup() %>%
+  slice_max(mean_rt, n = 5)
+vcv_summary
+```
+
+Der Data Frame `vcv_summary` enthält also die fünf höchsten durchschnittlichen Reaktionszeiten und welchem Sprecher und Vokal diese Werte zugeordnet sind. Wenn wir jetzt herausfinden wollen, aus welchen Beobachtungen in `vcv` diese Mittelwerte berechnet wurden, nutzen wir den *semi join*. Genau genommen möchten wir alle Zeilen aus `vcv` zurückbekommen, für die es in `vcv_summary` einen Match bezüglich der Spalten `Subject` und `Vowel` gibt.
+
+```{r}
+semi_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel"))
+```
+
+Das Ergebnis enthält jetzt also alle Beobachtungen, aus denen die gemittelten Reaktionszeiten in `vcv_summary` berechnet wurden. Wir können das nochmal verdeutlichen, indem wir uns ausgeben lassen, welche einzigartigen Kombinationen von `Subject` und `Vowel` es im Ergebnis des *semi joins* gibt (es sind dieselben fünf Kombinationen wie in `vcv_summary`):
+
+```{r}
+semi_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel")) %>% 
+  select(Subject, Vowel) %>% 
+  unique()
+```
+
+Mit dem *anti join* erhalten wir hingegen alle Beobachtungen, aus denen *nicht* die gemittelten Reaktionszeiten berechnet wurden, oder mit anderen Worten: alle Beobachtungen aus `vcv`, für die es bzgl. `Subject` und `Vowel` keinen Match in `vcv_summary` gibt.
+
+```{r}
+anti_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel"))
+```
+
+*Anti joins* eignen sich unter anderem zur Fehlersuche in den eigenen Daten. Nehmen wir nochmal unsere Beispieldaten von vorhin, `measures` mit Messwerten für 20 Sprecher, und `meta` mit Metadaten für nur 10 dieser Sprecher. Wenn wir den *anti join* hier anwenden, finden wir sofort heraus, für welche Zeilen in `measures` es keinen Match in `meta` gibt, für welche Sprecher es also keine Metadaten gibt.
+
+```{r}
+anti_join(x = measures, y = meta, by = "subject")
+```
+
+Das Ergebnis ist das Gegenstück zum *inner join* von oben: Wir erhalten hier die 100 Beobachtungen für die Sprecher 11 bis 20, für die es *keine* Metadaten gibt.
+
+<div class="gray">
+**Weiterführende Infos: `dplyr`**
+
+Die *joins* waren die letzten Funktionen aus dem *tidyverse*, die wir Ihnen hier vorstellen wollen. Eine Übersicht über alle bisher gelernten und viele weitere Funktionen erhalten Sie in diesem [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf).
+</div>

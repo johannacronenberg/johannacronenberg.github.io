@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Data Frames | Programmieren und Statistik in R</title>
+  <meta name="description" content="3 Data Frames | Programmieren und Statistik in R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Data Frames | Programmieren und Statistik in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Data Frames | Programmieren und Statistik in R" />
+  
+  
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2021-09-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="erste-berechnungen-in-r.html"/>
+<link rel="next" href="einführung-ins-tidyverse.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programmieren und Statistik in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation-und-kursverzeichnis"><i class="fa fa-check"></i><b>1.1</b> Installation und Kursverzeichnis</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-und-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages und R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#dokumentarten"><i class="fa fa-check"></i><b>1.5</b> Dokumentarten</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-skripte"><i class="fa fa-check"></i><b>1.5.1</b> R Skripte</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#hilfe-zur-selbsthilfe"><i class="fa fa-check"></i><b>1.6</b> Hilfe zur Selbsthilfe</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#fehler-erkennen"><i class="fa fa-check"></i><b>1.6.1</b> Fehler erkennen</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#community-nutzen"><i class="fa fa-check"></i><b>1.6.2</b> Community nutzen</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#hilfe-zu-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Hilfe zu <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistik-in-r-literatur"><i class="fa fa-check"></i><b>1.6.4</b> Statistik in R: Literatur</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html"><i class="fa fa-check"></i><b>2</b> Erste Berechnungen in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#variablen-funktionen"><i class="fa fa-check"></i><b>2.1</b> Variablen &amp; Funktionen</a></li>
+<li class="chapter" data-level="2.2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#objektklassen"><i class="fa fa-check"></i><b>2.2</b> Objektklassen</a></li>
+<li class="chapter" data-level="2.3" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren"><i class="fa fa-check"></i><b>2.3</b> Vektoren</a></li>
+<li class="chapter" data-level="2.4" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#arithmetik-und-logische-operatoren"><i class="fa fa-check"></i><b>2.4</b> Arithmetik und logische Operatoren</a></li>
+<li class="chapter" data-level="2.5" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren-manipulieren"><i class="fa fa-check"></i><b>2.5</b> Vektoren manipulieren</a></li>
+<li class="chapter" data-level="2.6" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#faktoren"><i class="fa fa-check"></i><b>2.6</b> Faktoren</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#eigenschaften"><i class="fa fa-check"></i><b>3.2</b> Eigenschaften</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#auf-spalten-zugreifen"><i class="fa fa-check"></i><b>3.3</b> Auf Spalten zugreifen</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Einführung ins <em>tidyverse</em></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#daten-manipulieren-mit-dplyr"><i class="fa fa-check"></i><b>4.2</b> Daten manipulieren mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#weitere-beispiele-für-komplexe-pipes"><i class="fa fa-check"></i><b>4.3</b> Weitere Beispiele für komplexe Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mittelwert-median"><i class="fa fa-check"></i><b>5.1</b> Mittelwert &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#varianz-standardabweichung"><i class="fa fa-check"></i><b>5.2</b> Varianz &amp; Standardabweichung</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantile"><i class="fa fa-check"></i><b>5.3</b> Quantile</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#beispiel-boxplot"><i class="fa fa-check"></i><b>5.4</b> Beispiel Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html"><i class="fa fa-check"></i><b>6</b> Daten manipulieren mit <code>dplyr</code> (Fortsetzung)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Daten abbilden mit <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#histogramme-wahrscheinlichkeitsdichte"><i class="fa fa-check"></i><b>7.4</b> Histogramme &amp; Wahrscheinlichkeitsdichte</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html"><i class="fa fa-check"></i><b>8</b> Daten aufräumen mit <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#achsenbeschriftungen"><i class="fa fa-check"></i><b>10.1</b> Achsenbeschriftungen</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#koordinatensystem-begrenzen"><i class="fa fa-check"></i><b>10.2</b> Koordinatensystem begrenzen</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#farben"><i class="fa fa-check"></i><b>10.3</b> Farben</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#weitere-spezifikationen"><i class="fa fa-check"></i><b>10.4</b> Weitere Spezifikationen</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#schriftzeichengröße"><i class="fa fa-check"></i><b>10.5</b> Schriftzeichengröße</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen-und-anordnen"><i class="fa fa-check"></i><b>10.6</b> Plots unterteilen und anordnen</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen"><i class="fa fa-check"></i><b>10.6.1</b> Plots unterteilen</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-anordnen"><i class="fa fa-check"></i><b>10.6.2</b> Plots anordnen</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html"><i class="fa fa-check"></i><b>11</b> Einführung in die Inferenzstatistik</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#population-stichprobe-hypothesenbildung"><i class="fa fa-check"></i><b>11.1</b> Population, Stichprobe, Hypothesenbildung</a></li>
+<li class="chapter" data-level="11.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#normalverteilung"><i class="fa fa-check"></i><b>11.2</b> Normalverteilung</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#auf-normalverteilung-testen"><i class="fa fa-check"></i><b>11.2.1</b> Auf Normalverteilung testen</a></li>
+<li class="chapter" data-level="11.2.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#regel-konfidenzintervalle"><i class="fa fa-check"></i><b>11.2.2</b> 68–95–99.7 Regel &amp; Konfidenzintervalle</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html"><i class="fa fa-check"></i><b>12</b> Einfache lineare Regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#korrelation"><i class="fa fa-check"></i><b>12.1</b> Korrelation</a></li>
+<li class="chapter" data-level="12.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#die-regressionslinie"><i class="fa fa-check"></i><b>12.2</b> Die Regressionslinie</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#theoretische-informationen"><i class="fa fa-check"></i><b>12.2.1</b> Theoretische Informationen</a></li>
+<li class="chapter" data-level="12.2.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionslinien-mit-ggplot2"><i class="fa fa-check"></i><b>12.2.2</b> Regressionslinien mit <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#lineare-regression-mit-lm"><i class="fa fa-check"></i><b>12.3</b> Lineare Regression mit <code>lm()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#residuals"><i class="fa fa-check"></i><b>12.4</b> Residuals</a></li>
+<li class="chapter" data-level="12.5" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#annahmen-überprüfen"><i class="fa fa-check"></i><b>12.5</b> Annahmen überprüfen</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#normalität-der-residuals"><i class="fa fa-check"></i><b>12.5.1</b> Normalität der Residuals</a></li>
+<li class="chapter" data-level="12.5.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#konstante-varianz-der-residuals"><i class="fa fa-check"></i><b>12.5.2</b> Konstante Varianz der Residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#alle-ergebnisse-von-lm-verstehen"><i class="fa fa-check"></i><b>12.6</b> Alle Ergebnisse von <code>lm()</code> verstehen</a>
+<ul>
+<li class="chapter" data-level="12.6.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#geschätzte-y-werte-und-residuals"><i class="fa fa-check"></i><b>12.6.1</b> Geschätzte y-Werte und Residuals</a></li>
+<li class="chapter" data-level="12.6.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionskoeffizienten-und-t-statistik"><i class="fa fa-check"></i><b>12.6.2</b> Regressionskoeffizienten und <span class="math inline">\(t\)</span>-Statistik</a></li>
+<li class="chapter" data-level="12.6.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#gütekriterien-für-das-modell-und-f-statistik"><i class="fa fa-check"></i><b>12.6.3</b> Gütekriterien für das Modell und <span class="math inline">\(F\)</span>-Statistik</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#ergebnis-berichten"><i class="fa fa-check"></i><b>12.7</b> Ergebnis berichten</a></li>
+<li class="chapter" data-level="12.8" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#zusammenfassung"><i class="fa fa-check"></i><b>12.8</b> Zusammenfassung</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html"><i class="fa fa-check"></i><b>13</b> Multiple lineare Regression</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kontinuierliche-unabhängige-variablen"><i class="fa fa-check"></i><b>13.1</b> Kontinuierliche unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion"><i class="fa fa-check"></i><b>13.1.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion"><i class="fa fa-check"></i><b>13.1.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kategorische-unabhängige-variablen"><i class="fa fa-check"></i><b>13.2</b> Kategorische unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-1"><i class="fa fa-check"></i><b>13.2.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.2.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-1"><i class="fa fa-check"></i><b>13.2.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mix-aus-kontinuierlichen-und-kategorischen-unabhängigen-variablen"><i class="fa fa-check"></i><b>13.3</b> Mix aus kontinuierlichen und kategorischen unabhängigen Variablen</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-2"><i class="fa fa-check"></i><b>13.3.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.3.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-2"><i class="fa fa-check"></i><b>13.3.2</b> Mit Interaktion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html"><i class="fa fa-check"></i><b>14</b> Mixed Models (LMERs)</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts-vs.-random-slopes"><i class="fa fa-check"></i><b>14.1</b> Random Intercepts vs. Random Slopes</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts"><i class="fa fa-check"></i><b>14.1.1</b> Random Intercepts</a></li>
+<li class="chapter" data-level="14.1.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-slopes"><i class="fa fa-check"></i><b>14.1.2</b> Random Slopes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects-struktur-für-word-bestimmen"><i class="fa fa-check"></i><b>14.1.3</b> Random Effects Struktur für <code>word</code> bestimmen</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#lmer-in-r"><i class="fa fa-check"></i><b>14.2</b> LMER in R</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#fixed-effects"><i class="fa fa-check"></i><b>14.2.1</b> Fixed Effects</a></li>
+<li class="chapter" data-level="14.2.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects"><i class="fa fa-check"></i><b>14.2.2</b> Random Effects</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#konvergenzprobleme-und-modell-vereinfachen"><i class="fa fa-check"></i><b>14.3</b> Konvergenzprobleme und Modell vereinfachen</a></li>
+<li class="chapter" data-level="14.4" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#ergebnisse-berichten"><i class="fa fa-check"></i><b>14.4</b> Ergebnisse berichten</a></li>
+<li class="chapter" data-level="14.5" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#gütekriterien-für-mixed-models"><i class="fa fa-check"></i><b>14.5</b> Gütekriterien für Mixed Models</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#marginal-und-conditional-r2"><i class="fa fa-check"></i><b>14.5.1</b> Marginal und Conditional <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="14.5.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>14.5.2</b> Likelihood Ratio Tests</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./index.html">Programmieren und Statistik in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-frames" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Data Frames</h1>
+<p>Eine äußerst wichtige Datenstruktur in R ist der Data Frame. Das ist eine zwei-dimensionale Tabelle. Die Zeilen werden auch <em>observations</em> genannt und die Spalten <em>variables</em> (nicht zu verwechseln mit den Variablen von vorhin!). In der Phonetik arbeiten wir sehr häufig mit Data Frames, z.B. wenn wir akustische Informationen aus Sprachaufnahmen oder Messungen aus einem Perzeptionsexperiment extrahiert haben und diese auswerten oder statistisch analysieren wollen.</p>
+<div id="import-export" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Import &amp; Export</h2>
+<p>In R gibt es verschiedene Möglichkeiten, eine Tabelle im Format <code>.csv</code> oder <code>.txt</code> einzulesen. Wenn Sie eine Tabelle von Ihrer Festplatte einlesen wollen, können Sie im Panel mit dem Environment in der Werkzeugleiste auf <code>Import Dataset</code> klicken und sich von dem Assistenten leiten lassen. Der Befehl, den der Assistent zum Laden des Data Frames verwendet, wird übrigens in der Konsole angezeigt.</p>
+<p>In diesem Kurs werden wir u.a. Data Frames von einer Webseite benutzen, daher müssen wir den Befehl zum Einlesen selbst schreiben. Der Befehl, den wir verwenden, lautet <code>read.table()</code>, und bekommt als wichtigstes Argument in Anführungszeichen den Pfad (bzw. die URL) zu dem Data Frame (aber schauen Sie auf die Hilfeseite dieser Funktion, um alle Argumente und weitere verwandte Funktionen zum Einlesen von Daten zu sehen):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-frames.html#cb1-1" aria-hidden="true" tabindex="-1"></a>ai <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt&quot;</span>)</span></code></pre></div>
+<p>Da wir im Verlauf der Vorlesung mehrere Data Frames von derselben Webseite verwenden werden, können wir das Einlesen etwas cleverer gestalten, damit wir nicht immer wieder die komplizierte URL abtippen oder kopieren müssen. Dafür legen wir eine Variable mit der URL als Schriftzeichenobjekt an und verwenden dann die Funktion <code>file.path()</code>, mittels derer die URL und der Dateiname zusammengefügt werden:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-frames.html#cb2-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb2-2"><a href="data-frames.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.path</span>(url, <span class="st">&quot;ai.txt&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt&quot;</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-frames.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># zusammen mit dem Befehl zum Einlesen:</span></span>
+<span id="cb4-2"><a href="data-frames.html#cb4-2" aria-hidden="true" tabindex="-1"></a>ai <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;ai.txt&quot;</span>))</span></code></pre></div>
+<p>Das Gegenstück zu <code>read.table()</code> ist <code>write.table()</code>, womit Sie einen Data Frame abspeichern können. Diese Funktion bekommt zuerst den Namen des Objekts, das abgespeichert werden soll, dann den Pfad samt gewünschtem Dateinamen (<code>./</code> steht für das aktuelle Verzeichnis), und als weiteres optionales Argument nutzen wir <code>row.names = FALSE</code>, damit es nicht eine Spalte mit den (hier nicht vorhandenen) Zeilennamen in dem abgespeicherten Data Frame gibt.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-frames.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(ai, <span class="fu">file.path</span>(<span class="st">&quot;./&quot;</span>, <span class="st">&quot;ai.txt&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Natürlich können Sie Data Frames nicht nur einlesen, sondern auch selbst erstellen. Dafür wird der Befehl <code>data.frame()</code> verwendet. Diese Funktion bekommt als Argumente die Spaltennamen und anschließend die Werte, die in der Spalte stehen sollen. Hier ein Beispiel:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-frames.html#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">240</span>, <span class="dv">220</span>, <span class="dv">250</span>, <span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">520</span>, <span class="dv">510</span>, <span class="dv">605</span>, <span class="dv">670</span>, <span class="dv">613</span>),</span>
+<span id="cb6-2"><a href="data-frames.html#cb6-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;o&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
+<span id="cb6-3"><a href="data-frames.html#cb6-3" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>##     F1 vowel
+## 1  240     i
+## 2  220     i
+## 3  250     i
+## 4  210     i
+## 5  280     i
+## 6  520     o
+## 7  510     o
+## 8  605     o
+## 9  670     o
+## 10 613     o</code></pre>
+<p>Data Frames haben eine eigene Objektklasse:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="data-frames.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+</div>
+<div id="eigenschaften" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Eigenschaften</h2>
+<p>Wenn wir mit Datenstrukturen arbeiten, die viele Informationen enthalten, ist es wichtig, uns mit dem Objekt vertraut zu machen. R bietet viele nützliche Funktionen, um sich Data Frames anzuschauen und etwas über deren Eigenschaften zu erfahren:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="data-frames.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Frame in einem Sub-Fenster anschauen</span></span>
+<span id="cb10-2"><a href="data-frames.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(ai)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="data-frames.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nur die ersten oder letzten paar Zeilen (Beobachtungen) ausgeben</span></span>
+<span id="cb11-2"><a href="data-frames.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ai)</span></code></pre></div>
+<pre><code>##     F1    Kiefer     Lippe
+## 1  773 -25.47651 -24.59616
+## 2  287 -27.02695 -26.44491
+## 3 1006 -27.24509 -27.59161
+## 4  814 -26.05803 -27.17365
+## 5  814 -26.15489 -25.93095
+## 6  806 -26.37281 -24.44872</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="data-frames.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ai)</span></code></pre></div>
+<pre><code>##      F1    Kiefer     Lippe
+## 20  888 -25.99100 -26.84534
+## 21  988 -26.27380 -28.26909
+## 22  650 -26.50057 -24.31192
+## 23 1026 -27.10303 -24.64248
+## 24  992 -28.41081 -28.30641
+## 25  896 -26.57372 -25.69383</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data-frames.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reihen- und Spaltenanzahl</span></span>
+<span id="cb15-2"><a href="data-frames.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 25</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data-frames.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="data-frames.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 25  3</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="data-frames.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen (Variablennamen)</span></span>
+<span id="cb21-2"><a href="data-frames.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ai)</span></code></pre></div>
+<pre><code>## [1] &quot;F1&quot;     &quot;Kiefer&quot; &quot;Lippe&quot;</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="data-frames.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ai)</span></code></pre></div>
+<pre><code>## [1] &quot;F1&quot;     &quot;Kiefer&quot; &quot;Lippe&quot;</code></pre>
+</div>
+<div id="auf-spalten-zugreifen" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Auf Spalten zugreifen</h2>
+<p>Obwohl wir in den kommenden Wochen mit der modernen <em>tidyverse</em>-Syntax arbeiten werden, wollen wir hier zeigen, wie man in traditioneller Weise auf Spalten in einem Data Frame zugreifen kann. Manchmal werden Sie nicht darum herum kommen, diese traditionelle Notation zu verwenden.</p>
+<p>Wenn Sie in Ihr Environment schauen, sehen Sie, dass dort unter “Values” die ganzen einfachen Variablen und Vektoren stehen und unter “Data” finden Sie die zwei Data Frames <code>ai</code> und <code>df</code>. Als Informationen zu den Data Frames stehen im Environment immer die Anzahl an <em>observations</em> (Zeilen) und <em>variables</em> (Spalten), z.B. <code>25 obs. of 3 variables</code>. Wenn Sie auf das kleine blaue Icon links neben dem Namen des Data Frames klicken, sehen Sie die Spaltennamen, welcher Objektklasse die Spalten angehören (<code>int</code> für <em>integer</em>, <code>num</code> für <em>numerics</em> bzw. <em>doubles</em>, usw.) und die ersten paar Werte aus der Spalte. Dieselben Informationen erhalten Sie, wenn Sie die Funktion <code>str()</code> (<em>structure</em>) auf einen Data Frame anwenden:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="data-frames.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ai)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    25 obs. of  3 variables:
+##  $ F1    : int  773 287 1006 814 814 806 938 1005 964 931 ...
+##  $ Kiefer: num  -25.5 -27 -27.2 -26.1 -26.2 ...
+##  $ Lippe : num  -24.6 -26.4 -27.6 -27.2 -25.9 ...</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="data-frames.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  2 variables:
+##  $ F1   : num  240 220 250 210 280 520 510 605 670 613
+##  $ vowel: chr  &quot;i&quot; &quot;i&quot; &quot;i&quot; &quot;i&quot; ...</code></pre>
+<p>Vor jeder Spalte in dieser Auflistung steht ein Dollarzeichen. Genau so können Sie auf Spalten in einem Data Frame zugreifen: Sie schreiben den Namen des Data Frames, dann (ohne Lehrzeichen!) das Dollarzeichen, und anschließend (wieder ohne Leerzeichen!) den Spaltennamen:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-frames.html#cb29-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>F1</span></code></pre></div>
+<pre><code>##  [1] 240 220 250 210 280 520 510 605 670 613</code></pre>
+<p>Sie sehen, dass eine Spalte an und für sich nichts anderes ist als ein Vektor! Das heißt, Sie können die Funktionen, mit denen wir zuvor Vektoren manipuliert haben, jetzt auch auf Spalten in Data Frames anwenden:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-frames.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(df<span class="sc">$</span>F1)</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="data-frames.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>vowel)</span></code></pre></div>
+<pre><code>## 
+## i o 
+## 5 5</code></pre>
+<div class="gray">
+<p><strong>Weiterführende Informationen: Factors in Data Frames</strong></p>
+<p>Für den Data Frame <code>df</code>, den wir oben selbst angelegt haben, sehen Sie im Environment, dass die Spalte <code>vowel</code> der Objektklasse <em>factor</em> angehört, und dass dieser <em>factor</em> zwei <em>levels</em> hat – obwohl wir die Spalte <code>vowel</code> mit Schriftzeichen gefüllt hatten! Die Funktion <code>data.frame()</code>, mit der wir <code>df</code> erstellt haben, hat ein Argument namens <code>stringsAsFactors</code>, das, wenn nicht anders angegeben, automatisch <code>TRUE</code> ist. Das heißt, beim Erstellen des Data Frames wurden die Schriftzeichen in der Spalte <code>vowel</code> in einen <em>factor</em> umgewandelt. Die zwei verschiedenartigen Werte (Kategorien) in dieser Spalte sind “i” und “o,” dementsprechend hat dieser <em>factor</em> zwei <em>levels</em>.</p>
+<p>Wenn Sie sich nochmal die Informationen zu dem Data Frame <code>df</code> im Environment oder Ihrer Konsole anschauen, werden Sie feststellen, dass die Spalte <code>vowel</code> nicht nur ein Faktor mit zwei Levels ist, sondern dass die ersten Werte in dieser Spalte komischerweise Zahlen sind und nicht “i” und “o.” Das liegt daran, dass Faktoren im Hintergrund (also für die NutzerInnen meist unsichtbar) als <em>integer</em> abgespeichert werden. Diese <em>integer</em> sind mit den einzigartigen Levels des Faktors assoziiert. Wenn also in unserem Environment bei der Spalte <code>vowel</code> der Wert 1 steht, dann repräsentiert dies das Level “i,” der Wert 2 repräsentiert das Level “o.”</p>
+<p>Wenn Sie beim Erstellen des Data Frames verhindern möchten, dass <em>strings</em> in <em>factors</em> umgewandelt werden, verwenden Sie das Argument <code>stringsAsFactors = FALSE</code>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="data-frames.html#cb35-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">240</span>, <span class="dv">220</span>, <span class="dv">250</span>, <span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">520</span>, <span class="dv">510</span>, <span class="dv">605</span>, <span class="dv">670</span>, <span class="dv">613</span>),</span>
+<span id="cb35-2"><a href="data-frames.html#cb35-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;o&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>),</span>
+<span id="cb35-3"><a href="data-frames.html#cb35-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="erste-berechnungen-in-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="einführung-ins-tidyverse.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

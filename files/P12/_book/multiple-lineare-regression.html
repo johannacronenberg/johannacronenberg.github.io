@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>13 Multiple lineare Regression | Programmieren und Statistik in R</title>
+  <meta name="description" content="13 Multiple lineare Regression | Programmieren und Statistik in R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="13 Multiple lineare Regression | Programmieren und Statistik in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="13 Multiple lineare Regression | Programmieren und Statistik in R" />
+  
+  
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2021-09-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="einfache-lineare-regression.html"/>
+<link rel="next" href="mixed-models-lmers.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programmieren und Statistik in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation-und-kursverzeichnis"><i class="fa fa-check"></i><b>1.1</b> Installation und Kursverzeichnis</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-und-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages und R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#dokumentarten"><i class="fa fa-check"></i><b>1.5</b> Dokumentarten</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-skripte"><i class="fa fa-check"></i><b>1.5.1</b> R Skripte</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#hilfe-zur-selbsthilfe"><i class="fa fa-check"></i><b>1.6</b> Hilfe zur Selbsthilfe</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#fehler-erkennen"><i class="fa fa-check"></i><b>1.6.1</b> Fehler erkennen</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#community-nutzen"><i class="fa fa-check"></i><b>1.6.2</b> Community nutzen</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#hilfe-zu-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Hilfe zu <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistik-in-r-literatur"><i class="fa fa-check"></i><b>1.6.4</b> Statistik in R: Literatur</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html"><i class="fa fa-check"></i><b>2</b> Erste Berechnungen in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#variablen-funktionen"><i class="fa fa-check"></i><b>2.1</b> Variablen &amp; Funktionen</a></li>
+<li class="chapter" data-level="2.2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#objektklassen"><i class="fa fa-check"></i><b>2.2</b> Objektklassen</a></li>
+<li class="chapter" data-level="2.3" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren"><i class="fa fa-check"></i><b>2.3</b> Vektoren</a></li>
+<li class="chapter" data-level="2.4" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#arithmetik-und-logische-operatoren"><i class="fa fa-check"></i><b>2.4</b> Arithmetik und logische Operatoren</a></li>
+<li class="chapter" data-level="2.5" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren-manipulieren"><i class="fa fa-check"></i><b>2.5</b> Vektoren manipulieren</a></li>
+<li class="chapter" data-level="2.6" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#faktoren"><i class="fa fa-check"></i><b>2.6</b> Faktoren</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#eigenschaften"><i class="fa fa-check"></i><b>3.2</b> Eigenschaften</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#auf-spalten-zugreifen"><i class="fa fa-check"></i><b>3.3</b> Auf Spalten zugreifen</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Einführung ins <em>tidyverse</em></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#daten-manipulieren-mit-dplyr"><i class="fa fa-check"></i><b>4.2</b> Daten manipulieren mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#weitere-beispiele-für-komplexe-pipes"><i class="fa fa-check"></i><b>4.3</b> Weitere Beispiele für komplexe Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mittelwert-median"><i class="fa fa-check"></i><b>5.1</b> Mittelwert &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#varianz-standardabweichung"><i class="fa fa-check"></i><b>5.2</b> Varianz &amp; Standardabweichung</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantile"><i class="fa fa-check"></i><b>5.3</b> Quantile</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#beispiel-boxplot"><i class="fa fa-check"></i><b>5.4</b> Beispiel Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html"><i class="fa fa-check"></i><b>6</b> Daten manipulieren mit <code>dplyr</code> (Fortsetzung)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Daten abbilden mit <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#histogramme-wahrscheinlichkeitsdichte"><i class="fa fa-check"></i><b>7.4</b> Histogramme &amp; Wahrscheinlichkeitsdichte</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html"><i class="fa fa-check"></i><b>8</b> Daten aufräumen mit <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#achsenbeschriftungen"><i class="fa fa-check"></i><b>10.1</b> Achsenbeschriftungen</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#koordinatensystem-begrenzen"><i class="fa fa-check"></i><b>10.2</b> Koordinatensystem begrenzen</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#farben"><i class="fa fa-check"></i><b>10.3</b> Farben</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#weitere-spezifikationen"><i class="fa fa-check"></i><b>10.4</b> Weitere Spezifikationen</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#schriftzeichengröße"><i class="fa fa-check"></i><b>10.5</b> Schriftzeichengröße</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen-und-anordnen"><i class="fa fa-check"></i><b>10.6</b> Plots unterteilen und anordnen</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen"><i class="fa fa-check"></i><b>10.6.1</b> Plots unterteilen</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-anordnen"><i class="fa fa-check"></i><b>10.6.2</b> Plots anordnen</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html"><i class="fa fa-check"></i><b>11</b> Einführung in die Inferenzstatistik</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#population-stichprobe-hypothesenbildung"><i class="fa fa-check"></i><b>11.1</b> Population, Stichprobe, Hypothesenbildung</a></li>
+<li class="chapter" data-level="11.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#normalverteilung"><i class="fa fa-check"></i><b>11.2</b> Normalverteilung</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#auf-normalverteilung-testen"><i class="fa fa-check"></i><b>11.2.1</b> Auf Normalverteilung testen</a></li>
+<li class="chapter" data-level="11.2.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#regel-konfidenzintervalle"><i class="fa fa-check"></i><b>11.2.2</b> 68–95–99.7 Regel &amp; Konfidenzintervalle</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html"><i class="fa fa-check"></i><b>12</b> Einfache lineare Regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#korrelation"><i class="fa fa-check"></i><b>12.1</b> Korrelation</a></li>
+<li class="chapter" data-level="12.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#die-regressionslinie"><i class="fa fa-check"></i><b>12.2</b> Die Regressionslinie</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#theoretische-informationen"><i class="fa fa-check"></i><b>12.2.1</b> Theoretische Informationen</a></li>
+<li class="chapter" data-level="12.2.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionslinien-mit-ggplot2"><i class="fa fa-check"></i><b>12.2.2</b> Regressionslinien mit <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#lineare-regression-mit-lm"><i class="fa fa-check"></i><b>12.3</b> Lineare Regression mit <code>lm()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#residuals"><i class="fa fa-check"></i><b>12.4</b> Residuals</a></li>
+<li class="chapter" data-level="12.5" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#annahmen-überprüfen"><i class="fa fa-check"></i><b>12.5</b> Annahmen überprüfen</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#normalität-der-residuals"><i class="fa fa-check"></i><b>12.5.1</b> Normalität der Residuals</a></li>
+<li class="chapter" data-level="12.5.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#konstante-varianz-der-residuals"><i class="fa fa-check"></i><b>12.5.2</b> Konstante Varianz der Residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#alle-ergebnisse-von-lm-verstehen"><i class="fa fa-check"></i><b>12.6</b> Alle Ergebnisse von <code>lm()</code> verstehen</a>
+<ul>
+<li class="chapter" data-level="12.6.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#geschätzte-y-werte-und-residuals"><i class="fa fa-check"></i><b>12.6.1</b> Geschätzte y-Werte und Residuals</a></li>
+<li class="chapter" data-level="12.6.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionskoeffizienten-und-t-statistik"><i class="fa fa-check"></i><b>12.6.2</b> Regressionskoeffizienten und <span class="math inline">\(t\)</span>-Statistik</a></li>
+<li class="chapter" data-level="12.6.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#gütekriterien-für-das-modell-und-f-statistik"><i class="fa fa-check"></i><b>12.6.3</b> Gütekriterien für das Modell und <span class="math inline">\(F\)</span>-Statistik</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#ergebnis-berichten"><i class="fa fa-check"></i><b>12.7</b> Ergebnis berichten</a></li>
+<li class="chapter" data-level="12.8" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#zusammenfassung"><i class="fa fa-check"></i><b>12.8</b> Zusammenfassung</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html"><i class="fa fa-check"></i><b>13</b> Multiple lineare Regression</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kontinuierliche-unabhängige-variablen"><i class="fa fa-check"></i><b>13.1</b> Kontinuierliche unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion"><i class="fa fa-check"></i><b>13.1.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion"><i class="fa fa-check"></i><b>13.1.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kategorische-unabhängige-variablen"><i class="fa fa-check"></i><b>13.2</b> Kategorische unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-1"><i class="fa fa-check"></i><b>13.2.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.2.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-1"><i class="fa fa-check"></i><b>13.2.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mix-aus-kontinuierlichen-und-kategorischen-unabhängigen-variablen"><i class="fa fa-check"></i><b>13.3</b> Mix aus kontinuierlichen und kategorischen unabhängigen Variablen</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-2"><i class="fa fa-check"></i><b>13.3.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.3.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-2"><i class="fa fa-check"></i><b>13.3.2</b> Mit Interaktion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html"><i class="fa fa-check"></i><b>14</b> Mixed Models (LMERs)</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts-vs.-random-slopes"><i class="fa fa-check"></i><b>14.1</b> Random Intercepts vs. Random Slopes</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts"><i class="fa fa-check"></i><b>14.1.1</b> Random Intercepts</a></li>
+<li class="chapter" data-level="14.1.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-slopes"><i class="fa fa-check"></i><b>14.1.2</b> Random Slopes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects-struktur-für-word-bestimmen"><i class="fa fa-check"></i><b>14.1.3</b> Random Effects Struktur für <code>word</code> bestimmen</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#lmer-in-r"><i class="fa fa-check"></i><b>14.2</b> LMER in R</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#fixed-effects"><i class="fa fa-check"></i><b>14.2.1</b> Fixed Effects</a></li>
+<li class="chapter" data-level="14.2.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects"><i class="fa fa-check"></i><b>14.2.2</b> Random Effects</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#konvergenzprobleme-und-modell-vereinfachen"><i class="fa fa-check"></i><b>14.3</b> Konvergenzprobleme und Modell vereinfachen</a></li>
+<li class="chapter" data-level="14.4" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#ergebnisse-berichten"><i class="fa fa-check"></i><b>14.4</b> Ergebnisse berichten</a></li>
+<li class="chapter" data-level="14.5" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#gütekriterien-für-mixed-models"><i class="fa fa-check"></i><b>14.5</b> Gütekriterien für Mixed Models</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#marginal-und-conditional-r2"><i class="fa fa-check"></i><b>14.5.1</b> Marginal und Conditional <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="14.5.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>14.5.2</b> Likelihood Ratio Tests</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./index.html">Programmieren und Statistik in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiple-lineare-regression" class="section level1" number="13">
+<h1><span class="header-section-number">13</span> Multiple lineare Regression</h1>
+<p>Laden Sie die Pakete und Data Frames:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="multiple-lineare-regression.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-2"><a href="multiple-lineare-regression.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb1-3"><a href="multiple-lineare-regression.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="multiple-lineare-regression.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="multiple-lineare-regression.html#cb9-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb9-2"><a href="multiple-lineare-regression.html#cb9-2" aria-hidden="true" tabindex="-1"></a>faux <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;faux.txt&quot;</span>), <span class="at">stringsAsFactors =</span> T, <span class="at">header =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="multiple-lineare-regression.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb9-4"><a href="multiple-lineare-regression.html#cb9-4" aria-hidden="true" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;dbwort.df.txt&quot;</span>), <span class="at">stringsAsFactors =</span> T) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="multiple-lineare-regression.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="multiple-lineare-regression.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">vowel =</span> V, <span class="at">gender =</span> G)</span>
+<span id="cb9-7"><a href="multiple-lineare-regression.html#cb9-7" aria-hidden="true" tabindex="-1"></a>vlax <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vlax.txt&quot;</span>), <span class="at">stringsAsFactors =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="multiple-lineare-regression.html#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="multiple-lineare-regression.html#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(V <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;O&quot;</span>, <span class="st">&quot;I&quot;</span>) <span class="sc">&amp;</span> f0 <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-10"><a href="multiple-lineare-regression.html#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">vowel =</span> V)</span></code></pre></div>
+<p>Bislang haben wir mit der einfachen linearen Regression gearbeitet, bei der eine Variable (z.B. Grundfrequenz) durch eine weitere Variable (z.B. Alter in Jahren) vorhergesagt wurde. Viel häufiger haben wir aber mehrere Variablen, von denen wir vermuten, dass sie einen Einfluss auf unsere Messwerte haben. Hierfür brauchen wir dann die multiple lineare Regression. Die Formel für die lineare Regression wird so angepasst, dass es für jede unabhängige Variable <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_2\)</span>, usw. eine eigene Slope gibt:</p>
+<p><span class="math inline">\(y = k + b_1x_1 + b_2x_2 + ...\)</span></p>
+<p>Auch hier steht <span class="math inline">\(k\)</span> wieder für den y-Achsenabschnitt, <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span> usw. sind Slopes. Im Folgenden zeigen wir drei Beispiele für multiple lineare Regressionen, je nach der Art der unabhängigen Variablen (kategorial oder kontinuierlich). Aus Gründen der Übersichtlichkeit enthalten alle Beispiele nur zwei unabhängige Variablen; es können aber natürlich generell auch mehr als zwei Prädiktoren in der Regression vorkommen.</p>
+<div id="kontinuierliche-unabhängige-variablen" class="section level2" number="13.1">
+<h2><span class="header-section-number">13.1</span> Kontinuierliche unabhängige Variablen</h2>
+<p>Zuerst wollen wir herausfinden, ob die Grundfrequenz <code>f0</code> im (artifiziell erstellten) Data Frame <code>faux</code> von den beiden kontinuierlichen Variablen <code>dB</code> (Lautstärke) und <code>dur</code> (Wortdauer) abhängig ist. Dafür erstellen wir eine Abbildung von den Daten:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="multiple-lineare-regression.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faux) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="multiple-lineare-regression.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dB, <span class="at">y =</span> f0, <span class="at">col =</span> dur) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="multiple-lineare-regression.html#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Es ist nicht ganz einfach, diesen Plot zu interpretieren. Wenn wir uns erst einmal nur auf die Abhängigkeit der Grundfrequenz von der Lautstärke konzentrieren, sehen wir, dass eine klare positive Korrelation vorliegt, d.h. je lauter die Versuchspersonen sprachen, desto höher wurde ihre Grundfrequenz. Da die Dauer ebenfalls eine kontinuierliche Variable ist, bleibt uns nur, ein Farbkontinuum für die Visualisierung der Variable zu nutzen (<code>ggplot()</code> macht das automatisch durch das Argument <code>col</code>). Es scheint so, als ob die dunkleren Punkte (= niedrige Dauerwerte) mit eher hohen f0-Werten assoziiert sind und die helleren Datenpunkte (= hohe Dauerwerte) eher mit niedrigen f0-Werten. Hier könnte also eine negative Korrelation zwischen f0 und Dauer vorliegen. Mittels <code>cor()</code> können wir diesen Eindruck überprüfen:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="multiple-lineare-regression.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(faux<span class="sc">$</span>f0, faux<span class="sc">$</span>dB)</span></code></pre></div>
+<pre><code>## [1] 0.3106537</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="multiple-lineare-regression.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(faux<span class="sc">$</span>f0, faux<span class="sc">$</span>dur)</span></code></pre></div>
+<pre><code>## [1] -0.5300055</code></pre>
+<p>Da wir es hier mit zwei unabhängigen Variablen zu tun haben, müssen wir auch überlegen, ob eine <strong>Interaktion</strong> zwischen ihnen vorliegen könnte. Eine Interaktion liegt vor, wenn sich der Effekt einer unabhängigen auf die abhängige Variable für verschiedene (extreme) Werte der zweiten unabhängigen Variable unterscheidet. In unserem Beispiel ist der Effekt von Lautstärke auf f0 im Allgemeinen ein positiver, d.h. je lauter gesprochen wurde, desto höher f0. Dieser Effekt ist jedoch (visuell) stärker ausgeprägt für niedrige als für hohe Dauerwerte. Stellen Sie sich vor, Sie würden zwei Regressionslinien durch die obige Abbildung legen: eine dunkelblaue für einen beispielhaft niedrigen Dauerwert (z.B. 150 ms) und eine hellblaue für eine beispielhaft hohe Dauer (z.B. 450 ms). Wenn keine Interaktion zwischen den Variablen besteht, sind die zwei beispielhaften Regressionslinien parallel zueinander; andernfalls sind sie es nicht. Für die Daten im Data Frame <code>faux</code> habe ich die zwei beispielhaften Regressionslinien eingezeichnet: im linken Plot unter der Annahme, dass keine Interaktion besteht, im rechten unter der Annahme, dass eine Interaktion besteht:</p>
+<p><img src="img/interaction.png" /></p>
+<p>Die Regressionslinien im rechten Plot scheinen die Daten besser zu beschreiben als die Daten im linken Plot; d.h. wir gehen davon aus, dass zwischen Lautstärke und Dauer in dem Datensatz eine Interaktion besteht. Wir werden später sehen, wie genau die Regressionslinien für die beiden Plots berechnet wurden.</p>
+<div class="gray">
+<p><strong>Weiterführende Infos: Regressionslinien bei zwei kontinuierlichen Prädiktoren</strong></p>
+<p>Es erfordert ein bisschen Rechenarbeit, Regressionslinien für zwei kontinuierliche Variablen zu zeichnen. Wenn Sie diese Arbeit irgendwann vermeiden wollen, können Sie sich aber die Libraries <code>ggiraph</code> und <code>ggiraphExtra</code> installieren. In dieser <a href="https://cran.r-project.org/web/packages/ggiraphExtra/vignettes/ggPredict.html">Vignette</a> finden Sie Informationen über die Funktion <code>ggPredict()</code> aus <code>ggiraphExtra</code>, die Regressionslinien für multiple Prädiktoren zeichnen kann.</p>
+</div>
+<p>Wir werden im Folgenden für viele Fragestellungen zuerst eine multiple Regression ohne und dann mit Interaktion berechnen, damit Sie sich mit Interaktionen vertraut machen können. Wenn Sie selbst vor der Entscheidung stehen, ob Sie in Ihrem Datensatz eine Interaktion zwischen unabhängigen Variablen vorliegen könnte, schauen Sie sich Ihren Datensatz in Abbildungen an und überlegen Sie genau, wie eine Interaktion zu interpretieren wäre – <em>bevor</em> Sie die Regression durchführen.</p>
+<div id="ohne-interaktion" class="section level3" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Ohne Interaktion</h3>
+<p>Wenn es in einem Modell keine Interaktionen gibt, werden die unabhängigen Variablen in der <code>lm()</code>-Formel mit einem Plus verbunden.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="multiple-lineare-regression.html#cb15-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(f0 <span class="sc">~</span> dB <span class="sc">+</span> dur, <span class="at">data =</span> faux)</span>
+<span id="cb15-2"><a href="multiple-lineare-regression.html#cb15-2" aria-hidden="true" tabindex="-1"></a>lm1 <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="multiple-lineare-regression.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="multiple-lineare-regression.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept)  169.   
+## 2 dB             2.89 
+## 3 dur           -0.372</code></pre>
+<p>Hier versuchen wir zu verstehen, was genau die Schätzungen in der Spalte <code>estimate</code> bedeuten. Die Schätzung für das Intercept ist auch in der multiplen Regression das geschätzte arithmetische Mittel der abhängigen Variable für <span class="math inline">\(x_1 = 0\)</span> und <span class="math inline">\(x_2 = 0\)</span> (und alle möglichen weiteren <span class="math inline">\(x\)</span>, wenn es noch mehr unabhängige Variablen gibt). Das heißt, wenn die Lautstärke 0 dB beträgt und die Dauer ebenfalls 0 ms ist, sollte die Grundfrequenz bei 168.6 Hz liegen. Die Slopes messen nun nicht mehr den Effekt jeder einzelnen unabhängigen Variable, sondern den Effekt einer unabhängigen Variable, während alle anderen Variablen konstant bei Null gehalten werden. Jede Erhöhung der Lautstärke um ein Dezibel (bei konstanter Dauer) führt zu einer Erhöhung der Grundfrequenz um 2.9 Hz, jede Erhöhung der Dauer um eine Millisekunde (bei konstanter Lautstärke) führt zu einer Reduktion der Grundfrequenz um 0.4 Hz. Das heißt hier finden wir die erwarteten Zusammenhänge wieder: Lautstärke beeinflusst die Grundfrequenz positiv, Dauer negativ.</p>
+<p>Rufen wir uns nochmal die Formel für die Regressionslinie bei zwei unabhängigen Variablen in Erinnerung:</p>
+<p><span class="math inline">\(y = k + b_1x_1 + b_2x_2\)</span></p>
+<p>Die Werte für den y-Achsenabschnitt <span class="math inline">\(k\)</span> und die beiden Slopes <span class="math inline">\(b_1\)</span> und <span class="math inline">\(b_2\)</span> können wir uns aus dem Data Frame holen, den <code>tidy()</code> zurückgibt:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="multiple-lineare-regression.html#cb17-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb17-2"><a href="multiple-lineare-regression.html#cb17-2" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] 168.6372</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="multiple-lineare-regression.html#cb19-1" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb19-2"><a href="multiple-lineare-regression.html#cb19-2" aria-hidden="true" tabindex="-1"></a>b_1</span></code></pre></div>
+<pre><code>## [1] 2.892441</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="multiple-lineare-regression.html#cb21-1" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dur&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb21-2"><a href="multiple-lineare-regression.html#cb21-2" aria-hidden="true" tabindex="-1"></a>b_2</span></code></pre></div>
+<pre><code>## [1] -0.3720641</code></pre>
+<p>Nun können wir uns nach Belieben Werte für <span class="math inline">\(x_1\)</span> (Lautstärke in Dezibel) und <span class="math inline">\(x_2\)</span> (Dauer in Millisekunden) ausdenken, zusammen mit den Regressionskoeffizienten in die Formel einsetzen, und so y-Werte schätzen. Wenn wir beide x-Werte auf Null setzen, kommt genau das Intercept <span class="math inline">\(k\)</span> als geschätzter y-Wert heraus:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur \\ 
+ &amp;= 168.64 + 2.89 \cdot 0 + (-0.37 \cdot 0) \\
+ &amp;= 168.64
+\end{aligned}
+\]</span></p>
+<p>Wenn Sie diese Werte nicht manuell berechnen möchten, steht Ihnen natürlich die Funktion <code>predict()</code> zur Verfügung. Bei der multiplen linearen Regression muss der Funktion ein Data Frame übergeben werden, der so viele Spalten hat wie es unabhängige Variablen in der Regression gab; die Spalten müssen auch genau wie die unabhängigen Variablen benannt sein. Zu Demonstrationszwecken zeigen wir hier, dass die Grundfrequenz <code>f0</code> laut dem berechneten linearen Modell wirklich bei ca. 168 Hz liegt, wenn die Lautstärke bei 0 dB und die Dauer bei 0 ms liegt. Wir zeigen außerdem den geschätzten f0-Wert für <code>db = 1</code> und <code>dur = 0</code> (der 2.9 Hz höher ist als das Intercept) und für <code>db = 0</code> und <code>dur = 1</code> (der 0.4 Hz niedriger ist als das Intercept). Zuletzt schätzen wir mittels <code>predict()</code> den f0-Wert für die durchschnittliche Lautstärke und Dauer.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="multiple-lineare-regression.html#cb23-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dB  =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">mean</span>(faux<span class="sc">$</span>dB)), </span>
+<span id="cb23-2"><a href="multiple-lineare-regression.html#cb23-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dur =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fu">mean</span>(faux<span class="sc">$</span>dur)))</span>
+<span id="cb23-3"><a href="multiple-lineare-regression.html#cb23-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_f0 =</span> <span class="fu">predict</span>(lm1, d1))</span>
+<span id="cb23-4"><a href="multiple-lineare-regression.html#cb23-4" aria-hidden="true" tabindex="-1"></a>d1</span></code></pre></div>
+<pre><code>##         dB      dur estimated_f0
+## 1  0.00000   0.0000     168.6372
+## 2  1.00000   0.0000     171.5297
+## 3  0.00000   1.0000     168.2652
+## 4 60.10327 298.9032     231.2712</code></pre>
+<p>Jetzt können wir auch nachvollziehen, wie die zwei beispielhaften Regressionslinien im linken Plot oben berechnet wurden. Wir wählen 450 ms als beispielhaft hohen und 150 ms als beispielhaft niedrigen Dauerwert (in der Literatur wird als “extremer Wert” für eine unabhängige Variable auch gerne ihr Mittelwert plus/minus 1.5 Standardabweichungen genommen). Anschließend setzen wir diese Werte zusammen mit den Regressionskoeffizienten in unsere Formel für die Regressionslinie ein (hier zuerst für eine Dauer von 450 ms):</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur \\ 
+ &amp;= 168.64 + 2.89 \cdot dB + (-0.37 \cdot 450) \\
+ &amp;= 168.64 + 2.89 \cdot dB + (-167.43) \\
+ &amp;= 1.21 + 2.89 \cdot dB
+\end{aligned}
+\]</span></p>
+<p>Dabei kommt heraus, dass das Intercept einer Regressionslinie für eine Dauer von 450 ms bei 1.21 liegen sollte und die Steigung bei 2.89.</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur \\ 
+ &amp;= 168.64 + 2.89 \cdot dB + (-0.37 \cdot 150) \\
+ &amp;= 168.64 + 2.89 \cdot dB + (-55.81) \\
+ &amp;= 112.83 + 2.89 \cdot dB
+\end{aligned}
+\]</span></p>
+<p>Bei der Regressionslinie für eine Dauer von 150 ms hingegen liegt das Intercept bei 112.83 und die Steigung bei 2.89. Die Slope ist also für die beiden Regressionslinien dieselbe, ergo sind diese Linien parallel zueinander. Die beiden berechneten Intercepts und die Slope können nun für <code>geom_abline()</code> benutzt werden:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="multiple-lineare-regression.html#cb25-1" aria-hidden="true" tabindex="-1"></a>high_dur <span class="ot">&lt;-</span> <span class="dv">450</span></span>
+<span id="cb25-2"><a href="multiple-lineare-regression.html#cb25-2" aria-hidden="true" tabindex="-1"></a>low_dur <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb25-3"><a href="multiple-lineare-regression.html#cb25-3" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span> b_1</span>
+<span id="cb25-4"><a href="multiple-lineare-regression.html#cb25-4" aria-hidden="true" tabindex="-1"></a>intercept_high_dur <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> b_2 <span class="sc">*</span> high_dur</span>
+<span id="cb25-5"><a href="multiple-lineare-regression.html#cb25-5" aria-hidden="true" tabindex="-1"></a>intercept_low_dur <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> b_2 <span class="sc">*</span> low_dur</span>
+<span id="cb25-6"><a href="multiple-lineare-regression.html#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="multiple-lineare-regression.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faux) <span class="sc">+</span> </span>
+<span id="cb25-8"><a href="multiple-lineare-regression.html#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dB, <span class="at">y =</span> f0, <span class="at">col =</span> dur) <span class="sc">+</span> </span>
+<span id="cb25-9"><a href="multiple-lineare-regression.html#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb25-10"><a href="multiple-lineare-regression.html#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">95</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="multiple-lineare-regression.html#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">500</span>) <span class="sc">+</span></span>
+<span id="cb25-12"><a href="multiple-lineare-regression.html#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept_high_dur, <span class="at">color =</span> <span class="st">&quot;#56B1F7&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb25-13"><a href="multiple-lineare-regression.html#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept_low_dur, <span class="at">color =</span> <span class="st">&quot;#132B43&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb25-14"><a href="multiple-lineare-regression.html#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Wir hätten natürlich auch <code>dur</code> auf die x-Achse setzen und <code>dB</code> durch ein Farbkontinuum darstellen können. Dann müssten wir zwei beispielhaft extreme <em>Lautstärke</em>werte wählen, wieder alle Werte (Intercept, Slopes, gewählte Beispielwerte für <code>dB</code>) in die Formel einsetzen und kämen auf folgendes Ergebnis:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="multiple-lineare-regression.html#cb26-1" aria-hidden="true" tabindex="-1"></a>high_dB <span class="ot">&lt;-</span> <span class="dv">75</span></span>
+<span id="cb26-2"><a href="multiple-lineare-regression.html#cb26-2" aria-hidden="true" tabindex="-1"></a>low_dB <span class="ot">&lt;-</span> <span class="dv">45</span></span>
+<span id="cb26-3"><a href="multiple-lineare-regression.html#cb26-3" aria-hidden="true" tabindex="-1"></a>intercept_high_dB <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> high_dB <span class="sc">+</span> b_2 <span class="sc">*</span> <span class="dv">0</span></span>
+<span id="cb26-4"><a href="multiple-lineare-regression.html#cb26-4" aria-hidden="true" tabindex="-1"></a>intercept_low_dB <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> low_dB <span class="sc">+</span> b_2 <span class="sc">*</span> <span class="dv">0</span></span>
+<span id="cb26-5"><a href="multiple-lineare-regression.html#cb26-5" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span> b_2</span>
+<span id="cb26-6"><a href="multiple-lineare-regression.html#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="multiple-lineare-regression.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faux) <span class="sc">+</span> </span>
+<span id="cb26-8"><a href="multiple-lineare-regression.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dur, <span class="at">y =</span> f0, <span class="at">col =</span> dB) <span class="sc">+</span> </span>
+<span id="cb26-9"><a href="multiple-lineare-regression.html#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb26-10"><a href="multiple-lineare-regression.html#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">600</span>) <span class="sc">+</span></span>
+<span id="cb26-11"><a href="multiple-lineare-regression.html#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">500</span>) <span class="sc">+</span></span>
+<span id="cb26-12"><a href="multiple-lineare-regression.html#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept_high_dB, <span class="at">color =</span> <span class="st">&quot;#56B1F7&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb26-13"><a href="multiple-lineare-regression.html#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope, <span class="at">intercept =</span> intercept_low_dB, <span class="at">color =</span> <span class="st">&quot;#132B43&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb26-14"><a href="multiple-lineare-regression.html#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Wenn Sie sich ausreichend Zeit genommen haben, um die Regressionskoeffizienten zu verstehen und zu interpretieren, können wir uns jetzt den Statistiken und Gütekriterien des Modells zuwenden. Mit <code>tidy()</code> schauen wir uns die <span class="math inline">\(t\)</span>-Statistik samt <span class="math inline">\(p\)</span>-Wert an, die aussagen, ob sich die Regressionskoeffizienten signifikant von Null unterscheiden:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="multiple-lineare-regression.html#cb27-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 5
+##   term        estimate std.error statistic   p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)  169.      3.45         48.8 0        
+## 2 dB             2.89    0.0633       45.7 1.91e-306
+## 3 dur           -0.372   0.00668     -55.7 0</code></pre>
+<p>Die beiden Regressionskoeffizienten für die unabhängigen Variablen unterscheiden sich laut den Tests signifikant von Null, d.h. sowohl die Lautstärke als auch die Dauer scheinen gute Prädiktoren für die Grundfrequenz zu sein. Die Gütekriterien sind wieder die <span class="math inline">\(F\)</span>-Statistik sowie der <span class="math inline">\(R^2\)</span>-Wert:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="multiple-lineare-regression.html#cb29-1" aria-hidden="true" tabindex="-1"></a>lm1 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name                value
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 r.squared           0.661
+##  2 adj.r.squared       0.660
+##  3 sigma              24.0  
+##  4 statistic        1815.   
+##  5 p.value             0    
+##  6 df                  2    
+##  7 logLik          -8589.   
+##  8 AIC             17186.   
+##  9 BIC             17208.   
+## 10 deviance      1073556.   
+## 11 df.residual      1866    
+## 12 nobs             1869</code></pre>
+<p>Die beiden unabhängigen Variablen beschreiben 66% der Varianz in den Grundfrequenzwerten. Allgemein betrachtet ist das ein relativ hoher Wert. Noch mehr Bedeutung bekommt der Wert jedoch im Vergleich zu den <span class="math inline">\(R^2\)</span>-Werten aus den zwei einfachen linearen Regressionen, die wir mittels der unabhängigen Variablen erstellen können:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="multiple-lineare-regression.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(f0 <span class="sc">~</span> dB, <span class="at">data =</span> faux) <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pull</span>(r.squared)</span></code></pre></div>
+<pre><code>## [1] 0.09650573</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="multiple-lineare-regression.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(f0 <span class="sc">~</span> dur, <span class="at">data =</span> faux) <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pull</span>(r.squared)</span></code></pre></div>
+<pre><code>## [1] 0.2809058</code></pre>
+<p>Das heißt, ein Modell mit der Lautstärke als einziger unabhängiger Variable beschreibt nur knapp 10% der Varianz in den Grundfrequenzwerten, ein Modell mit der Dauer beschreibt ca. 28% dieser Varianz. Wenn man jedoch beide Prädiktoren in einem Modell (ohne Interaktion) vereint, steigt dieser Anteil auf 66%.</p>
+<p>Zuletzt sollten wir nicht vergessen, das Ergebnis der Regression zu berichten: <strong>Eine multiple lineare Regression mit Lautstärke und Dauer als unabhängige Variablen zeigte einen signifikanten Effekt von Lautstärke (<span class="math inline">\(t\)</span> = 45.7, <span class="math inline">\(p\)</span> &lt; 0.001) und Dauer (<span class="math inline">\(t\)</span> = 55.7, <span class="math inline">\(p\)</span> &lt; 0.001) auf die Grundfrequenz. Das gewählte Modell beschreibt die Daten besser als ein Modell ohne Prädiktoren (<span class="math inline">\(R^2\)</span> = 0.66, <span class="math inline">\(F\)</span>[2, 1866] = 1815, <span class="math inline">\(p\)</span> &lt; 0.001).</strong> In einer wissenschaftlichen Veröffentlichung sollten Sie natürlich noch ein paar Zeilen darauf verwenden zu beschreiben, in welche Richtung die signifikanten Effekte gehen (d.h. ob sie die abhängige Variable positiv oder negativ, stark oder schwach beeinflussen) und ob das den Erwartungen (Hypothesen) entspricht, die Sie idealerweise vor der Datenerhebung aufgestellt haben.</p>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+</div>
+<div id="mit-interaktion" class="section level3" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> Mit Interaktion</h3>
+<p>Da wir in unserer ersten Abbildung der Daten in <code>faux</code> festgestellt haben, dass es eine Interaktion zwischen Lautstärke und Dauer geben könnte, wollen wir das Modell jetzt <em>mit</em> Interaktion berechnen. Interaktionen in einem linearen Modell können auf zwei Arten geschrieben werden: entweder mit einem Asterisk <code>dB * dur</code> oder in der ausformulierten Variante <code>dB + dur + dB:dur</code>. Bei drei unabhängigen Variablen <code>A</code>, <code>B</code> und <code>C</code> können sowohl Interaktionen zwischen zwei als auch zwischen allen drei Faktoren vorliegen, also: <code>A * B * C</code> oder <code>A + B + C + A:B + A:C + B:C + A:B:C</code>. Es kann auch sinnvoll sein, eine Interaktion nur zwischen zwei von drei Faktoren zu berechnen, z.B. <code>A * B + C</code> oder <code>A + B + C + A:B</code>.</p>
+<p>Hier wählen wir die Kurzschreibweise und schauen uns zuerst wieder die Schätzungen der Regressionskoeffizienten an:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="multiple-lineare-regression.html#cb35-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(f0 <span class="sc">~</span> dB <span class="sc">*</span> dur, <span class="at">data =</span> faux)</span>
+<span id="cb35-2"><a href="multiple-lineare-regression.html#cb35-2" aria-hidden="true" tabindex="-1"></a>lm2 <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="multiple-lineare-regression.html#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="multiple-lineare-regression.html#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept) 86.0    
+## 2 dB           4.30   
+## 3 dur         -0.0921 
+## 4 dB:dur      -0.00466</code></pre>
+<p>Der y-Achsenabschnitt für <code>dB = 0</code> und <code>dur = 0</code> liegt jetzt bei 86 Hz. Die Slopes beschreiben nun den Einfluss einer unabhängigen Variable, wenn alle anderen unabhängigen Variablen konstant bei Null gehalten werden. Die Lautstärke <code>dB</code> hat auch in diesem Modell einen positiven Einfluss auf die Grundfrequenz mit einer Steigung von 4.3 Hz, d.h. die Grundfrequenz steigt mit der Lautstärke (wenn die Dauer konstant bei Null gehalten wird). Die Steigung für <code>dur</code> hingegen ist mit -0.09 Hz negativ, d.h. für höhere Dauerwerte sinkt die Grundfrequenz (wenn die Lautstärke konstant bei Null gehalten wird).</p>
+<p>Nun gibt es allerdings noch eine weitere Slope, nämlich für die Interaktion <code>dB:dur</code>. Diese Slope findet sich auch in der für Interaktionen angepassten Formel für die Regressionslinie:</p>
+<p><span class="math inline">\(y = k + b_1x_1 + b_2x_2 + b_3(x_1 \cdot x_2)\)</span></p>
+<p>Die Slope <span class="math inline">\(b_3(x_1 \cdot x_2)\)</span> deutet schon an, dass die Interaktion nur wichtig für die Regressionslinie ist, wenn sowohl <span class="math inline">\(x_1\)</span> als auch <span class="math inline">\(x_2\)</span> ungleich Null ist: denn wenn eine von beiden Null ist, ergibt die Multiplikation <span class="math inline">\(x_1 \cdot x_2\)</span> Null, d.h. die Slope <span class="math inline">\(b_3\)</span> muss mit Null multipliziert werden und fällt somit aus der Formel raus.</p>
+<p>In unserem Modell ist die Steigung für die Interaktion der beiden Prädiktoren negativ. Das lässt sich so interpretieren, dass die Grundfrequenz sinkt, wenn sowohl die Lautstärke als auch die Dauer steigen. Um diese Zusammenhänge genau nachvollziehen zu können, holen wir uns aus dem obigen Data Frame das Intercept <span class="math inline">\(k\)</span>, die beiden Slopes <span class="math inline">\(b_1\)</span> (für die Lautstärke) und <span class="math inline">\(b_2\)</span> (für die Dauer), sowie die Interaktion <span class="math inline">\(b_3\)</span>:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="multiple-lineare-regression.html#cb37-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb37-2"><a href="multiple-lineare-regression.html#cb37-2" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] 86.02002</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="multiple-lineare-regression.html#cb39-1" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb39-2"><a href="multiple-lineare-regression.html#cb39-2" aria-hidden="true" tabindex="-1"></a>b_1</span></code></pre></div>
+<pre><code>## [1] 4.298291</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="multiple-lineare-regression.html#cb41-1" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dur&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb41-2"><a href="multiple-lineare-regression.html#cb41-2" aria-hidden="true" tabindex="-1"></a>b_2</span></code></pre></div>
+<pre><code>## [1] -0.09211806</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="multiple-lineare-regression.html#cb43-1" aria-hidden="true" tabindex="-1"></a>b_3 <span class="ot">&lt;-</span> lm2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB:dur&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb43-2"><a href="multiple-lineare-regression.html#cb43-2" aria-hidden="true" tabindex="-1"></a>b_3</span></code></pre></div>
+<pre><code>## [1] -0.004655516</code></pre>
+<p>Nun können Sie diese Werte zusammen mit frei gewählten Werten für <span class="math inline">\(x_1\)</span> (Lautstärke) und <span class="math inline">\(x_2\)</span> (Dauer) in die obige Formel einsetzen, um herauszufinden, wie hoch die Grundfrequenz für die gewählten Werte der unabhängigen Variablen sein sollte. Nehmen wir an <span class="math inline">\(x_1\)</span> und <span class="math inline">\(x_2\)</span> sind beide Null, dann gilt wieder, dass der geschätzte y-Wert genau dem Intercept <span class="math inline">\(k\)</span> entspricht:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur + b_3(dB \cdot dur) \\ 
+ &amp;= 86.02 + 4.30 \cdot 0 + (-0.092 \cdot 0) + (-0.0047 \cdot 0 \cdot 0) \\
+ &amp;= 86.02
+\end{aligned}
+\]</span></p>
+<p>Genauso kann man anstatt der beiden Nullen verschiedene andere Werte für <span class="math inline">\(x_1\)</span> und <span class="math inline">\(x_2\)</span> einsetzen. Als Beispiel wählen wir hier <span class="math inline">\(x_1 = 1\)</span> und <span class="math inline">\(x_2 = 1\)</span>, um zu zeigen, dass dann auch die Slope für die Interaktion der beiden Variablen zum Tragen kommt:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur + b_3(dB \cdot dur) \\ 
+ &amp;= 86.02 + 4.30 \cdot 1 + (-0.092 \cdot 1) + (-0.0047 \cdot 1 \cdot 1) \\
+ &amp;= 90.22
+\end{aligned}
+\]</span></p>
+<p>Oder, indem wir die extrahierten Regressionskoeffizienten nutzen:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="multiple-lineare-regression.html#cb45-1" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_1 <span class="sc">+</span> b_2 <span class="sc">+</span> b_3</span></code></pre></div>
+<pre><code>## [1] 90.22154</code></pre>
+<p>Auch hier können wir wieder <code>predict()</code> einsetzen, um uns für verschiedene Kombinationen von <code>dB</code>- und <code>dur</code>-Werten den <code>f0</code>-Wert schätzen zu lassen:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="multiple-lineare-regression.html#cb47-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dB  =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="fu">mean</span>(faux<span class="sc">$</span>dB)), </span>
+<span id="cb47-2"><a href="multiple-lineare-regression.html#cb47-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dur =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="fu">mean</span>(faux<span class="sc">$</span>dur)))</span>
+<span id="cb47-3"><a href="multiple-lineare-regression.html#cb47-3" aria-hidden="true" tabindex="-1"></a>d2 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_f0 =</span> <span class="fu">predict</span>(lm2, d2))</span>
+<span id="cb47-4"><a href="multiple-lineare-regression.html#cb47-4" aria-hidden="true" tabindex="-1"></a>d2</span></code></pre></div>
+<pre><code>##         dB      dur estimated_f0
+## 1  0.00000   0.0000     86.02002
+## 2  1.00000   0.0000     90.31831
+## 3  0.00000   1.0000     85.92790
+## 4  1.00000   1.0000     90.22154
+## 5 60.10327 298.9032    233.19036</code></pre>
+<p>Nun können wir wieder die beispielhaften Regressionslinien nachvollziehen, die wir oben im rechten Plot gesehen haben. Wir wählen 450 ms und 150 ms als beispielhafte Dauerwerte:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur + b_3(dB \cdot dur) \\ 
+ &amp;= 86.02 + 4.30 \cdot dB + (-0.092 \cdot 450) + (-0.0047 \cdot dB \cdot 450) \\
+ &amp;= 86.02 + 4.30 \cdot dB + (-41.45) + (-2.10 \cdot dB) \\
+ &amp;= 44.57 + 2.20 \cdot dB
+\end{aligned}
+\]</span></p>
+<p>Und für 150 ms:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot dur + b_3(dB \cdot dur) \\ 
+ &amp;= 86.02 + 4.30 \cdot dB + (-0.092 \cdot 150) + (-0.0047 \cdot dB \cdot 150) \\
+ &amp;= 86.02 + 4.30 \cdot dB + (-13.82) + (-0.70 \cdot dB) \\
+ &amp;= 72.20 + 3.60 \cdot dB
+\end{aligned}
+\]</span></p>
+<p>Dieses Mal unterscheiden sich die Steigungen für die beiden extremen gewählten Dauerwerte, eben weil die Interaktion mit einbezogen wurde. Nun legen wir die berechneten Intercepts und Slopes als Variablen an und setzen diese wieder bei <code>geom_abline()</code> ein, um die Regressionslinien zu zeichnen:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="multiple-lineare-regression.html#cb49-1" aria-hidden="true" tabindex="-1"></a>high_dur <span class="ot">&lt;-</span> <span class="dv">450</span></span>
+<span id="cb49-2"><a href="multiple-lineare-regression.html#cb49-2" aria-hidden="true" tabindex="-1"></a>low_dur <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb49-3"><a href="multiple-lineare-regression.html#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="multiple-lineare-regression.html#cb49-4" aria-hidden="true" tabindex="-1"></a>intercept_low_dur <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> b_2 <span class="sc">*</span> low_dur <span class="sc">+</span> b_3 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">*</span> low_dur</span>
+<span id="cb49-5"><a href="multiple-lineare-regression.html#cb49-5" aria-hidden="true" tabindex="-1"></a>intercept_low_dur</span></code></pre></div>
+<pre><code>## [1] 72.20231</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="multiple-lineare-regression.html#cb51-1" aria-hidden="true" tabindex="-1"></a>intercept_high_dur <span class="ot">&lt;-</span> k <span class="sc">+</span> b_1 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> b_2 <span class="sc">*</span> high_dur <span class="sc">+</span> b_3 <span class="sc">*</span> <span class="dv">0</span> <span class="sc">*</span> high_dur</span>
+<span id="cb51-2"><a href="multiple-lineare-regression.html#cb51-2" aria-hidden="true" tabindex="-1"></a>intercept_high_dur</span></code></pre></div>
+<pre><code>## [1] 44.5669</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="multiple-lineare-regression.html#cb53-1" aria-hidden="true" tabindex="-1"></a>slope_low_dur <span class="ot">&lt;-</span> b_1 <span class="sc">+</span> b_3 <span class="sc">*</span> low_dur</span>
+<span id="cb53-2"><a href="multiple-lineare-regression.html#cb53-2" aria-hidden="true" tabindex="-1"></a>slope_low_dur</span></code></pre></div>
+<pre><code>## [1] 3.599963</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="multiple-lineare-regression.html#cb55-1" aria-hidden="true" tabindex="-1"></a>slope_high_dur <span class="ot">&lt;-</span> b_1 <span class="sc">+</span> b_3 <span class="sc">*</span> high_dur</span>
+<span id="cb55-2"><a href="multiple-lineare-regression.html#cb55-2" aria-hidden="true" tabindex="-1"></a>slope_high_dur</span></code></pre></div>
+<pre><code>## [1] 2.203309</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="multiple-lineare-regression.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faux) <span class="sc">+</span> </span>
+<span id="cb57-2"><a href="multiple-lineare-regression.html#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dB, <span class="at">y =</span> f0, <span class="at">col =</span> dur) <span class="sc">+</span> </span>
+<span id="cb57-3"><a href="multiple-lineare-regression.html#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb57-4"><a href="multiple-lineare-regression.html#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">95</span>) <span class="sc">+</span></span>
+<span id="cb57-5"><a href="multiple-lineare-regression.html#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">500</span>) <span class="sc">+</span></span>
+<span id="cb57-6"><a href="multiple-lineare-regression.html#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope_low_dur, <span class="at">intercept =</span> intercept_low_dur, <span class="at">color =</span> <span class="st">&quot;#132B43&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb57-7"><a href="multiple-lineare-regression.html#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> slope_high_dur, <span class="at">intercept =</span> intercept_high_dur, <span class="at">color =</span> <span class="st">&quot;#56B1F7&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="multiple-lineare-regression.html#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Nachdem wir die Regressionskoeffizienten verstanden haben, schauen wir uns die <span class="math inline">\(t\)</span>-Statistik an und stellen fest, dass sowohl die Steigung für <code>dB</code> (<span class="math inline">\(t\)</span> = 22.6, <span class="math inline">\(p\)</span> &lt; 0.001) als auch die für <code>dur</code> (<span class="math inline">\(t\)</span> = 2.5, <span class="math inline">\(p\)</span> &lt; 0.05) sich signifikant von Null unterscheiden. Zusätzlich unterscheidet sich auch die Steigung für die Interaktion signifikant von Null (<span class="math inline">\(t\)</span> = 7.8, <span class="math inline">\(p\)</span> &lt; 0.001).</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="multiple-lineare-regression.html#cb58-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##   term        estimate std.error statistic   p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept) 86.0     11.1           7.75 1.50e- 14
+## 2 dB           4.30     0.190        22.6  4.63e-100
+## 3 dur         -0.0921   0.0364       -2.53 1.15e-  2
+## 4 dB:dur      -0.00466  0.000595     -7.82 8.83e- 15</code></pre>
+<p>Das bedeutet, dass auch das gesamte Modell voraussichtlich besser ist als ein Modell ohne Prädiktoren. Wir schauen uns mit <code>glance()</code> wieder die <span class="math inline">\(F\)</span>-Statistik und <span class="math inline">\(R^2\)</span> an:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="multiple-lineare-regression.html#cb60-1" aria-hidden="true" tabindex="-1"></a>lm2 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name                value
+##    &lt;chr&gt;               &lt;dbl&gt;
+##  1 r.squared           0.671
+##  2 adj.r.squared       0.671
+##  3 sigma              23.6  
+##  4 statistic        1270.   
+##  5 p.value             0    
+##  6 df                  3    
+##  7 logLik          -8559.   
+##  8 AIC             17128.   
+##  9 BIC             17156.   
+## 10 deviance      1039480.   
+## 11 df.residual      1865    
+## 12 nobs             1869</code></pre>
+<p>Somit können wir berichten: <strong>Eine multiple lineare Regression mit Lautstärke und Dauer als unabhängige Variablen mitsamt ihrer Interaktion zeigte einen signifikanten Effekt von Lautstärke (<span class="math inline">\(t\)</span> = 22.6, <span class="math inline">\(p\)</span> &lt; 0.001) und Dauer (<span class="math inline">\(t\)</span> = 2.5, <span class="math inline">\(p\)</span> &lt; 0.05) auf die Grundfrequenz. Zusätzlich war auch die Interaktion signifikant (<span class="math inline">\(t\)</span> = 7.8, <span class="math inline">\(p\)</span> &lt; 0.001). Das gewählte Modell beschreibt die Daten besser als ein Modell ohne Prädiktoren (<span class="math inline">\(R^2\)</span> = 0.67, <span class="math inline">\(F\)</span>[3, 1865] = 1269.6, <span class="math inline">\(p\)</span> &lt; 0.001).</strong></p>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+</div>
+</div>
+<div id="kategorische-unabhängige-variablen" class="section level2" number="13.2">
+<h2><span class="header-section-number">13.2</span> Kategorische unabhängige Variablen</h2>
+<p>Nun wollen wir anhand der Daten in <code>int</code> herausfinden, ob die Lautstärke in Dezibel <code>db</code> vom Vokaltyp <code>vowel</code> und dem Geschlecht der Versuchsperson <code>gender</code> beeinflusst wird.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="multiple-lineare-regression.html#cb62-1" aria-hidden="true" tabindex="-1"></a>int</span></code></pre></div>
+<pre><code>## # A tibble: 120 × 5
+##       db vowel gender Vpn   Wort 
+##    &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;
+##  1   100 a     m      S1    w1   
+##  2    70 a     m      S2    w1   
+##  3    90 a     m      S3    w1   
+##  4    60 a     m      S4    w1   
+##  5    80 a     m      S5    w1   
+##  6    50 a     f      S6    w1   
+##  7    40 a     f      S7    w1   
+##  8    60 a     f      S8    w1   
+##  9    30 a     f      S9    w1   
+## 10    20 a     f      S10   w1   
+## # … with 110 more rows</code></pre>
+<p>Erstmal schauen wir uns in einem Boxplot an, ob überhaupt eine Abhängigkeit zwischen den Variablen vorliegen könnte:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="multiple-lineare-regression.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(int) <span class="sc">+</span> </span>
+<span id="cb64-2"><a href="multiple-lineare-regression.html#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> vowel, <span class="at">y =</span> db, <span class="at">fill =</span> gender) <span class="sc">+</span> </span>
+<span id="cb64-3"><a href="multiple-lineare-regression.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>Der Plot zeigt, allgemein gesprochen, dass Frauen leiser sprechen als Männer. Dieser Effekt unterscheidet sich aber für die beiden Vokale: Bei /a/ ist der Effekt von Geschlecht viel ausgeprägter als bei /i/. Es könnte also eine Interaktion zwischen Vokal und Geschlecht vorliegen. Genauso können wir die Interaktion der unabhängigen Variablen für den Effekt des Vokals betrachten: Im Vokal /i/ ist die Lautstärke generell niedriger als in /a/ – aber für Männer ist der Effekt stärker als für Frauen (d.h. der Unterschied zwischen den zwei blauen Boxen ist größer als der zwischen den zwei roten Boxen).</p>
+<p>Obwohl hier wahrscheinlich eine Interaktion zwischen Vokal und Geschlecht vorliegt, schauen wir uns aus didaktischen Gründen erstmal an, wie eine multiple Regression mit zwei kategorialen Prädiktoren (unabhängigen Variablen) ohne Interaktion aussieht.</p>
+<div id="ohne-interaktion-1" class="section level3" number="13.2.1">
+<h3><span class="header-section-number">13.2.1</span> Ohne Interaktion</h3>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="multiple-lineare-regression.html#cb65-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(db <span class="sc">~</span> vowel <span class="sc">+</span> gender, <span class="at">data =</span> int)</span>
+<span id="cb65-2"><a href="multiple-lineare-regression.html#cb65-2" aria-hidden="true" tabindex="-1"></a>lm3 <span class="sc">%&gt;%</span> </span>
+<span id="cb65-3"><a href="multiple-lineare-regression.html#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb65-4"><a href="multiple-lineare-regression.html#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept)     53.2
+## 2 voweli         -20.1
+## 3 genderm         30.1</code></pre>
+<p>Wenn wir es mit <em>kontinuierlichen</em> unabhängigen Variablen zu tun haben, ist das Intercept der geschätzte y-Wert für Null in allen unabhängigen Variablen. Was genau ist aber “Null” für <em>kategoriale</em> Variablen? Dies bestimmt R durch das sogenannte <strong>Treatment Coding</strong> (auch oft mit dem Überbegriff <em>Dummy Coding</em> bezeichnet). Die Variable <code>gender</code> kann als Werte entweder <code>f</code> (<em>female</em>) oder <code>m</code> (<em>male</em>) annehmen. R geht dann alphabetisch vor und bestimmt, dass <code>f</code> als Null und <code>m</code> als Eins interpretiert werden soll. Genauso läuft es bei den Vokalen <code>vowel</code>, wo <code>a</code> als Null und <code>i</code> als Eins interpretiert wird. Dementsprechend ist das Intercept in dieser Regression der geschätzte Dezibel-Mittelwert für das <code>a</code> von Frauen. Dies können wir rechnerisch leicht nachvollziehen:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="multiple-lineare-regression.html#cb67-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm3 <span class="sc">%&gt;%</span> </span>
+<span id="cb67-2"><a href="multiple-lineare-regression.html#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb67-3"><a href="multiple-lineare-regression.html#cb67-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(vowel <span class="sc">==</span> <span class="st">&quot;a&quot;</span> <span class="sc">&amp;</span> gender <span class="sc">==</span> <span class="st">&quot;f&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-4"><a href="multiple-lineare-regression.html#cb67-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(.fitted)) <span class="sc">%&gt;%</span> </span>
+<span id="cb67-5"><a href="multiple-lineare-regression.html#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(m)</span>
+<span id="cb67-6"><a href="multiple-lineare-regression.html#cb67-6" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] 53.22527</code></pre>
+<p>Wie Sie sehen, heißen die beiden Slopes in unserem Modell <code>genderm</code> und <code>voweli</code>. Hierbei wird immer zuerst der Faktor (der Name der kategorialen Variable) genannt und dann das Level des Faktors, das <em>nicht</em> im Intercept verarbeitet wurde (also das Level <code>m</code> für <code>gender</code> und das Level <code>i</code> für <code>vowel</code>). Die Steigung <code>genderm</code> beschreibt die Lautstärkeveränderung von Frauen zu Männern für den Vokal /a/. Diese ist mit 30.1 dB positiv, d.h. Männer produzieren das /a/ deutlich lauter als Frauen. Die Steigung <code>voweli</code>beschreibt die Lautstärkeveränderung von /a/ zu /i/ für Frauen und ist mit -20.12 dB negativ, d.h. Frauen produzieren das /i/ leiser als das /a/. Dies stimmt mit unserem Eindruck aus den Boxplots überein.</p>
+<p>Wenn wir die Lautstärke-Mittelwerte für alle vier Kombinationen für die Levels von <code>vowel</code> und <code>gender</code> schätzen wollen, brauchen wir wieder die beiden Slopes <span class="math inline">\(b_1\)</span> (für den Vokal /i/) und <span class="math inline">\(b_2\)</span> (für Männer) aus dem Ergebnis von <code>tidy()</code>, sowie das Intercept <span class="math inline">\(k\)</span>, das wir oben schon berechnet haben. Erinnern Sie sich außerdem, dass durch das Treatment Coding festgelegt wurde, dass <code>a = 0</code>, <code>i = 1</code>, <code>female = 0</code> und <code>male = 1</code>.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="multiple-lineare-regression.html#cb69-1" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm3 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;voweli&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb69-2"><a href="multiple-lineare-regression.html#cb69-2" aria-hidden="true" tabindex="-1"></a>b_1</span></code></pre></div>
+<pre><code>## [1] -20.11696</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="multiple-lineare-regression.html#cb71-1" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm3 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;genderm&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb71-2"><a href="multiple-lineare-regression.html#cb71-2" aria-hidden="true" tabindex="-1"></a>b_2</span></code></pre></div>
+<pre><code>## [1] 30.08488</code></pre>
+<p>Geschätzte Lautstärke für das /a/ (<span class="math inline">\(x_1 = 0\)</span>) von Frauen (<span class="math inline">\(x_2 = 0\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot x_1 + b_2 \cdot x_2 \\ 
+ &amp;= 53.23 + (-20.12 \cdot 0) + 30.09 \cdot 0 \\
+ &amp;= 53.23
+\end{aligned}
+\]</span></p>
+<p>… für das /a/ (<span class="math inline">\(x_1 = 0\)</span>) von Männern (<span class="math inline">\(x_2 = 1\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot x_1 + b_2 \cdot x_2 \\ 
+ &amp;= 53.23 + (-20.12 \cdot 0) + 30.09 \cdot 1 \\
+ &amp;= 83.31
+\end{aligned}
+\]</span></p>
+<p>… für das /i/ (<span class="math inline">\(x_1 = 1\)</span>) von Frauen (<span class="math inline">\(x_2 = 0\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot x_1 + b_2 \cdot x_2 \\ 
+ &amp;= 53.23 + (-20.12 \cdot 1) + 30.09 \cdot 0 \\
+ &amp;= 33.11
+\end{aligned}
+\]</span></p>
+<p>… und für das /i/ (<span class="math inline">\(x_1 = 1\)</span>) von Männern (<span class="math inline">\(x_2 = 1\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot x_1 + b_2 \cdot x_2 \\ 
+ &amp;= 53.23 + (-20.12 \cdot 1) + 30.09 \cdot 1 \\
+ &amp;= 63.19
+\end{aligned}
+\]</span></p>
+<p>Die <code>predict()</code>-Funktion kann uns diese Rechenarbeit aber auch abnehmen:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="multiple-lineare-regression.html#cb73-1" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">gender =</span> <span class="fu">c</span>(<span class="st">&quot;f&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;m&quot;</span>), </span>
+<span id="cb73-2"><a href="multiple-lineare-regression.html#cb73-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;i&quot;</span>))</span>
+<span id="cb73-3"><a href="multiple-lineare-regression.html#cb73-3" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_mean_dB =</span> <span class="fu">predict</span>(lm3, d3))</span>
+<span id="cb73-4"><a href="multiple-lineare-regression.html#cb73-4" aria-hidden="true" tabindex="-1"></a>d3</span></code></pre></div>
+<pre><code>##   gender vowel estimated_mean_dB
+## 1      f     a          53.22527
+## 2      f     i          33.10831
+## 3      m     a          83.31016
+## 4      m     i          63.19319</code></pre>
+<p>Vergleichen Sie diese geschätzen Mittelwerte auch mit den Boxplots, die wir zuvor gemacht haben oder mit den tatsächlichen Mittelwerten (die Sie mit <em>tidyverse</em>-Funktionen berechnen können). Wir streben natürlich danach, dass die Schätzungen möglichst genau sind, denn das bedeutet, dass das von uns gewählte Modell sehr gut zu den Daten passt. In diesem Fall scheinen die Schätzungen schon recht gut zu sein:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="multiple-lineare-regression.html#cb75-1" aria-hidden="true" tabindex="-1"></a>int <span class="sc">%&gt;%</span></span>
+<span id="cb75-2"><a href="multiple-lineare-regression.html#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gender, vowel) <span class="sc">%&gt;%</span> </span>
+<span id="cb75-3"><a href="multiple-lineare-regression.html#cb75-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(db))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;gender&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   gender [2]
+##   gender vowel     m
+##   &lt;fct&gt;  &lt;fct&gt; &lt;dbl&gt;
+## 1 f      a      48.2
+## 2 f      i      38.2
+## 3 m      a      88.4
+## 4 m      i      58.1</code></pre>
+<div class="gray">
+<p><strong>Weiterführende Infos: Dummy Coding</strong></p>
+<p>Wenn eine der unabhängigen Variablen mehr als zwei Stufen gehabt hätte (also wenn z.B. noch ein dritter Vokal /o/ im Datensatz vorkäme), dann gäbe es eine weitere Slope für diese Stufe (also z.B. <code>vowelo</code>). Es gibt auch noch andere Arten des Dummy Coding, z.B. <em>Sum Coding</em>, wie Sie im Kapitel 7 in Winter (2020) nachlesen können.</p>
+</div>
+<p>Jetzt schauen wir uns erst noch die statistischen Ergebnisse unserer multiplen Regression an:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="multiple-lineare-regression.html#cb78-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)     53.2      3.28     16.2  8.86e-32
+## 2 voweli         -20.1      3.78     -5.32 5.09e- 7
+## 3 genderm         30.1      3.78      7.95 1.27e-12</code></pre>
+<p>Diese Übersicht zeigt, dass es einen signifikanten Einfluss von Geschlecht (<span class="math inline">\(t\)</span> = 8.0, <span class="math inline">\(p\)</span> &lt; 0.001) und von Vokal (<span class="math inline">\(t\)</span> = 5.3, <span class="math inline">\(p\)</span> &lt; 0.001) auf die Lautstärke gab, oder anders gesagt: die Steigungen für Vokal und Gender unterscheiden sich signifikant von Null und sind daher gute Prädiktoren für die Lautstärke. Nun schauen wir uns noch die Gütekriterien an:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="multiple-lineare-regression.html#cb80-1" aria-hidden="true" tabindex="-1"></a>lm3 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name              value
+##    &lt;chr&gt;             &lt;dbl&gt;
+##  1 r.squared      4.39e- 1
+##  2 adj.r.squared  4.29e- 1
+##  3 sigma          2.07e+ 1
+##  4 statistic      4.58e+ 1
+##  5 p.value        2.06e-15
+##  6 df             2   e+ 0
+##  7 logLik        -5.32e+ 2
+##  8 AIC            1.07e+ 3
+##  9 BIC            1.08e+ 3
+## 10 deviance       5.02e+ 4
+## 11 df.residual    1.17e+ 2
+## 12 nobs           1.2 e+ 2</code></pre>
+<p>Hier sehen wir, dass durch die beiden unabhängigen Variablen Geschlecht und Vokal ca. 43% der Varianz in den Lautstärkemessungen beschrieben werden kann. Der <span class="math inline">\(F\)</span>-Test zeigt, dass unser Regressionsmodell die Daten erfolgreicher beschreibt als ein Modell ohne Prädiktoren (<span class="math inline">\(R^2\)</span> = 0.43, <span class="math inline">\(F\)</span>[2, 117] = 45.8, <span class="math inline">\(p\)</span> &lt; 0.001).</p>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+</div>
+<div id="mit-interaktion-1" class="section level3" number="13.2.2">
+<h3><span class="header-section-number">13.2.2</span> Mit Interaktion</h3>
+<p>Da wir auch in diesem Datensatz eine Interaktion zwischen Vokal und Geschlecht vermuten, binden wir sie in unsere Regression ein:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="multiple-lineare-regression.html#cb82-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(db <span class="sc">~</span> vowel <span class="sc">*</span> gender, <span class="at">data =</span> int)</span>
+<span id="cb82-2"><a href="multiple-lineare-regression.html#cb82-2" aria-hidden="true" tabindex="-1"></a>lm4 <span class="sc">%&gt;%</span> </span>
+<span id="cb82-3"><a href="multiple-lineare-regression.html#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb82-4"><a href="multiple-lineare-regression.html#cb82-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   term           estimate
+##   &lt;chr&gt;             &lt;dbl&gt;
+## 1 (Intercept)        48.2
+## 2 voweli            -10.0
+## 3 genderm            40.2
+## 4 voweli:genderm    -20.2</code></pre>
+<p>Das Intercept beschreibt hier immer noch den geschätzten Dezibel-Mittelwert für /a/ von Frauen, der bei ca. 48 dB liegt. Der Einfluss des Vokals auf die Lautstärke ist wieder negativ, der Einfluss des Geschlechts ist positiv. Nun gibt es zusätzlich die Slope für die Interaktion <code>voweli:genderm</code>, die mit -20.2 dB negativ ist. Wenn der Vokal also /i/ ist und das Geschlecht männlich, dann sinkt die Lautstärke. Im folgenden sehen Sie, wie Sie nun unter Einbeziehung der Interaktion die Lautstärke für die vier Kombinationen aus <span class="math inline">\(vowel \times gender\)</span> schätzen können (all dies leitet sich wieder aus der Formel für die Regressionslinie mit Interaktion ab):</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="multiple-lineare-regression.html#cb84-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm4 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb84-2"><a href="multiple-lineare-regression.html#cb84-2" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm4 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;genderm&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb84-3"><a href="multiple-lineare-regression.html#cb84-3" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm4 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;voweli&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb84-4"><a href="multiple-lineare-regression.html#cb84-4" aria-hidden="true" tabindex="-1"></a>b_3 <span class="ot">&lt;-</span> lm4 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;voweli:genderm&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb84-5"><a href="multiple-lineare-regression.html#cb84-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-6"><a href="multiple-lineare-regression.html#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="co"># female-a</span></span>
+<span id="cb84-7"><a href="multiple-lineare-regression.html#cb84-7" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] 48.17194</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="multiple-lineare-regression.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># male-a</span></span>
+<span id="cb86-2"><a href="multiple-lineare-regression.html#cb86-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_1</span></code></pre></div>
+<pre><code>## [1] 88.36348</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="multiple-lineare-regression.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># female-i</span></span>
+<span id="cb88-2"><a href="multiple-lineare-regression.html#cb88-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_2</span></code></pre></div>
+<pre><code>## [1] 38.16164</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="multiple-lineare-regression.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># male-i</span></span>
+<span id="cb90-2"><a href="multiple-lineare-regression.html#cb90-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_1 <span class="sc">+</span> b_2 <span class="sc">+</span> b_3</span></code></pre></div>
+<pre><code>## [1] 58.13987</code></pre>
+<p>Die <code>predict()</code>-Funktion kann Ihnen hier aber auch wieder die Rechenarbeit abnehmen:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="multiple-lineare-regression.html#cb92-1" aria-hidden="true" tabindex="-1"></a>d4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">gender =</span> <span class="fu">c</span>(<span class="st">&quot;f&quot;</span>, <span class="st">&quot;f&quot;</span>, <span class="st">&quot;m&quot;</span>, <span class="st">&quot;m&quot;</span>), </span>
+<span id="cb92-2"><a href="multiple-lineare-regression.html#cb92-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;i&quot;</span>))</span>
+<span id="cb92-3"><a href="multiple-lineare-regression.html#cb92-3" aria-hidden="true" tabindex="-1"></a>d4 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_mean_dB =</span> <span class="fu">predict</span>(lm4, d4))</span>
+<span id="cb92-4"><a href="multiple-lineare-regression.html#cb92-4" aria-hidden="true" tabindex="-1"></a>d4</span></code></pre></div>
+<pre><code>##   gender vowel estimated_mean_dB
+## 1      f     a          48.17194
+## 2      f     i          38.16164
+## 3      m     a          88.36348
+## 4      m     i          58.13987</code></pre>
+<p>Durch die Einbindung der Funktion in das Modell sind die Lautstärke-Schätzungen im Vergleich zum Modell vorher präziser geworden! Tatsächlich stimmen die Schätzungen perfekt mit den tatsächlichen Mittelwerten überein (das wird im “echten Leben” so gut wie niemals vorkommen):</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="multiple-lineare-regression.html#cb94-1" aria-hidden="true" tabindex="-1"></a>int <span class="sc">%&gt;%</span> </span>
+<span id="cb94-2"><a href="multiple-lineare-regression.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gender, vowel) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-3"><a href="multiple-lineare-regression.html#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">m =</span> <span class="fu">mean</span>(db))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;gender&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   gender [2]
+##   gender vowel     m
+##   &lt;fct&gt;  &lt;fct&gt; &lt;dbl&gt;
+## 1 f      a      48.2
+## 2 f      i      38.2
+## 3 m      a      88.4
+## 4 m      i      58.1</code></pre>
+<p>Nun schauen wir uns die <span class="math inline">\(t\)</span>-Statistik an, die zeigt, ob unsere Regressionskoeffizienten dazu beitragen, die Varianz in den Dezibelwerten zu erklären:</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="multiple-lineare-regression.html#cb97-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##   term           estimate std.error statistic  p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)        48.2      3.68     13.1  1.37e-24
+## 2 voweli            -10.0      5.21     -1.92 5.69e- 2
+## 3 genderm            40.2      5.21      7.72 4.47e-12
+## 4 voweli:genderm    -20.2      7.36     -2.75 7.00e- 3</code></pre>
+<p>Offensichtlich unterscheiden sich die Slope für Geschlecht (<span class="math inline">\(t\)</span> = 7.7, <span class="math inline">\(p\)</span> &lt; 0.001) und (fast) die Slope für Vokal (<span class="math inline">\(t\)</span> = 1.9, <span class="math inline">\(p\)</span> = 0.06) (fast) signifikant von Null. Zusätzlich gab es eine signifikante Interaktion zwischen den Faktoren (<span class="math inline">\(t\)</span> = 2.8, <span class="math inline">\(p\)</span> &lt; 0.01).</p>
+<p>Oben haben wir festgestellt, dass unser Modell mit Interaktion die Daten besser beschreibt als das vorherige Modell ohne Interaktion. Dies zeigt sich auch in der <span class="math inline">\(F\)</span>-Statistik:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="multiple-lineare-regression.html#cb99-1" aria-hidden="true" tabindex="-1"></a>lm4 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name              value
+##    &lt;chr&gt;             &lt;dbl&gt;
+##  1 r.squared      4.73e- 1
+##  2 adj.r.squared  4.60e- 1
+##  3 sigma          2.02e+ 1
+##  4 statistic      3.47e+ 1
+##  5 p.value        4.29e-16
+##  6 df             3   e+ 0
+##  7 logLik        -5.29e+ 2
+##  8 AIC            1.07e+ 3
+##  9 BIC            1.08e+ 3
+## 10 deviance       4.71e+ 4
+## 11 df.residual    1.16e+ 2
+## 12 nobs           1.2 e+ 2</code></pre>
+<p>Nun werden ca. 46% der Varianz in den Daten durch die beiden Faktoren und ihre Interaktion beschrieben. Das Modell mit der Interaktion beschreibt also mehr Varianz als das Modell ohne Interaktion; d.h. es liefert präzisere Schätzungen der Regressionskoeffizienten. Der <span class="math inline">\(F\)</span>-Test zeigt außerdem, dass das Regressionsmodell die Daten besser beschreibt als das Intercept-only Modell (<span class="math inline">\(R^2\)</span> = 0.46, <span class="math inline">\(F\)</span>[3, 116] = 34.7, <span class="math inline">\(p\)</span> &lt; 0.001).</p>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+<div id="post-hoc-tests-mit-emmeans" class="section level4" number="13.2.2.1">
+<h4><span class="header-section-number">13.2.2.1</span> post-hoc Tests mit emmeans</h4>
+<p>Wenn in einer multiplen Regression mit mindestens zwei kategorialen unabhängigen Variablen die Interaktion einen signifikanten Effekt auf die gemessene Variable hat, dann sollte man sogenannte <strong>post-hoc Tests</strong> ausführen. Dafür eignet sich das Paket <a href="https://cran.r-project.org/web/packages/emmeans/vignettes/basics.html"><code>emmeans</code></a> mit der gleichnamigen Funktion außerordentlich gut. Für dieses Paket gibt es mehrere ausführliche Vignetten.</p>
+<p>Die Funktion <code>emmeans()</code> führt <span class="math inline">\(t\)</span>-Tests auf alle Kombinationen der Werte der kategorialen unabhängigen Variablen aus. So finden wir heraus, welche Kombination(en) dafür sorgen, dass die Interaktion in der Regression signifikant war. Als Argumente bekommt die Funktion das Ergebnis des Regressionsmodells, und dann die Formel <code>pairwise ~ vowel | gender</code> (sprich: <em>pairwise comparisons for vowel given gender</em>). Die Formel bedeutet hier, dass pro Geschlecht der Unterschied zwischen den Vokalen und dessen Signifikanz ermittelt werden soll.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="multiple-lineare-regression.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(lm4, pairwise <span class="sc">~</span> vowel <span class="sc">|</span> gender)</span></code></pre></div>
+<pre><code>## $emmeans
+## gender = f:
+##  vowel emmean   SE  df lower.CL upper.CL
+##  a       48.2 3.68 116     40.9     55.5
+##  i       38.2 3.68 116     30.9     45.5
+## 
+## gender = m:
+##  vowel emmean   SE  df lower.CL upper.CL
+##  a       88.4 3.68 116     81.1     95.7
+##  i       58.1 3.68 116     50.8     65.4
+## 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+## gender = f:
+##  contrast estimate   SE  df t.ratio p.value
+##  a - i        10.0 5.21 116   1.923  0.0569
+## 
+## gender = m:
+##  contrast estimate   SE  df t.ratio p.value
+##  a - i        30.2 5.21 116   5.806  &lt;.0001</code></pre>
+<p>Das Ergebnis dieser Funktion sind zwei Tabellen, eine namens <code>emmeans</code> und eine namens <code>contrasts</code>. In der Tabelle <code>emmeans</code>, Spalte <code>emmean</code> finden Sie unsere Schätzungen für die Mittelwerte wieder, zuerst für Frauen (<code>gender = f</code>), dann für Männer (<code>gender = m</code>). <code>emmeans</code> steht für <em>estimated marginal means</em>. Sie finden hier zusätzlich den Standard Error <code>SE</code>, die Freiheitsgrade <code>df</code>, sowie das 95%-Konfindenzinterval <code>lower.CL</code> und <code>upper.CL</code>.</p>
+<p>In der Tabelle <code>contrasts</code> finden Sie die Differenzen zwischen /a/ und /i/, zuerst für Frauen, dann für Männer. Zuerst wird Ihnen hierfür wieder ein <code>estimate</code> angezeigt. Dieser ist ganz einfach die Differenz aus den <code>emmeans</code> für /a/ und /i/ pro Geschlecht. Es folgen Standard Error <code>SE</code> und dann die Freiheitsgrade <code>df</code>, der <span class="math inline">\(t\)</span>-Wert <code>t.ratio</code> und der <span class="math inline">\(p\)</span>-Wert <code>p.value</code>. Hier sehen wir im Einklang mit den Boxplots, die wir ganz zu Anfang dieses Kapitels erstellt haben, dass es keinen signifikanten Lautstärke-Unterschied zwischen /a/ und /i/ für Frauen gibt (<span class="math inline">\(t\)</span>[116] = 1.9, <span class="math inline">\(p\)</span> = 0.06), sehr wohl aber für Männer (<span class="math inline">\(t\)</span>[116] = 5.8, <span class="math inline">\(p\)</span> &lt; 0.001). Nun sollten wir zusätzlich schauen, ob es pro Vokaltyp signifikante Unterschiede zwischen Frauen und Männern gab. Dafür verändern wir einfach die Formel zu <code>pairwise ~ gender | vowel</code>:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="multiple-lineare-regression.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emmeans</span>(lm4, pairwise <span class="sc">~</span> gender <span class="sc">|</span> vowel)</span></code></pre></div>
+<pre><code>## $emmeans
+## vowel = a:
+##  gender emmean   SE  df lower.CL upper.CL
+##  f        48.2 3.68 116     40.9     55.5
+##  m        88.4 3.68 116     81.1     95.7
+## 
+## vowel = i:
+##  gender emmean   SE  df lower.CL upper.CL
+##  f        38.2 3.68 116     30.9     45.5
+##  m        58.1 3.68 116     50.8     65.4
+## 
+## Confidence level used: 0.95 
+## 
+## $contrasts
+## vowel = a:
+##  contrast estimate   SE  df t.ratio p.value
+##  f - m       -40.2 5.21 116  -7.721  &lt;.0001
+## 
+## vowel = i:
+##  contrast estimate   SE  df t.ratio p.value
+##  f - m       -20.0 5.21 116  -3.838  0.0002</code></pre>
+<p>Hier können wir berichten, dass sowohl für /a/ (<span class="math inline">\(t\)</span>[116] = 7.7, <span class="math inline">\(p\)</span> &lt; 0.001) als auch für /i/ (<span class="math inline">\(t\)</span>[116] = 3.8, <span class="math inline">\(p\)</span> &lt; 0.001) ein signifikanter Unterschied zwischen Männern und Frauen vorliegt. Das stimmt ebenfalls mit unserem visuellen Eindruck aus den anfänglichen Boxplots überein.</p>
+</div>
+</div>
+</div>
+<div id="mix-aus-kontinuierlichen-und-kategorischen-unabhängigen-variablen" class="section level2" number="13.3">
+<h2><span class="header-section-number">13.3</span> Mix aus kontinuierlichen und kategorischen unabhängigen Variablen</h2>
+<p>Zuletzt beschäftigen wir uns mit der Frage, ob die Grundfrequenzwerte im Data Frame <code>vlax</code> vom Vokal <code>vowel</code> und von der Lautstärke <code>dB</code> beeinflusst werden. Hier haben wir also ein Regressionsmodell mit einer kategorischen und einer kontinuierlichen unabhängigen Variable. Bei einer Abbildung bietet es sich an, die kontinuierliche unabhängige Variable auf die x-Achse zu packen und die Levels der kategorialen Variable durch Farben darzustellen. Hier zeigen wir zusätzlich die Regressionslinien, die <code>geom_smooth()</code> für uns berechnen kann.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="multiple-lineare-regression.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vlax) <span class="sc">+</span> </span>
+<span id="cb105-2"><a href="multiple-lineare-regression.html#cb105-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dB, <span class="at">y =</span> f0, <span class="at">col =</span> vowel) <span class="sc">+</span> </span>
+<span id="cb105-3"><a href="multiple-lineare-regression.html#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb105-4"><a href="multiple-lineare-regression.html#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> F)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>Im Allgemeinen scheint es auch hier den bekannten positiven linearen Zusammenhang zwischen <code>f0</code> und <code>dB</code> zu geben. Dieser Zusammenhang scheint allerdings nur für den Vokal /I/, nicht aber für den Vokal /O/ zu existieren. Auch hier liegt also vermutlich eine Interaktion zwischen den beiden unabhängigen Variablen vor, wir berechnen aber zuerst zu Demonstrationszwecken ein Modell ohne Interaktion.</p>
+<div id="ohne-interaktion-2" class="section level3" number="13.3.1">
+<h3><span class="header-section-number">13.3.1</span> Ohne Interaktion</h3>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="multiple-lineare-regression.html#cb107-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(f0 <span class="sc">~</span> dB <span class="sc">+</span> vowel, <span class="at">data =</span> vlax)</span>
+<span id="cb107-2"><a href="multiple-lineare-regression.html#cb107-2" aria-hidden="true" tabindex="-1"></a>lm5 <span class="sc">%&gt;%</span> </span>
+<span id="cb107-3"><a href="multiple-lineare-regression.html#cb107-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb107-4"><a href="multiple-lineare-regression.html#cb107-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept)  -259.  
+## 2 dB              6.17
+## 3 vowelO        -22.9</code></pre>
+<p>Auch hier wird die kategoriale Variable <code>vowel</code> mittels Dummy Coding hinter den Kulissen umgewandelt. Wir sehen, dass die zweite Slope <code>vowelO</code> heißt, das bedeutet, dass der Vokal “I” schon im Intercept verarbeitet wurde. Wenn also der Vokal “I” ist und <code>dB = 0</code>, dann sollte die Grundfrequenz bei -258.9 Hz liegen. Der Einfluss von Lautstärke auf Grundfrequenz ist wie erwartet ein positiver, d.h. mit jeder Steigerung der Lautstärke um 1 dB steigt die Grundfrequenz um 6.2 Hz (dies sehen Sie z.B. im Vergleich der ersten beiden Zeilen in <code>d5</code>). Wenn der Vokal “O” anstatt “I” ist, sinkt die Grundfrequenz um 22.9 Hz (vgl. erste und dritte Zeile in <code>d5</code>). Bei durchschnittlicher Lautstärke liegt die Grundfrequenz bei der Produktion von “I” bei 200 Hz und bei der Prodution von “O” bei 177.1 Hz (s. Zeilen vier und fünf in <code>d5</code>).</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="multiple-lineare-regression.html#cb109-1" aria-hidden="true" tabindex="-1"></a>d5 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dB =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fu">mean</span>(vlax<span class="sc">$</span>dB), <span class="fu">mean</span>(vlax<span class="sc">$</span>dB)), </span>
+<span id="cb109-2"><a href="multiple-lineare-regression.html#cb109-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">c</span>(<span class="st">&quot;I&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;O&quot;</span>))</span>
+<span id="cb109-3"><a href="multiple-lineare-regression.html#cb109-3" aria-hidden="true" tabindex="-1"></a>d5 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_f0 =</span> <span class="fu">predict</span>(lm5, d5))</span>
+<span id="cb109-4"><a href="multiple-lineare-regression.html#cb109-4" aria-hidden="true" tabindex="-1"></a>d5</span></code></pre></div>
+<pre><code>##         dB vowel estimated_f0
+## 1  0.00000     I    -258.8646
+## 2  1.00000     I    -252.6965
+## 3  0.00000     O    -281.7938
+## 4 74.39672     I     200.0220
+## 5 74.39672     O     177.0928</code></pre>
+<p>Wir können für “I” und “O” jeweils eine Regressionslinie mittels des linearen Models berechnen, indem wir uns die Regressionskoeffizienten holen und wie wie zuvor in die Formel einsetzen:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="multiple-lineare-regression.html#cb111-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm5 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb111-2"><a href="multiple-lineare-regression.html#cb111-2" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] -258.8646</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="multiple-lineare-regression.html#cb113-1" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm5 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb113-2"><a href="multiple-lineare-regression.html#cb113-2" aria-hidden="true" tabindex="-1"></a>b_1</span></code></pre></div>
+<pre><code>## [1] 6.168102</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="multiple-lineare-regression.html#cb115-1" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm5 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;vowelO&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb115-2"><a href="multiple-lineare-regression.html#cb115-2" aria-hidden="true" tabindex="-1"></a>b_2</span></code></pre></div>
+<pre><code>## [1] -22.9292</code></pre>
+<p>Für den Vokal “I” (<span class="math inline">\(x_2 = 0\)</span>) liegt der y-Achsenabschnitt bei -258.9 Hz und die Steigung bei 6.17 Hz.</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot x_2 \\ 
+ &amp;= -258.87 + (6.17 \cdot dB) + (-22.93 \cdot 0) \\
+ &amp;= -258.87 + (6.17 \cdot dB)
+\end{aligned}
+\]</span></p>
+<p>Für den Vokal “O” (<span class="math inline">\(x_2 = 1\)</span>) liegt der y-Achsenabschnitt bei -281.8 Hz, die Steigung aber ebenfalls bei 6.17 Hz.</p>
+<p><span class="math display">\[
+\begin{aligned}
+ y &amp;= k + b_1 \cdot dB + b_2 \cdot x_2 \\ 
+ &amp;= -258.87 + (6.17 \cdot dB) + (-22.93 \cdot 1) \\
+ &amp;= -281.79 + (6.17 \cdot dB)
+\end{aligned}
+\]</span></p>
+<p>Die hier berechneten Regressionslinien können nicht denen in der Abbildung der Daten entsprechen, denn die hier berechneten Linien haben dieselbe Steigung und verlaufen dementsprechend parallel zueinander, während die von <code>geom_smooth()</code> gezeichneten Linien einander schneiden. Daraus können wir schließen, dass dieses Modell ohne Interaktion nicht besonders gut zu den Daten passt.</p>
+<p>Trotzdem zeigt die <span class="math inline">\(t\)</span>-Statistik, dass sich die Regressionskoeffizienten signifikant von Null unterscheiden (Slope für Lautstärke: <span class="math inline">\(t\)</span> = 8.1, <span class="math inline">\(p\)</span> &lt; 0.001; Slope für Vokal: <span class="math inline">\(t\)</span> = 2.6, <span class="math inline">\(p\)</span> &lt; 0.01). Das heißt, beide Koeffizienten sind gute Prädiktoren für die Grundfrequenz in diesem Modell.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="multiple-lineare-regression.html#cb117-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)  -259.      56.3       -4.60 8.25e- 6
+## 2 dB              6.17     0.761      8.11 8.74e-14
+## 3 vowelO        -22.9      8.75      -2.62 9.59e- 3</code></pre>
+<p>Wie immer werfen wir auch noch einen Blick auf die Gütekriterien für das Modell und stellen fest, dass durch die beiden unabhängigen Variablen Vokal und Lautstärke ca. 26.6% der Varianz in den Grundfrequenzwerten beschrieben werden kann. Der <span class="math inline">\(F\)</span>-Test zeigt, dass unser Regressionsmodell die Daten erfolgreicher beschreibt als ein Modell ohne Prädiktoren (<span class="math inline">\(R^2\)</span> = 0.27, <span class="math inline">\(F\)</span>[2, 175] = 33.0, <span class="math inline">\(p\)</span> &lt; 0.001).</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="multiple-lineare-regression.html#cb119-1" aria-hidden="true" tabindex="-1"></a>lm5 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name              value
+##    &lt;chr&gt;             &lt;dbl&gt;
+##  1 r.squared      2.74e- 1
+##  2 adj.r.squared  2.66e- 1
+##  3 sigma          4.28e+ 1
+##  4 statistic      3.30e+ 1
+##  5 p.value        6.81e-13
+##  6 df             2   e+ 0
+##  7 logLik        -9.20e+ 2
+##  8 AIC            1.85e+ 3
+##  9 BIC            1.86e+ 3
+## 10 deviance       3.21e+ 5
+## 11 df.residual    1.75e+ 2
+## 12 nobs           1.78e+ 2</code></pre>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+</div>
+<div id="mit-interaktion-2" class="section level3" number="13.3.2">
+<h3><span class="header-section-number">13.3.2</span> Mit Interaktion</h3>
+<p>Nun berechnen wir das Modell mitsamt der Interaktion zwischen den unabhängigen Variablen:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="multiple-lineare-regression.html#cb121-1" aria-hidden="true" tabindex="-1"></a>lm6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(f0 <span class="sc">~</span> dB <span class="sc">*</span> vowel, <span class="at">data =</span> vlax)</span>
+<span id="cb121-2"><a href="multiple-lineare-regression.html#cb121-2" aria-hidden="true" tabindex="-1"></a>lm6 <span class="sc">%&gt;%</span> </span>
+<span id="cb121-3"><a href="multiple-lineare-regression.html#cb121-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb121-4"><a href="multiple-lineare-regression.html#cb121-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(term, estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   term        estimate
+##   &lt;chr&gt;          &lt;dbl&gt;
+## 1 (Intercept)  -319.  
+## 2 dB              6.98
+## 3 vowelO        615.  
+## 4 dB:vowelO      -8.34</code></pre>
+<p>Das Dummy Coding bleibt gleich, d.h. der Vokal “I” wird als Null und der Vokal “O” als Eins gewertet. Das Intercept liegt bei -318.5 Hz. Der Einfluss von Lautstärke auf Grundfrequenz ist immer noch positiv mit ca. 7 Hz. Auffällig ist, dass sich der Koeffizient <code>vowelO</code> im Vergleich zum Modell ohne Interaktion stark verändert hat, von -22.9 zu +615.2 Hz. Das ergibt hier aber auch Sinn, wenn wir uns nochmal die Abbildung anschauen (hier haben wir die x-Achse so verändert, dass sie bei Null beginnt):</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="multiple-lineare-regression.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vlax) <span class="sc">+</span> </span>
+<span id="cb123-2"><a href="multiple-lineare-regression.html#cb123-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> dB, <span class="at">y =</span> f0, <span class="at">col =</span> vowel) <span class="sc">+</span> </span>
+<span id="cb123-3"><a href="multiple-lineare-regression.html#cb123-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb123-4"><a href="multiple-lineare-regression.html#cb123-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">90</span>) <span class="sc">+</span></span>
+<span id="cb123-5"><a href="multiple-lineare-regression.html#cb123-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> F)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p>Wenn Sie die blaue Regressionslinie bis zur y-Achse verfolgen, kommen Sie bei knapp unter 300 Hz heraus – das entspricht dem Intercept (<code>db = 0</code> und <code>vowel = "I"</code>) plus der Slope für <code>vowelO</code>. Dasselbe gilt für die rote Linie, die die y-Achse an einem Punkt schneidet, der hier nicht mehr abgebildet wird, nämlich bei ca. -311 Hz – das entspricht dem Intercept plus der Slope für <code>dB</code>. Wir können diese Berechnungen wie folgt nachvollziehen (oder Sie setzen die Regressionskoeffizienten manuell in die Formel ein, wie oben gezeigt):</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="multiple-lineare-regression.html#cb125-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> lm6 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;(Intercept)&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb125-2"><a href="multiple-lineare-regression.html#cb125-2" aria-hidden="true" tabindex="-1"></a>b_1 <span class="ot">&lt;-</span> lm6 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb125-3"><a href="multiple-lineare-regression.html#cb125-3" aria-hidden="true" tabindex="-1"></a>b_2 <span class="ot">&lt;-</span> lm6 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;vowelO&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb125-4"><a href="multiple-lineare-regression.html#cb125-4" aria-hidden="true" tabindex="-1"></a>b_3 <span class="ot">&lt;-</span> lm6 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">&quot;dB:vowelO&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb125-5"><a href="multiple-lineare-regression.html#cb125-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-6"><a href="multiple-lineare-regression.html#cb125-6" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;I&quot; bei 0 dB</span></span>
+<span id="cb125-7"><a href="multiple-lineare-regression.html#cb125-7" aria-hidden="true" tabindex="-1"></a>k</span></code></pre></div>
+<pre><code>## [1] -318.5129</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="multiple-lineare-regression.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;I&quot; bei 1 dB</span></span>
+<span id="cb127-2"><a href="multiple-lineare-regression.html#cb127-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_1</span></code></pre></div>
+<pre><code>## [1] -311.5375</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="multiple-lineare-regression.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;O&quot; bei 0 dB</span></span>
+<span id="cb129-2"><a href="multiple-lineare-regression.html#cb129-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_2</span></code></pre></div>
+<pre><code>## [1] 296.6414</code></pre>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="multiple-lineare-regression.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;O&quot; bei 1 dB</span></span>
+<span id="cb131-2"><a href="multiple-lineare-regression.html#cb131-2" aria-hidden="true" tabindex="-1"></a>k <span class="sc">+</span> b_1 <span class="sc">+</span> b_2 <span class="sc">+</span> b_3</span></code></pre></div>
+<pre><code>## [1] 295.2787</code></pre>
+<p>Die <code>predict()</code>-Funktion kann Ihnen hier wieder die Rechenarbeit abnehmen:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="multiple-lineare-regression.html#cb133-1" aria-hidden="true" tabindex="-1"></a>d6 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">dB =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb133-2"><a href="multiple-lineare-regression.html#cb133-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">c</span>(<span class="st">&quot;I&quot;</span>, <span class="st">&quot;I&quot;</span>, <span class="st">&quot;O&quot;</span>, <span class="st">&quot;O&quot;</span>))</span>
+<span id="cb133-3"><a href="multiple-lineare-regression.html#cb133-3" aria-hidden="true" tabindex="-1"></a>d6 <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">estimated_f0 =</span> <span class="fu">predict</span>(lm6, d6))</span>
+<span id="cb133-4"><a href="multiple-lineare-regression.html#cb133-4" aria-hidden="true" tabindex="-1"></a>d6</span></code></pre></div>
+<pre><code>##   dB vowel estimated_f0
+## 1  0     I    -318.5129
+## 2  1     I    -311.5375
+## 3  0     O     296.6414
+## 4  1     O     295.2787</code></pre>
+<p>Wenn Sie sich jetzt den Unterschied zwischen Zeile 1 und 2 in <code>d6</code> anschauen, sehen Sie, dass die Lautstärke für den Vokal “I” positiv mit der Grundfrequenz korreliert ist, denn mit steigender Lautstäke (von 0 zu 1 dB) steigt auch die geschätzte Grundfrequenz. Für den Vokal “O” hingegen <em>sinkt</em> die Grundfrequenz mit steigender Lautstärke (vgl. Zeilen 3 und 4 in <code>d6</code>), d.h. die Korrelation zwischen Lautstärke und Grundfrequenz ist negativ für den Vokal “O” – das entspricht auch den Regressionslinien im obigen Plot sowie den wie folgt berechneten Korrelationswerten <span class="math inline">\(r\)</span>:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="multiple-lineare-regression.html#cb135-1" aria-hidden="true" tabindex="-1"></a>vlax <span class="sc">%&gt;%</span> </span>
+<span id="cb135-2"><a href="multiple-lineare-regression.html#cb135-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(vowel) <span class="sc">%&gt;%</span> </span>
+<span id="cb135-3"><a href="multiple-lineare-regression.html#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">r =</span> <span class="fu">cor</span>(dB, f0))</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   vowel      r
+##   &lt;fct&gt;  &lt;dbl&gt;
+## 1 I      0.591
+## 2 O     -0.115</code></pre>
+<p>Nun schauen wir uns die <span class="math inline">\(t\)</span>-Statistik an, die zeigt, ob unsere Regressionskoeffizienten dazu beitragen, die Grundfrequenzwerte zuverlässig zu schätzen:</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="multiple-lineare-regression.html#cb137-1" aria-hidden="true" tabindex="-1"></a>lm6 <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)  -319.      57.6       -5.53 1.17e- 7
+## 2 dB              6.98     0.779      8.96 4.93e-16
+## 3 vowelO        615.     192.         3.21 1.58e- 3
+## 4 dB:vowelO      -8.34     2.50      -3.33 1.05e- 3</code></pre>
+<p>Die Slope für Lautstärke (<span class="math inline">\(t\)</span> = 9.0, <span class="math inline">\(p\)</span> &lt; 0.001) und die Slope für Vokal (<span class="math inline">\(t\)</span> = 3.2, <span class="math inline">\(p\)</span> &lt; 0.01) unterscheiden sich signifikant von Null und eignen sich dementsprechend gut als Prädiktoren für die Grundfrequenz. Zusätzlich gab es eine signifikante Interaktion zwischen den Faktoren (<span class="math inline">\(t\)</span> = 3.3, <span class="math inline">\(p\)</span> &lt; 0.001).</p>
+<p>Die <span class="math inline">\(F\)</span>-Statistik zeigt, dass das Regressionsmodell mit den beiden Prädiktoren und ihrer Interaktion die Daten besser beschreibt als ein Mittelwertmodell (<span class="math inline">\(R^2\)</span> = 0.31, <span class="math inline">\(F\)</span>[3, 174] = 27.0, <span class="math inline">\(p\)</span> &lt; 0.001). Anhand des <span class="math inline">\(R^2\)</span>-Werts sehen wir, dass das Modell nun auch mehr Varianz in den Grundfrequenzwerten beschreibt als im Modell ohne Interaktion, d.h. die Erklärungskraft des Modells ist durch die Hinzunahme der Interaktion gestiegen.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="multiple-lineare-regression.html#cb139-1" aria-hidden="true" tabindex="-1"></a>lm6 <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name              value
+##    &lt;chr&gt;             &lt;dbl&gt;
+##  1 r.squared      3.18e- 1
+##  2 adj.r.squared  3.06e- 1
+##  3 sigma          4.17e+ 1
+##  4 statistic      2.70e+ 1
+##  5 p.value        2.21e-14
+##  6 df             3   e+ 0
+##  7 logLik        -9.14e+ 2
+##  8 AIC            1.84e+ 3
+##  9 BIC            1.85e+ 3
+## 10 deviance       3.02e+ 5
+## 11 df.residual    1.74e+ 2
+## 12 nobs           1.78e+ 2</code></pre>
+<p>Für dieses Modell berechnen wir trotz der signifikanten Interaktion zwischen den unabhängigen Variablen keine post-hoc Tests, weil eine der unabhängigen Variablen kontinuierlich ist. Die post-hoc Tests mit <code>emmeans</code> ergeben nur Sinn für mehrere kategoriale Variablen.</p>
+<p><em>(Natürlich würden wir unter realistischen Bedingungen hier noch die Annahmen über die Residuals prüfen!)</em></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="einfache-lineare-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mixed-models-lmers.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
