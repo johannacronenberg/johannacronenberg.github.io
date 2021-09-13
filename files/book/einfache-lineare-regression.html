@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12 Einfache lineare Regression | Programmieren und Statistik in R</title>
+  <meta name="description" content="12 Einfache lineare Regression | Programmieren und Statistik in R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12 Einfache lineare Regression | Programmieren und Statistik in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 Einfache lineare Regression | Programmieren und Statistik in R" />
+  
+  
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2021-09-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="einführung-in-die-inferenzstatistik.html"/>
+<link rel="next" href="multiple-lineare-regression.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programmieren und Statistik in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation-und-kursverzeichnis"><i class="fa fa-check"></i><b>1.1</b> Installation und Kursverzeichnis</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-und-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages und R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#dokumentarten"><i class="fa fa-check"></i><b>1.5</b> Dokumentarten</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-skripte"><i class="fa fa-check"></i><b>1.5.1</b> R Skripte</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#hilfe-zur-selbsthilfe"><i class="fa fa-check"></i><b>1.6</b> Hilfe zur Selbsthilfe</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#fehler-erkennen"><i class="fa fa-check"></i><b>1.6.1</b> Fehler erkennen</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#community-nutzen"><i class="fa fa-check"></i><b>1.6.2</b> Community nutzen</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#hilfe-zu-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Hilfe zu <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistik-in-r-literatur"><i class="fa fa-check"></i><b>1.6.4</b> Statistik in R: Literatur</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html"><i class="fa fa-check"></i><b>2</b> Erste Berechnungen in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#variablen-funktionen"><i class="fa fa-check"></i><b>2.1</b> Variablen &amp; Funktionen</a></li>
+<li class="chapter" data-level="2.2" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#objektklassen"><i class="fa fa-check"></i><b>2.2</b> Objektklassen</a></li>
+<li class="chapter" data-level="2.3" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren"><i class="fa fa-check"></i><b>2.3</b> Vektoren</a></li>
+<li class="chapter" data-level="2.4" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#arithmetik-und-logische-operatoren"><i class="fa fa-check"></i><b>2.4</b> Arithmetik und logische Operatoren</a></li>
+<li class="chapter" data-level="2.5" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#vektoren-manipulieren"><i class="fa fa-check"></i><b>2.5</b> Vektoren manipulieren</a></li>
+<li class="chapter" data-level="2.6" data-path="erste-berechnungen-in-r.html"><a href="erste-berechnungen-in-r.html#faktoren"><i class="fa fa-check"></i><b>2.6</b> Faktoren</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#eigenschaften"><i class="fa fa-check"></i><b>3.2</b> Eigenschaften</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#auf-spalten-zugreifen"><i class="fa fa-check"></i><b>3.3</b> Auf Spalten zugreifen</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Einführung ins <em>tidyverse</em></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#daten-manipulieren-mit-dplyr"><i class="fa fa-check"></i><b>4.2</b> Daten manipulieren mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="einführung-ins-tidyverse.html"><a href="einführung-ins-tidyverse.html#weitere-beispiele-für-komplexe-pipes"><i class="fa fa-check"></i><b>4.3</b> Weitere Beispiele für komplexe Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mittelwert-median"><i class="fa fa-check"></i><b>5.1</b> Mittelwert &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#varianz-standardabweichung"><i class="fa fa-check"></i><b>5.2</b> Varianz &amp; Standardabweichung</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantile"><i class="fa fa-check"></i><b>5.3</b> Quantile</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#beispiel-boxplot"><i class="fa fa-check"></i><b>5.4</b> Beispiel Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html"><i class="fa fa-check"></i><b>6</b> Daten manipulieren mit <code>dplyr</code> (Fortsetzung)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="daten-manipulieren-mit-dplyr-fortsetzung.html"><a href="daten-manipulieren-mit-dplyr-fortsetzung.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Daten abbilden mit <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="daten-abbilden-mit-ggplot2.html"><a href="daten-abbilden-mit-ggplot2.html#histogramme-wahrscheinlichkeitsdichte"><i class="fa fa-check"></i><b>7.4</b> Histogramme &amp; Wahrscheinlichkeitsdichte</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html"><i class="fa fa-check"></i><b>8</b> Daten aufräumen mit <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="daten-aufräumen-mit-tidyr.html"><a href="daten-aufräumen-mit-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining mit <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-mit-dplyr.html"><a href="joining-mit-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#achsenbeschriftungen"><i class="fa fa-check"></i><b>10.1</b> Achsenbeschriftungen</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#koordinatensystem-begrenzen"><i class="fa fa-check"></i><b>10.2</b> Koordinatensystem begrenzen</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#farben"><i class="fa fa-check"></i><b>10.3</b> Farben</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#weitere-spezifikationen"><i class="fa fa-check"></i><b>10.4</b> Weitere Spezifikationen</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#schriftzeichengröße"><i class="fa fa-check"></i><b>10.5</b> Schriftzeichengröße</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen-und-anordnen"><i class="fa fa-check"></i><b>10.6</b> Plots unterteilen und anordnen</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-unterteilen"><i class="fa fa-check"></i><b>10.6.1</b> Plots unterteilen</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#plots-anordnen"><i class="fa fa-check"></i><b>10.6.2</b> Plots anordnen</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html"><i class="fa fa-check"></i><b>11</b> Einführung in die Inferenzstatistik</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#population-stichprobe-hypothesenbildung"><i class="fa fa-check"></i><b>11.1</b> Population, Stichprobe, Hypothesenbildung</a></li>
+<li class="chapter" data-level="11.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#normalverteilung"><i class="fa fa-check"></i><b>11.2</b> Normalverteilung</a>
+<ul>
+<li class="chapter" data-level="11.2.1" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#auf-normalverteilung-testen"><i class="fa fa-check"></i><b>11.2.1</b> Auf Normalverteilung testen</a></li>
+<li class="chapter" data-level="11.2.2" data-path="einführung-in-die-inferenzstatistik.html"><a href="einführung-in-die-inferenzstatistik.html#regel-konfidenzintervalle"><i class="fa fa-check"></i><b>11.2.2</b> 68–95–99.7 Regel &amp; Konfidenzintervalle</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html"><i class="fa fa-check"></i><b>12</b> Einfache lineare Regression</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#korrelation"><i class="fa fa-check"></i><b>12.1</b> Korrelation</a></li>
+<li class="chapter" data-level="12.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#die-regressionslinie"><i class="fa fa-check"></i><b>12.2</b> Die Regressionslinie</a>
+<ul>
+<li class="chapter" data-level="12.2.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#theoretische-informationen"><i class="fa fa-check"></i><b>12.2.1</b> Theoretische Informationen</a></li>
+<li class="chapter" data-level="12.2.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionslinien-mit-ggplot2"><i class="fa fa-check"></i><b>12.2.2</b> Regressionslinien mit <code>ggplot2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#lineare-regression-mit-lm"><i class="fa fa-check"></i><b>12.3</b> Lineare Regression mit <code>lm()</code></a></li>
+<li class="chapter" data-level="12.4" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#residuals"><i class="fa fa-check"></i><b>12.4</b> Residuals</a></li>
+<li class="chapter" data-level="12.5" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#annahmen-überprüfen"><i class="fa fa-check"></i><b>12.5</b> Annahmen überprüfen</a>
+<ul>
+<li class="chapter" data-level="12.5.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#normalität-der-residuals"><i class="fa fa-check"></i><b>12.5.1</b> Normalität der Residuals</a></li>
+<li class="chapter" data-level="12.5.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#konstante-varianz-der-residuals"><i class="fa fa-check"></i><b>12.5.2</b> Konstante Varianz der Residuals</a></li>
+</ul></li>
+<li class="chapter" data-level="12.6" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#alle-ergebnisse-von-lm-verstehen"><i class="fa fa-check"></i><b>12.6</b> Alle Ergebnisse von <code>lm()</code> verstehen</a>
+<ul>
+<li class="chapter" data-level="12.6.1" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#geschätzte-y-werte-und-residuals"><i class="fa fa-check"></i><b>12.6.1</b> Geschätzte y-Werte und Residuals</a></li>
+<li class="chapter" data-level="12.6.2" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#regressionskoeffizienten-und-t-statistik"><i class="fa fa-check"></i><b>12.6.2</b> Regressionskoeffizienten und <span class="math inline">\(t\)</span>-Statistik</a></li>
+<li class="chapter" data-level="12.6.3" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#gütekriterien-für-das-modell-und-f-statistik"><i class="fa fa-check"></i><b>12.6.3</b> Gütekriterien für das Modell und <span class="math inline">\(F\)</span>-Statistik</a></li>
+</ul></li>
+<li class="chapter" data-level="12.7" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#ergebnis-berichten"><i class="fa fa-check"></i><b>12.7</b> Ergebnis berichten</a></li>
+<li class="chapter" data-level="12.8" data-path="einfache-lineare-regression.html"><a href="einfache-lineare-regression.html#zusammenfassung"><i class="fa fa-check"></i><b>12.8</b> Zusammenfassung</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html"><i class="fa fa-check"></i><b>13</b> Multiple lineare Regression</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kontinuierliche-unabhängige-variablen"><i class="fa fa-check"></i><b>13.1</b> Kontinuierliche unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion"><i class="fa fa-check"></i><b>13.1.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.1.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion"><i class="fa fa-check"></i><b>13.1.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#kategorische-unabhängige-variablen"><i class="fa fa-check"></i><b>13.2</b> Kategorische unabhängige Variablen</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-1"><i class="fa fa-check"></i><b>13.2.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.2.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-1"><i class="fa fa-check"></i><b>13.2.2</b> Mit Interaktion</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mix-aus-kontinuierlichen-und-kategorischen-unabhängigen-variablen"><i class="fa fa-check"></i><b>13.3</b> Mix aus kontinuierlichen und kategorischen unabhängigen Variablen</a>
+<ul>
+<li class="chapter" data-level="13.3.1" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#ohne-interaktion-2"><i class="fa fa-check"></i><b>13.3.1</b> Ohne Interaktion</a></li>
+<li class="chapter" data-level="13.3.2" data-path="multiple-lineare-regression.html"><a href="multiple-lineare-regression.html#mit-interaktion-2"><i class="fa fa-check"></i><b>13.3.2</b> Mit Interaktion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html"><i class="fa fa-check"></i><b>14</b> Mixed Models (LMERs)</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts-vs.-random-slopes"><i class="fa fa-check"></i><b>14.1</b> Random Intercepts vs. Random Slopes</a>
+<ul>
+<li class="chapter" data-level="14.1.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-intercepts"><i class="fa fa-check"></i><b>14.1.1</b> Random Intercepts</a></li>
+<li class="chapter" data-level="14.1.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-slopes"><i class="fa fa-check"></i><b>14.1.2</b> Random Slopes</a></li>
+<li class="chapter" data-level="14.1.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects-struktur-für-word-bestimmen"><i class="fa fa-check"></i><b>14.1.3</b> Random Effects Struktur für <code>word</code> bestimmen</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#lmer-in-r"><i class="fa fa-check"></i><b>14.2</b> LMER in R</a>
+<ul>
+<li class="chapter" data-level="14.2.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#fixed-effects"><i class="fa fa-check"></i><b>14.2.1</b> Fixed Effects</a></li>
+<li class="chapter" data-level="14.2.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#random-effects"><i class="fa fa-check"></i><b>14.2.2</b> Random Effects</a></li>
+</ul></li>
+<li class="chapter" data-level="14.3" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#konvergenzprobleme-und-modell-vereinfachen"><i class="fa fa-check"></i><b>14.3</b> Konvergenzprobleme und Modell vereinfachen</a></li>
+<li class="chapter" data-level="14.4" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#ergebnisse-berichten"><i class="fa fa-check"></i><b>14.4</b> Ergebnisse berichten</a></li>
+<li class="chapter" data-level="14.5" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#gütekriterien-für-mixed-models"><i class="fa fa-check"></i><b>14.5</b> Gütekriterien für Mixed Models</a>
+<ul>
+<li class="chapter" data-level="14.5.1" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#marginal-und-conditional-r2"><i class="fa fa-check"></i><b>14.5.1</b> Marginal und Conditional <span class="math inline">\(R^2\)</span></a></li>
+<li class="chapter" data-level="14.5.2" data-path="mixed-models-lmers.html"><a href="mixed-models-lmers.html#likelihood-ratio-tests"><i class="fa fa-check"></i><b>14.5.2</b> Likelihood Ratio Tests</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./index.html">Programmieren und Statistik in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="einfache-lineare-regression" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> Einfache lineare Regression</h1>
+<p>Laden Sie die folgenden Packages und den Data Frame <code>queen</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="einfache-lineare-regression.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-2"><a href="einfache-lineare-regression.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="einfache-lineare-regression.html#cb5-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb5-2"><a href="einfache-lineare-regression.html#cb5-2" aria-hidden="true" tabindex="-1"></a>queen <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;queen.txt&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span></code></pre></div>
+<p>Bisher haben wir uns mithilfe der deskriptiven Statistik bestimmte Messwerte (Variablen) genauer angeschaut und einiges über empirische und theoretische Verteilungen erfahren. Häufig stehen solche Variablen jedoch in Abhängigkeit zu anderen Variablen. Zum Beispiel ist durch viele Studien belegt worden, dass unsere Reaktionsfähigkeit mit steigendem Schlafmangel abnimmt. Das heißt, dass die Variable Reaktionszeit von der Variable Schlafmangel abhängig ist. Wir sprechen deshalb auch von abhängigen und unabhängigen Variablen. Mit der einfachen linearen Regression lassen sich diese Abhängigkeiten beschreiben. Oft wird auch davon gesprochen, dass man den Wert der abhängigen Variable <span class="math inline">\(y\)</span> durch die unabhängige Variable <span class="math inline">\(x\)</span> vorhersagt. Bevor wir eine lineare Regression durchführen, sprechen wir über Regressionslinien und Korrelation.</p>
+<div id="korrelation" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Korrelation</h2>
+<p>Die Korrelation, auch <em>Pearson’s correlation</em> <span class="math inline">\(r\)</span>, ist ein Maß für die Assoziation zwischen zwei Variablen und kann mit der Funktion <code>cor()</code> berechnet werden. Wir werden hier mit den Data Frame <code>queen</code> arbeiten:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="einfache-lineare-regression.html#cb6-1" aria-hidden="true" tabindex="-1"></a>queen <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##   Alter    f0    F1    F2    F3    F4
+##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    26  297.  566. 1873. 2895. 4091.
+## 2    28  283.  526. 1846. 2930. 4089.
+## 3    29  260.  518. 1785. 2880. 4065.
+## 4    30  258.  521. 1786. 2804. 4103.
+## 5    31  262.  533. 1819. 2952. 4097.
+## 6    32  260.  545. 1694. 2772. 4056.</code></pre>
+<p>Darin sind die durchschnittlichen Grundfrequenzwerte von Queen Elizabeth II. bei ihren jährlichen Weihnachtsansprachen festgehalten. Uns interessiert, ob das Alter der Queen einen Einfluss auf ihre Grundfrequenz hat. Erstmal machen wir uns ein Bild von der Lage. Es ist wichtig, dass wir bei Abbildungen für Daten, bei denen wir eine Korrelation vermuten, die unabhängige Variable (hier: Alter) immer auf die x-Achse und die abhängige Variable (hier: f0) immer auf die y-Achse packen.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="einfache-lineare-regression.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(queen) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="einfache-lineare-regression.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Alter, <span class="at">y =</span> f0) <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="einfache-lineare-regression.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Es sieht so aus, als ob es da einen Zusammenhang geben könnte: Je älter die Queen wird, desto mehr sinkt ihre Grundfrequenz! Unseren visuellen Eindruck können wir anhand der Korrelation <span class="math inline">\(r\)</span> überprüfen:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="einfache-lineare-regression.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(queen<span class="sc">$</span>Alter, queen<span class="sc">$</span>f0)</span></code></pre></div>
+<pre><code>## [1] -0.8345721</code></pre>
+<p>Die Korrelation <span class="math inline">\(r\)</span> nimmt ausschließlich Werte zwischen -1 und 1 an. Je näher der Wert an Null ist, desto schwächer ist die Abhängigkeit zwischen den beiden Variablen. Mit -0.84 liegt eine starke negative Korrelation vor, d.h. unser visueller Eindruck scheint zu stimmen.</p>
+</div>
+<div id="die-regressionslinie" class="section level2" number="12.2">
+<h2><span class="header-section-number">12.2</span> Die Regressionslinie</h2>
+<div id="theoretische-informationen" class="section level3" number="12.2.1">
+<h3><span class="header-section-number">12.2.1</span> Theoretische Informationen</h3>
+<p>Die Regressionslinie der einfachen linearen Regression lässt sich mit folgender Formel beschreiben:</p>
+<p><span class="math inline">\(y = k + bx\)</span></p>
+<p>Hierbei ist <span class="math inline">\(k\)</span> der y-Achsenabschnitt (engl. <em>intercept</em>) und <span class="math inline">\(b\)</span> die Steigung (engl. <em>slope</em>). Weil Intercept und Slope eine Regressionslinie eindeutig beschreiben, nennt man die beiden Parameter auch <strong>Regressionskoeffizienten</strong>. Durch die oben gegebene Formel lassen sich bei bekanntem Intercept <span class="math inline">\(k\)</span> und bekannter Slope <span class="math inline">\(b\)</span> also für alle möglichen <span class="math inline">\(x\)</span>-Werte auch die entsprechenden <span class="math inline">\(y\)</span>-Werte vorhersagen. Die Regressionslinie ist immer eine unendliche, exakt gerade Linie und verläuft außerdem durch den Mittelwert der Verteilung.</p>
+<p>In der folgenden Abbildung sehen Sie drei Regressionslinien: blau und grün haben dasselbe Intercept, aber entgegengesetzte Slopes; blau und orange haben unterschiedliche Intercepts, aber die gleiche Slope. Der genaue Wert der Steigung gibt an, um wie viel der <span class="math inline">\(y\)</span>-Wert steigt oder sinkt, wenn man um eine <span class="math inline">\(x\)</span>-Einheit erhöht. Für <span class="math inline">\(x = 0\)</span> in der Abbildung ist <span class="math inline">\(y = 1\)</span> (für blau und grün). Für <span class="math inline">\(x = 1\)</span> ist <span class="math inline">\(y = 1 + b\)</span>, also für blau <span class="math inline">\(y = 1 + 0.5 = 1.5\)</span> und für grün <span class="math inline">\(y = 1 + (-0.5) = 0.5\)</span>. Für die orange Linie gilt bei <span class="math inline">\(x = 0\)</span> ist <span class="math inline">\(y = 2\)</span>, bei <span class="math inline">\(x = 1\)</span> ist <span class="math inline">\(y = 2 + 0.5 = 2.5\)</span>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="einfache-lineare-regression.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="einfache-lineare-regression.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="dv">3</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;x&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="einfache-lineare-regression.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="fl">0.5</span>, <span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span> </span>
+<span id="cb11-4"><a href="einfache-lineare-regression.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href="einfache-lineare-regression.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="fl">0.5</span>, <span class="at">intercept =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">&quot;orange&quot;</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span> </span>
+<span id="cb11-6"><a href="einfache-lineare-regression.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Zusammengefasst beschreiben die blaue und orange Linie also eine positive Korrelation zwischen <span class="math inline">\(x\)</span> und <span class="math inline">\(y\)</span> (je größer <span class="math inline">\(x\)</span>, desto größer <span class="math inline">\(y\)</span>), die grüne Linie beschreibt eine negative Korrelation (je größer <span class="math inline">\(x\)</span>, desto kleiner <span class="math inline">\(y\)</span>).</p>
+<p><strong>Achtung: Correlation is not causation!</strong> Die lineare Regression kann nur die Korrelation zwischen zwei Variablen beschreiben, nicht aber die Kausalität. Die Kausalität bringen wir mit unserem Wissen ins Spiel. Wir wissen also zum Beispiel, dass es der Schlafmangel ist, der eine langsamere Reaktionszeit verursacht. Die lineare Regression kann nur zeigen, ob eine Beziehung zwischen Reaktionszeit und Schlafmangel besteht, aber genauso gut könnte das aus Sicht der Regression bedeuten, dass eine langsamere Reaktionszeit Schlafmangel verursacht.</p>
+</div>
+<div id="regressionslinien-mit-ggplot2" class="section level3" number="12.2.2">
+<h3><span class="header-section-number">12.2.2</span> Regressionslinien mit <code>ggplot2</code></h3>
+<p>Um eine Regressionslinie durch eine <code>ggplot2</code>-Abbildung zu legen, können wir entweder <code>geom_abline()</code> (s.o.) oder <code>geom_smooth()</code> benutzen. Die erste Funktion bekommt die Argumente <code>slope</code> und <code>intercept</code>, wie Sie in der Abbildung oben sehen können. Die Funktion <code>geom_smooth()</code> hingegen bekommt das Argument <code>method = "lm"</code>. “lm” steht für <strong>linear model</strong>, d.h. damit berechnet die Funktion <em>slope</em> und <em>intercept</em> für uns unter der Annahme, dass die Daten in einer linearen Beziehung stehen. Zusätzlich geben wir das Argument <code>se = F</code> an, weil wir hier keine Konfidenzintervalle angezeigt bekommen wollen. So sieht die Regressionslinie im Fall der Queen aus:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="einfache-lineare-regression.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(queen) <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="einfache-lineare-regression.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Alter, <span class="at">y =</span> f0) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="einfache-lineare-regression.html#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb12-4"><a href="einfache-lineare-regression.html#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> F, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Der Unterschied zwischen <code>geom_abline()</code> und <code>geom_smooth()</code> ist, dass <code>geom_abline()</code> eine theoretisch unendlich lange, gerade Linie zeichnet (aber wir sehen natürlich nur einen Ausschnitt davon), während sich <code>geom_smooth()</code> nach dem Wertebereich der Daten richtet. <code>geom_smooth()</code> kann zusätzlich auch andere Arten von Regressionslinien zeichnen.</p>
+</div>
+</div>
+<div id="lineare-regression-mit-lm" class="section level2" number="12.3">
+<h2><span class="header-section-number">12.3</span> Lineare Regression mit <code>lm()</code></h2>
+<p>Nun sind wir bereit, eine lineare Regression mittels der Funktion <code>lm()</code> durchzuführen. Diese Funktion bekommt als Argumente nur eine Formel und den Data Frame. Die Formel lautet <code>y ~ x</code>, d.h. wir wollen die <span class="math inline">\(y\)</span>-Werte (die Grundfrequenz) in Abhängigkeit von den <span class="math inline">\(x\)</span>-Werten (dem Alter) vorhersagen. Die lineare Regression schätzt Intercept und Slope so ein, dass eine Regressionslinie durch die Datenpunkte gelegt werden kann, die den kleinstmöglichen Abstand zu allen Punkten hat (dieses Verfahren heißt auch <strong>least squares</strong>).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="einfache-lineare-regression.html#cb14-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(f0 <span class="sc">~</span> Alter, <span class="at">data =</span> queen)</span>
+<span id="cb14-2"><a href="einfache-lineare-regression.html#cb14-2" aria-hidden="true" tabindex="-1"></a>queen.lm</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = f0 ~ Alter, data = queen)
+## 
+## Coefficients:
+## (Intercept)        Alter  
+##     288.186       -1.074</code></pre>
+<p>Die Koeffizienten lassen sich separat auch mit <code>coef()</code> ausgeben:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="einfache-lineare-regression.html#cb16-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">coef</span>()</span></code></pre></div>
+<pre><code>## (Intercept)       Alter 
+##  288.185632   -1.073696</code></pre>
+<p>Wir sehen also, dass das geschätzte Intercept bei 288.2 liegt und die Steigung bei -1.07. Die Steigung wird leider verwirrenderweise immer wie die <span class="math inline">\(x\)</span>-Variable genannt, in diesem Fall also “Alter.” Die Koeffizienten bedeuten folgendes: Bei einem Alter von Null Jahren (<span class="math inline">\(x = 0\)</span>) liegt die mittlere Grundfrequenz bei ca. 288 Hz, wenn es einen perfekten linearen Zusammenhang zwischen dem Alter und der Grundfrequenz der Queen gibt. Mit jedem weiteren Jahr (<span class="math inline">\(x\)</span> wird um 1 erhöht) sinkt die Grundfrequenz um 1.07 Hz. Indem wir Intercept und Slope in unsere Formel von vorhin einsetzen, können wir nun für alle möglichen Alter die entsprechende Grundfrequenz vorhersagen:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="einfache-lineare-regression.html#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
+<span id="cb18-2"><a href="einfache-lineare-regression.html#cb18-2" aria-hidden="true" tabindex="-1"></a>f0_fitted <span class="ot">&lt;-</span> <span class="fu">coef</span>(queen.lm)[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">coef</span>(queen.lm)[<span class="dv">2</span>] <span class="sc">*</span> x</span>
+<span id="cb18-3"><a href="einfache-lineare-regression.html#cb18-3" aria-hidden="true" tabindex="-1"></a>f0_fitted</span></code></pre></div>
+<pre><code>## [1] 288.1856 245.2378 234.5008</code></pre>
+<p>Bei einem Alter von Null Jahren lag die geschätzte Grundfrequenz der Queen wie schon gesagt bei 288 Hz. Bei einem Alter von 40 Jahren waren es vermutlich schon nur noch 245 Hz, bei 50 Jahren 234.5 Hz. Wie Sie sehen, lassen sich anhand des von uns “gefitteten Modells” auch <span class="math inline">\(y\)</span>-Werte vorhersagen bzw. schätzen, die nicht im originalen Datensatz enthalten waren (wie z.B. den f0-Wert für die 50-jährige Queen). Alle diese Punkte liegen aber genau auf der Regressionslinie und da die Regressionslinie unendlich lang ist, ergibt die Schätzung nicht zwangsläufig für alle Werte Sinn. Halten Sie es beispielsweise für wahrscheinlich, dass die Grundfrequenz der Queen bei ihrer Geburt bei 288 Hz lag? Normalerweise haben Kinder eine Grundfrequenz von 300 bis 400 Hz. Sie müssen für Ihre Daten immer wissen, ob die Schätzungen sinnvoll sind oder nicht. In R können Sie die Schätzungen mit der Funktion <code>predict()</code> durchführen, die als Argumente das Modell <code>queen.lm</code> und einen Data Frame mit den <span class="math inline">\(x\)</span>-Werten bekommt, für die <span class="math inline">\(y\)</span> geschätzt werden soll. Dabei muss die <span class="math inline">\(x\)</span>-Variable genauso heißen wie in dem ursprünglichen Data Frame, also hier “Alter”:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="einfache-lineare-regression.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(queen.lm, <span class="fu">data.frame</span>(<span class="at">Alter =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)))</span></code></pre></div>
+<pre><code>##        1        2        3        4        5        6        7        8 
+## 288.1856 277.4487 266.7117 255.9748 245.2378 234.5008 223.7639 213.0269 
+##        9       10       11 
+## 202.2900 191.5530 180.8161</code></pre>
+</div>
+<div id="residuals" class="section level2" number="12.4">
+<h2><span class="header-section-number">12.4</span> Residuals</h2>
+<p>Wir sehen oben den geschätzten <span class="math inline">\(y\)</span>-Wert für <span class="math inline">\(x = 40\)</span>, also den Grundfrequenzwert für die Queen mit 40 Jahren, nämlich ca. 245 Hz. Der tatsächlich gemessene Wert liegt aber weit darunter:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="einfache-lineare-regression.html#cb22-1" aria-hidden="true" tabindex="-1"></a>queen <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Alter <span class="sc">==</span> <span class="dv">40</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(f0)</span></code></pre></div>
+<pre><code>## [1] 228.6664</code></pre>
+<p>Die Differenzen zwischen den geschätzten und gemessenen <span class="math inline">\(y\)</span>-Werten werden <strong>Residuals</strong> genannt. Die folgende Abbildung zeigt einen Ausschnitt aus dem vorherigen Plot für die Altersspanne zwischen 30 und 40 Jahren. Die schwarzen Punkte sind die tatsächlich gemessenen f0-Werte, die roten Punkte hingegen sind die geschätzten Werte. Sie liegen genau auf der blauen Regressionslinie. Die vertikalen gestrichelten Linien stellen die Residuals dar. Diese Abbildung verdeutlicht, weshalb Residuals auch als <strong>Error</strong> bezeichnet werden.</p>
+<p><img src="img/resid.png" /></p>
+<p>Der Abstand zwischen den tatsächlichen und geschätzten Werten wird berechnet als die Summe über die quadrierten Residuals und heißt deshalb auch <strong>sum of squares of error</strong> (SSE). Das Verfahren, mit dem die Parameter der Regressionslinie geschätzt werden, heißt <strong>least squares</strong>, weil es versucht, die SSE so klein wie möglich zuhalten. Das führt dazu, dass die Regressionslinie so durch die Daten gelegt wird, dass alle Datenpunkte so nah wie möglich an der Linie sind.</p>
+<p>Die Residuals können mit <code>resid()</code> ausgegeben werden:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="einfache-lineare-regression.html#cb24-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">resid</span>()</span></code></pre></div>
+<pre><code>##          1          2          3          4          5          6          7 
+##  36.272837  25.151187   2.743219   1.576084   6.632716   5.814389  -3.824865 
+##          8          9         10         11         12         13         14 
+##   5.282612  -7.604507 -12.948560 -22.552275  -8.751019 -16.571396  -6.042182 
+##         15         16         17         18         19         20         21 
+##  -7.350495 -11.662014  -7.230673 -10.822162  -1.266847  -9.037830   6.622674 
+##         22         23         24         25         26         27         28 
+##   6.383034  17.037235  10.015834   1.064344  -9.792241  11.147658   2.725280 
+##         29         30 
+##  -6.989878   3.977841</code></pre>
+<p>SSE kann mit <code>deviance()</code> berechnet werden:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="einfache-lineare-regression.html#cb26-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">deviance</span>()</span></code></pre></div>
+<pre><code>## [1] 4411.753</code></pre>
+</div>
+<div id="annahmen-überprüfen" class="section level2" number="12.5">
+<h2><span class="header-section-number">12.5</span> Annahmen überprüfen</h2>
+<p>Statistische Modelle wie die lineare Regression basieren auf Annahmen bezüglich der Daten, die erfüllt sein müssen, damit das Ergebnis des Modells überhaupt aussagekräftig ist. Im Falle der linearen Regression beziehen sich die Annahmen auf die Residuals.</p>
+<div id="normalität-der-residuals" class="section level3" number="12.5.1">
+<h3><span class="header-section-number">12.5.1</span> Normalität der Residuals</h3>
+<p>Die erste Annahme ist, dass die Residuals normalverteilt sind. Wir überprüfen das mit einem Q-Q-Plot:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="einfache-lineare-regression.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">augment</span>(queen.lm)) <span class="sc">+</span> </span>
+<span id="cb28-2"><a href="einfache-lineare-regression.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">sample =</span> .resid) <span class="sc">+</span> </span>
+<span id="cb28-3"><a href="einfache-lineare-regression.html#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb28-4"><a href="einfache-lineare-regression.html#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>() <span class="sc">+</span> </span>
+<span id="cb28-5"><a href="einfache-lineare-regression.html#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;samples&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb28-6"><a href="einfache-lineare-regression.html#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;theoretical quantiles&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Das sieht okay, aber nicht perfekt aus. Wir erstellen noch eine Wahrscheinlichkeitsverteilung mit überlagerter Normalverteilung:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="einfache-lineare-regression.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">augment</span>(queen.lm)) <span class="sc">+</span> </span>
+<span id="cb29-2"><a href="einfache-lineare-regression.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> .resid) <span class="sc">+</span> </span>
+<span id="cb29-3"><a href="einfache-lineare-regression.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
+<span id="cb29-4"><a href="einfache-lineare-regression.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">40</span>, <span class="dv">40</span>) <span class="sc">+</span> </span>
+<span id="cb29-5"><a href="einfache-lineare-regression.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;residuals&quot;</span>) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="einfache-lineare-regression.html#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, </span>
+<span id="cb29-7"><a href="einfache-lineare-regression.html#cb29-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(<span class="fu">augment</span>(queen.lm)<span class="sc">$</span>.resid), <span class="at">sd =</span> <span class="fu">sd</span>(<span class="fu">augment</span>(queen.lm)<span class="sc">$</span>.resid)), </span>
+<span id="cb29-8"><a href="einfache-lineare-regression.html#cb29-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">inherit.aes =</span> F, </span>
+<span id="cb29-9"><a href="einfache-lineare-regression.html#cb29-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Wenn wir uns jetzt immer noch unschlüssig sind, können wir noch einen Shapiro-Wilk Test durchführen:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="einfache-lineare-regression.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">augment</span>(queen.lm)<span class="sc">$</span>.resid)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  augment(queen.lm)$.resid
+## W = 0.94345, p-value = 0.1127</code></pre>
+<p>Da der <span class="math inline">\(p\)</span>-Wert hier höher ist als <span class="math inline">\(\alpha = 0.05\)</span>, scheinen die Residuals normalverteilt zu sein.</p>
+</div>
+<div id="konstante-varianz-der-residuals" class="section level3" number="12.5.2">
+<h3><span class="header-section-number">12.5.2</span> Konstante Varianz der Residuals</h3>
+<p>Die zweite Annahme besagt, dass die Varianz der Residuals für alle geschätzten Werte ähnlich sein sollte. Diese Annahme hat auch den schönen Namen <strong>Homoskedastizität</strong>. Wenn die Annahme nicht erfüllt wird, spricht man von <strong>Heteroskedastizität</strong>. Um die Varianz visuell darzustellen, plotten wir die Residuals gegen die geschätzten Werte. Da der Mittelwert der Residuals immer bei ungefähr Null liegt (gestrichelte Linie in der Abbildung bei <span class="math inline">\(y = 0\)</span>), können wir die konstante Varianz daran erkennen, dass sich die Punkte gleichmäßig um diesen Mittelwert verteilen.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="einfache-lineare-regression.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">augment</span>(queen.lm)) <span class="sc">+</span> </span>
+<span id="cb32-2"><a href="einfache-lineare-regression.html#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> .resid) <span class="sc">+</span> </span>
+<span id="cb32-3"><a href="einfache-lineare-regression.html#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb32-4"><a href="einfache-lineare-regression.html#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;geschätzte f0-Werte&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb32-5"><a href="einfache-lineare-regression.html#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Residuals&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb32-6"><a href="einfache-lineare-regression.html#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="st">&quot;dashed&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>Da wir hier nur sehr wenige Datenpunkte haben, ist es schwierig einzuschätzen, ob es in dem Plot ein erkennbares Muster gibt, das darauf hinweisen würde, dass die Errors keine konstante Varianz hätten. Die zwei Ausreißer oben rechts sind jedenfalls kein gutes Zeichen, der Rest sieht okay aus. Um Ihre Intuition dafür zu schulen, was gute und schlechte Residual Plots sind, empfehle ich die Abbildungen 6.2 und 6.3 in Winter (2020, S. 111f.).</p>
+</div>
+</div>
+<div id="alle-ergebnisse-von-lm-verstehen" class="section level2" number="12.6">
+<h2><span class="header-section-number">12.6</span> Alle Ergebnisse von <code>lm()</code> verstehen</h2>
+<p>Die in diesem Abschnitt genannten Details zur Berechnung der verschiedenen Werte finden sich extrem selten in Büchern über Statistik, Statistik-Blogs, R-Vignetten oder sonstigen Informationsquellen. Sie müssen diese Details nicht auswendig lernen, es geht darum, dass Sie die Ergebnisse von <code>lm()</code> nachvollziehen können – und dazu gehört mehr als nur der <span class="math inline">\(p\)</span>-Wert.</p>
+<div id="geschätzte-y-werte-und-residuals" class="section level3" number="12.6.1">
+<h3><span class="header-section-number">12.6.1</span> Geschätzte y-Werte und Residuals</h3>
+<p>Wie Sie vielleicht bemerkt haben, habe ich die Funktion <code>augment()</code> benutzt, um die Ergebnisse des linearen Modells in <code>ggplot2</code> nutzen zu können. Diese Funktion stammt aus dem Paket <a href="https://cran.r-project.org/web/packages/broom/vignettes/broom.html"><code>broom</code></a>, das wir anfangs geladen haben und das noch zwei weitere hilfreiche Funktionen bereitstellt: <code>tidy()</code> und <code>glance()</code>. Das Ergebnis dieser Funktionen ist immer eine <code>tibble</code>, also ein Objekt, das wir easy weiterverarbeiten können (im Gegensatz zu den seltsamen Regressionsobjekten):</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="einfache-lineare-regression.html#cb33-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> class</span></code></pre></div>
+<pre><code>## [1] &quot;lm&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="einfache-lineare-regression.html#cb35-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">augment</span>() <span class="sc">%&gt;%</span> <span class="fu">class</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>Schauen wir uns zuerst an, was <code>augment()</code> macht:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="einfache-lineare-regression.html#cb37-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">augment</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 30 × 8
+##       f0 Alter .fitted .resid   .hat .sigma  .cooksd .std.resid
+##    &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+##  1  297.    26    260.  36.3  0.0946   10.5 0.482         3.04 
+##  2  283.    28    258.  25.2  0.0845   11.7 0.202         2.09 
+##  3  260.    29    257.   2.74 0.0798   12.8 0.00225       0.228
+##  4  258.    30    256.   1.58 0.0753   12.8 0.000694      0.131
+##  5  262.    31    255.   6.63 0.0710   12.7 0.0115        0.548
+##  6  260.    32    254.   5.81 0.0670   12.7 0.00826       0.480
+##  7  249.    33    253.  -3.82 0.0632   12.8 0.00334      -0.315
+##  8  257.    34    252.   5.28 0.0596   12.7 0.00597       0.434
+##  9  243.    35    251.  -7.60 0.0563   12.7 0.0116       -0.624
+## 10  236.    37    248. -12.9  0.0503   12.5 0.0297       -1.06 
+## # … with 20 more rows</code></pre>
+<p>Diese Funktion hängt an die originalen Daten (Spalten <code>f0</code> und <code>Alter</code>) weitere Spalten an, nämlich die gefitteten (also die vom Modell geschätzten) f0-Werte <code>.fitted</code>, die Residuals <code>.resid</code>, und weitere, die erstmal nicht interessant für uns sind.</p>
+</div>
+<div id="regressionskoeffizienten-und-t-statistik" class="section level3" number="12.6.2">
+<h3><span class="header-section-number">12.6.2</span> Regressionskoeffizienten und <span class="math inline">\(t\)</span>-Statistik</h3>
+<p>Die Funktion <code>tidy()</code> gibt eine Tabelle für die geschätzten Regressionskoeffizienten zurück:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="einfache-lineare-regression.html#cb39-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)   288.       6.98      41.3  1.23e-26
+## 2 Alter          -1.07     0.134     -8.02 9.93e- 9</code></pre>
+<p>Die Spalte <code>estimate</code> enthält die Schätzungen für Intercept (erste Zeile) und Slope (zweite Zeile). Die Spalte <code>std.error</code> enthält den sogenannten <strong>Standard Error</strong>, ein Maß für die Genauigkeit der Schätzung. Hier wollen wir möglichst kleine Werte (in Relation zum Estimate), weil das bedeutet, dass die Schätzungen des Modells für die Regressionskoeffizienten präzise sind. Es folgt eine Spalte mit der Teststatistik <code>statistic</code>. Bisher haben wir noch nicht über die statistische Signifikanz der Regression gesprochen. Hier wird ein <strong><span class="math inline">\(t\)</span>-Test</strong> durchgeführt, um herauszufinden, ob sich die Schätzungen der Regressionskoeffizienten signifikant von Null unterscheiden. Wenn die Regressionskoeffizienten nahe Null sind, tragen sie nichts dazu bei, den <span class="math inline">\(y\)</span>-Wert vorherzusagen (erinnern Sie sich an die Formel für die Regressionslinie: Wenn <span class="math inline">\(k\)</span> oder <span class="math inline">\(b\)</span> gleich Null sind, haben sie keinen Einfluss auf die Regressionslinie). Der Wert in der Spalte <code>statistic</code>, der in diesem Fall auch <strong><span class="math inline">\(t\)</span>-Wert</strong> genannt wird, wird berechnet als <code>estimate / std.error</code>, so z.B. für die Slope:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="einfache-lineare-regression.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">tidy</span>(queen.lm)[<span class="dv">2</span>, <span class="st">&quot;estimate&quot;</span>] <span class="sc">/</span> <span class="fu">tidy</span>(queen.lm)[<span class="dv">2</span>, <span class="st">&quot;std.error&quot;</span>])</span></code></pre></div>
+<pre><code>## [1] -8.016248</code></pre>
+<p>Die <span class="math inline">\(t\)</span>-Statistik hat ihre eigene Wahrscheinlichkeitsdichteverteilung, genannt Student-<span class="math inline">\(t\)</span>-Verteilung oder einfach <span class="math inline">\(t\)</span>-Verteilung, die wir (analog zur Funktion <code>dnorm()</code> für Normalverteilungen) mit der Funktion <code>dt()</code> in <code>ggplot2</code> zeichnen lassen können. Diese Funktion bekommt ein Argument namens <code>df</code>, das steht hier für <strong>degrees of freedom</strong> (Freiheitsgrade). Die Freiheitsgrade sind üblicherweise die Größe der Stichprobe minus die Anzahl der Koeffizienten, also hier <code>nrow(queen) - 2</code>.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="einfache-lineare-regression.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb43-2"><a href="einfache-lineare-regression.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb43-3"><a href="einfache-lineare-regression.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="einfache-lineare-regression.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dt, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">28</span>), <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="einfache-lineare-regression.html#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dt, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">5</span>), <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="einfache-lineare-regression.html#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;density&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>Hier sehen Sie die <span class="math inline">\(t\)</span>-Verteilung in orange gegen die schwarze Normalverteilung mit Mittelwert Null und Standardabweichung Eins; die beiden Verteilungen sind sich sehr ähnlich. Mit abnehmenden Freiheitsgeraden (zum Beispiel 5 Freiheitsgrade bei der dunkelgrünen Verteilung) werden sich die Normal- und <span class="math inline">\(t\)</span>-Verteilung unähnlicher. Wie Sie wissen, ist die Fläche unter diesen Verteilungen immer 1, d.h. auch bei der <span class="math inline">\(t\)</span>-Verteilung können wir mittels einer Funktion berechnen, wie groß die Wahrscheinlichkeit ist, dass ein Wert in einen bestimmten Wertebereich fällt. Der <span class="math inline">\(t\)</span>-Wert für die Slope ist in unserem Beispiel ca. -8.02. Unter der orangen <span class="math inline">\(t\)</span>-Verteilung, die zu unseren Daten passt, ist nur ein sehr sehr kleine Fläche unter der Kurve für den Wertebereich von minus unendlich bis -8.02 (um dies nachzuvollziehen, brauchen Sie ein bisschen Fantasie, da der Wertebereich in der Abbildung oben erst bei -5 beginnt). In Anlehnung an <code>pnorm()</code> heißt die Funktion für die Berechnung der Fläche unter der <span class="math inline">\(t\)</span>-Verteilung <code>pt()</code>. So können wir unter Einsatz des <span class="math inline">\(t\)</span>-Werts und der Freiheitsgrade den <span class="math inline">\(p\)</span>-Wert berechnen:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="einfache-lineare-regression.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> <span class="fu">pt</span>(<span class="sc">-</span><span class="fl">8.016248</span>, <span class="at">df =</span> <span class="dv">28</span>)</span></code></pre></div>
+<pre><code>## [1] 9.929356e-09</code></pre>
+<div class="gray">
+<p><strong>Weiterführende Infos: two-tailed <span class="math inline">\(t\)</span>-Test</strong></p>
+<p>Wir müssen den Wahrscheinlichkeitswert, den <code>pt()</code> berechnet, mit 2 multiplizieren, weil es sich bei dem berechneten <span class="math inline">\(t\)</span>-Test nicht um einen <em>one-tailed</em>, sondern um einen <em>two-tailed</em> <span class="math inline">\(t\)</span>-Test handelt. Als <em>tail</em> werden die extremen Enden der Verteilungen bezeichnet; für Normal- und <span class="math inline">\(t\)</span>-Verteilung gilt, dass sehr hohe und sehr niedrige Werte unwahrscheinlich sind (d.h. es ist nur sehr wenig Fläche unter den Verteilungen von minus unendlich bis zu einem sehr niedrigen x-Wert bzw. von einem sehr hohen x-Wert bis plus unendlich).</p>
+<p>Wenn wir hier mit <code>pt()</code> eine Wahrscheinlichkeit (bzw. Fläche) berechnen, gilt das nur für den <em>lower tail</em> von minus unendlich bis zu dem angegebenen x-Wert. Dieselbe Wahrscheinlichkeit gilt aber für die Fläche von dem ins Positive verkehrten x-Wert (hier: <code>abs(-8.016248)</code>) bis plus unendlich (den <em>upper tail</em>). Daher machen wir es uns hier einfach, indem wir das Ergebnis oben mit 2 multiplizieren. Wir hätten auch schreiben können:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="einfache-lineare-regression.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pt</span>(<span class="sc">-</span><span class="fl">8.016248</span>, <span class="at">df =</span> <span class="dv">28</span>) <span class="sc">+</span> <span class="fu">pt</span>(<span class="fu">abs</span>(<span class="sc">-</span><span class="fl">8.016248</span>), <span class="at">df =</span> <span class="dv">28</span>, <span class="at">lower.tail =</span> F)</span></code></pre></div>
+<pre><code>## [1] 9.929356e-09</code></pre>
+<p>Etwas Ähnliches haben Sie übrigens schon bei der Berechnung des 95%-Konfidenzintervalls für Normalverteilungen gesehen: Da ging es uns darum, die Fläche von 0.05 gleichmäßig auf beide symmetrischen Hälften der Verteilung aufzuteilen, d.h. wir haben auch da beide <em>tails</em> berücksichtigt, und nicht nur einen von beiden.</p>
+</div>
+<p>Der <span class="math inline">\(p\)</span>-Wert kann hier wie folgt interpretiert werden: Wenn wir davon ausgehen, dass die tatsächliche Steigung Null ist (das ist die Null-Hypothese dieses <span class="math inline">\(t\)</span>-Tests), dann ist die hier beobachtete Steigung von -1.07 höchst unerwartet.</p>
+</div>
+<div id="gütekriterien-für-das-modell-und-f-statistik" class="section level3" number="12.6.3">
+<h3><span class="header-section-number">12.6.3</span> Gütekriterien für das Modell und <span class="math inline">\(F\)</span>-Statistik</h3>
+<p>Nun, da wir die Ausgabe von <code>tidy()</code> verstehen, bleibt nur noch <code>glance()</code>. Die Funktion <code>glance()</code> zeigt auf einen Blick ein paar Kriterien, mit denen man die <strong>Güte des Modells</strong> einschätzen kann (für bessere Lesbarkeit verwandeln wir den Data Frame ins lange Format):</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="einfache-lineare-regression.html#cb48-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">glance</span>() <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(r.squared<span class="sc">:</span>nobs))</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 2
+##    name             value
+##    &lt;chr&gt;            &lt;dbl&gt;
+##  1 r.squared      6.97e-1
+##  2 adj.r.squared  6.86e-1
+##  3 sigma          1.26e+1
+##  4 statistic      6.43e+1
+##  5 p.value        9.93e-9
+##  6 df             1   e+0
+##  7 logLik        -1.17e+2
+##  8 AIC            2.41e+2
+##  9 BIC            2.45e+2
+## 10 deviance       4.41e+3
+## 11 df.residual    2.8 e+1
+## 12 nobs           3   e+1</code></pre>
+<p>Der Wert <code>r.squared</code> ist genau das, was der Name sagt: der quadrierte Korrelationswert <span class="math inline">\(r\)</span>, den wir oben mit <code>cor()</code> berechnet hatten:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="einfache-lineare-regression.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(queen<span class="sc">$</span>Alter, queen<span class="sc">$</span>f0)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.6965106</code></pre>
+<p><strong><span class="math inline">\(R^2\)</span></strong> beschreibt die Proportion der Varianz in den Daten, die von dem berechneten Modell beschrieben wird. Hier wird also ca. 70% der Varianz in den Daten durch das Modell mit einem Prädiktor (d.h. einer unabhängigen Variable) beschrieben. In der Linguistik sind viel niedrigere <span class="math inline">\(R^2\)</span>-Werte üblicher, weil unser Untersuchungsgegenstand häufig von vielen zufälligen Faktoren beeinflusst wird, die wir nicht erfassen können. Der Wert <code>adj.r.squared</code> ist eine Form des <span class="math inline">\(R^2\)</span>, die für die Anzahl der unabhängigen Variablen normalisiert. Das ist wichtig, denn bei einer höheren Zahl von unabhängigen Variablen wird <span class="math inline">\(R^2\)</span> automatisch steigen, selbst wenn eine oder mehrere der Variablen aus statistischer Sicht nichts dazu beitragen, die y-Werte zu erklären bzw. zu schätzen. Der <em>adjusted</em> <span class="math inline">\(R^2\)</span> hingegen bezieht die Anzahl der unabhängigen Variablen in die Berechnung von <span class="math inline">\(r^2\)</span> ein und ist daher verlässlicher als der einfache <span class="math inline">\(R^2\)</span>. Da es hier nur eine Variable gibt, sind sich <span class="math inline">\(R^2\)</span> und <em>adjusted</em> <span class="math inline">\(R^2\)</span> sehr ähnlich.</p>
+<p>Die Spalte <code>sigma</code> enthält den <strong>Residual Standard Error</strong>, das ist eine Schätzung für die Standardabweichung der Fehlerverteilung. Diesen Wert können wir mit <code>sigma()</code> berechnen (wir werden gleich nochmal auf diesen Wert zurückkommen):</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="einfache-lineare-regression.html#cb52-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">sigma</span>()</span></code></pre></div>
+<pre><code>## [1] 12.55239</code></pre>
+<p>Dann sehen wir wieder eine <code>statistic</code> samt <code>p.value</code>. Dieses Mal handelt es sich um die <strong><span class="math inline">\(F\)</span>-Statistik</strong>, d.h. diesmal lesen wir den <span class="math inline">\(p\)</span>-Wert aus der <span class="math inline">\(F\)</span>-Verteilung ab, die mit <code>df()</code> in <code>ggplot2</code> gezeichnet werden kann. Diese Verteilung ist von zwei Parametern abhängig, nämlich <code>glance(queen.lm)$df</code> und <code>glance(queen.lm)$df.residual</code>. Dies sind die Freiheitsgrade für das Modell und für die Residuals. In orange sehen Sie wieder die <span class="math inline">\(F\)</span>-Verteilung, die zu unseren Daten passt (nämlich mit einem Freiheitsgrad für das Modell und 28 Freiheitsgraden für die Residuals). Die Verteilung kann nur Werte größer als Null annehmen. In dunkelgrün sehen Sie eine <span class="math inline">\(F\)</span>-Verteilung, bei der die Freiheitsgrade für das Modell verändert wurden, und in schwarz zum Vergleich die Normalverteilung.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="einfache-lineare-regression.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb54-2"><a href="einfache-lineare-regression.html#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(x) <span class="sc">+</span></span>
+<span id="cb54-3"><a href="einfache-lineare-regression.html#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm) <span class="sc">+</span></span>
+<span id="cb54-4"><a href="einfache-lineare-regression.html#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> df, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df1 =</span> <span class="dv">1</span>, <span class="at">df2 =</span> <span class="dv">28</span>), <span class="at">col =</span> <span class="st">&quot;orange&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-5"><a href="einfache-lineare-regression.html#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> df, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df1 =</span> <span class="dv">7</span>, <span class="at">df2 =</span> <span class="dv">28</span>), <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>) <span class="sc">+</span></span>
+<span id="cb54-6"><a href="einfache-lineare-regression.html#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;density&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>Wenn wir uns hier die orange Verteilung anschauen, sehen wir schon, dass ein <span class="math inline">\(F\)</span>-Wert von 64.3 (s. <code>statistic</code>) extrem unwahrscheinlich wäre, daher ist der <span class="math inline">\(p\)</span>-Wert auch sehr klein. Die Null-Hypothese im <span class="math inline">\(F\)</span>-Test, der hier ausgeführt wurde, lautet, dass ein Modell ohne Prädiktoren die Daten genauso gut oder besser erklärt, als das Modell mit dem Prädiktor <code>Alter</code>. Das heißt, wenn der <span class="math inline">\(p\)</span>-Wert, der aus dem <span class="math inline">\(F\)</span>-Test resultiert, sehr klein ist, können wir daraus schließen, dass unser Modell mit der unabhängigen Variable <code>Alter</code> die Daten besser erklärt, als ein Modell ohne Prädiktoren.</p>
+<p>Wir versuchen nun die Werte in den Spalten <code>statistic</code>, <code>df</code>, <code>df.residual</code> und <code>deviance</code> nachzuvollziehen. Letzteren kennen Sie schon unter dem Namen <strong>SSE</strong> (<em>sum of squared error</em>):</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="einfache-lineare-regression.html#cb55-1" aria-hidden="true" tabindex="-1"></a>SSE <span class="ot">&lt;-</span> queen.lm <span class="sc">%&gt;%</span> <span class="fu">deviance</span>()</span>
+<span id="cb55-2"><a href="einfache-lineare-regression.html#cb55-2" aria-hidden="true" tabindex="-1"></a>SSE</span></code></pre></div>
+<pre><code>## [1] 4411.753</code></pre>
+<p><code>df</code> ist wie bereits angedeutet die Anzahl der Freiheitsgrade des Modells und wird berechnet als die Anzahl der Regressionskoeffizienten <span class="math inline">\(k\)</span> minus 1:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="einfache-lineare-regression.html#cb57-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="fu">length</span>(queen.lm<span class="sc">$</span>coefficients)</span>
+<span id="cb57-2"><a href="einfache-lineare-regression.html#cb57-2" aria-hidden="true" tabindex="-1"></a>df.SSR <span class="ot">&lt;-</span> k<span class="dv">-1</span></span>
+<span id="cb57-3"><a href="einfache-lineare-regression.html#cb57-3" aria-hidden="true" tabindex="-1"></a>df.SSR</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p><code>df.residual</code> ist die Anzahl der Freiheitsgrade der Residuals, die als die Anzahl der Beobachtungen <span class="math inline">\(N\)</span> minus die Anzahl der Regressionskoeffizienten <span class="math inline">\(k\)</span> berechnet wird.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="einfache-lineare-regression.html#cb59-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> queen <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span>
+<span id="cb59-2"><a href="einfache-lineare-regression.html#cb59-2" aria-hidden="true" tabindex="-1"></a>df.SSE <span class="ot">&lt;-</span> N<span class="sc">-</span>k</span>
+<span id="cb59-3"><a href="einfache-lineare-regression.html#cb59-3" aria-hidden="true" tabindex="-1"></a>df.SSE</span></code></pre></div>
+<pre><code>## [1] 28</code></pre>
+<p>Um zuletzt noch den <span class="math inline">\(F\)</span>-Wert in der Spalte <code>statistic</code> nachvollziehen zu können, schauen wir uns die Formel dafür an: <span class="math inline">\(F = \frac{MSR}{MSE}\)</span>. Hierbei steht <strong>MSR</strong> für <em>mean squares of regression</em> und <strong>MSE</strong> für <em>mean squares of error</em>. Diese beiden Werte beschreiben die Varianz der geschätzten y-Werte und die Varianz der Residuals. Um MSE und MSR berechnen zu können, müssen wir zuerst zwei andere Werte berechnen: <em>sum of squares of Y</em> (<strong>SSY</strong>), die den Abstand der Datenpunkte zum Mittelwert von <span class="math inline">\(y\)</span> beschreibt, und <em>sum of squares of regression</em> (<strong>SSR</strong>), die den Unterschied zwischen SSY und SSR beschreibt. Zuerst SSY:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="einfache-lineare-regression.html#cb61-1" aria-hidden="true" tabindex="-1"></a>SSY <span class="ot">&lt;-</span> <span class="fu">sum</span>((queen<span class="sc">$</span>f0 <span class="sc">-</span> <span class="fu">mean</span>(queen<span class="sc">$</span>f0))<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb61-2"><a href="einfache-lineare-regression.html#cb61-2" aria-hidden="true" tabindex="-1"></a>SSY</span></code></pre></div>
+<pre><code>## [1] 14536.76</code></pre>
+<p>In der Praxis ist SSY die Summe aller Abstände zwischen den schwarzen (tatsächlich gemessenen) Datenpunkten und der orangen Linie, die die y-Achse bei <code>mean(queen$f0)</code> schneidet und eine Steigung von Null hat (diese Abbildung zeigt wieder nur einen Ausschnitt aus dem gesamten Wertebereich):</p>
+<p><img src="img/resid2.png" /></p>
+<p>Sie können hier schon rein visuell sehen, dass die orange Linie die Daten viel schlechter beschreibt als die blaue Regressionslinie, deshalb ist SSY auch viel größer als SSE.</p>
+<p>Für SSR müssen wir nun nur noch die Differenz von SSY und SSE bilden:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="einfache-lineare-regression.html#cb63-1" aria-hidden="true" tabindex="-1"></a>SSR <span class="ot">&lt;-</span> SSY <span class="sc">-</span> SSE</span>
+<span id="cb63-2"><a href="einfache-lineare-regression.html#cb63-2" aria-hidden="true" tabindex="-1"></a>SSR</span></code></pre></div>
+<pre><code>## [1] 10125.01</code></pre>
+<p>Nun können wir endlich MSE und MSR berechnen:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="einfache-lineare-regression.html#cb65-1" aria-hidden="true" tabindex="-1"></a>MSE <span class="ot">&lt;-</span> SSE<span class="sc">/</span>df.SSE</span>
+<span id="cb65-2"><a href="einfache-lineare-regression.html#cb65-2" aria-hidden="true" tabindex="-1"></a>MSE</span></code></pre></div>
+<pre><code>## [1] 157.5626</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="einfache-lineare-regression.html#cb67-1" aria-hidden="true" tabindex="-1"></a>MSR <span class="ot">&lt;-</span> SSR<span class="sc">/</span>df.SSR</span>
+<span id="cb67-2"><a href="einfache-lineare-regression.html#cb67-2" aria-hidden="true" tabindex="-1"></a>MSR</span></code></pre></div>
+<pre><code>## [1] 10125.01</code></pre>
+<p>…Und aus der Division von MSE und MSR entsteht der <span class="math inline">\(F\)</span>-Wert:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="einfache-lineare-regression.html#cb69-1" aria-hidden="true" tabindex="-1"></a>F_wert <span class="ot">&lt;-</span> MSR <span class="sc">/</span> MSE</span>
+<span id="cb69-2"><a href="einfache-lineare-regression.html#cb69-2" aria-hidden="true" tabindex="-1"></a>F_wert</span></code></pre></div>
+<pre><code>## [1] 64.26024</code></pre>
+<p>Zwischen der <span class="math inline">\(t\)</span>-Statistik und unserer <span class="math inline">\(F\)</span>-Statistik besteht übrigens ein quadratischer Zusammenhang: <span class="math inline">\(F = t^2\)</span> bzw. <span class="math inline">\(t = \sqrt{F}\)</span></p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="einfache-lineare-regression.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(F_wert)</span></code></pre></div>
+<pre><code>## [1] 8.016248</code></pre>
+<p>Deshalb ist auch der <span class="math inline">\(p\)</span>-Wert bei beiden Statistiken genau derselbe.</p>
+<p>Zuletzt kommen wir nochmal auf den <em>residual standard error</em> zurück, den wir oben als eine Schätzung für die Standardabweichung der Residuen bezeichnet hatten. Dieser berechnet sich als die Quadratwurzel aus MSE:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="einfache-lineare-regression.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(MSE)</span></code></pre></div>
+<pre><code>## [1] 12.55239</code></pre>
+<p>Wenn wir die Standardabweichung der Residuen ermitteln, sollte das sehr nah an dem <em>residual standard error</em> liegen (allerdings ist letzterer nur eine Schätzung, daher müssen die Werte nicht gleich sein):</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="einfache-lineare-regression.html#cb75-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">augment</span>() <span class="sc">%&gt;%</span> <span class="fu">pull</span>(.resid) <span class="sc">%&gt;%</span> <span class="fu">sd</span>()</span></code></pre></div>
+<pre><code>## [1] 12.33407</code></pre>
+<p>Wenn der <em>residual standard error</em> genau Null ist, dann liegen alle Datenpunkte exakt auf der Regressionslinie, d.h. dann kann jeder y-Wert aus dem Dataset genau durch den dazugehörigen x-Wert mittels eines linearen Modells berechnet werden.</p>
+</div>
+</div>
+<div id="ergebnis-berichten" class="section level2" number="12.7">
+<h2><span class="header-section-number">12.7</span> Ergebnis berichten</h2>
+<p>Nun haben wir alle (für uns relevanten) Ergebnisse aus <code>lm()</code> nachvollzogen. Wir haben dies mittels der <code>broom</code> Funktionen gemacht. Eine traditionellere Art der Übersicht über die Ergebnisse der linearen Regression bietet <code>summary()</code>:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="einfache-lineare-regression.html#cb77-1" aria-hidden="true" tabindex="-1"></a>queen.lm <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = f0 ~ Alter, data = queen)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -22.552  -8.464  -0.101   6.241  36.273 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 288.1856     6.9770  41.305  &lt; 2e-16 ***
+## Alter        -1.0737     0.1339  -8.016 9.93e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 12.55 on 28 degrees of freedom
+## Multiple R-squared:  0.6965, Adjusted R-squared:  0.6857 
+## F-statistic: 64.26 on 1 and 28 DF,  p-value: 9.929e-09</code></pre>
+<p>Sie sollten hier alle Zahlen wiedererkennen.</p>
+<p>Es ist außerordentlich wichtig, dass wir unser Ergebnis korrekt berichten. Dafür benötigen wir</p>
+<ul>
+<li><span class="math inline">\(R^2\)</span> (oder, weil stabiler: <em>adjusted</em> <span class="math inline">\(R^2\)</span>): 0.69</li>
+<li>den <span class="math inline">\(F\)</span>-Wert: 64.3</li>
+<li>die Freiheitsgrade für das Modell und die Residuals: 1 und 28</li>
+<li>den <span class="math inline">\(p\)</span>-Wert, bzw. das nächst höhere Signifikanzniveau: p &lt; 0.001</li>
+</ul>
+<p>Wir berichten: <strong>Es besteht eine signifikante lineare Beziehung zwischen dem Alter der Queen und ihrer Grundfrequenz (<span class="math inline">\(R^2\)</span> = 0.69, <span class="math inline">\(F\)</span>[1, 28] = 64.3, <span class="math inline">\(p\)</span> &lt; 0.001).</strong></p>
+</div>
+<div id="zusammenfassung" class="section level2" number="12.8">
+<h2><span class="header-section-number">12.8</span> Zusammenfassung</h2>
+<ul>
+<li>Bei der linearen Regression werden die Werte der abhängigen Variable <span class="math inline">\(y\)</span> durch die Werte der unabhängigen Variable <span class="math inline">\(x\)</span> geschätzt unter der Annahme, dass zwischen beiden eine lineare Beziehung besteht.</li>
+<li>Die Regressionslinie ist die gerade Linie, zu der der Abstand der Datenpunkte möglichst gering ist (<em>least squares</em> Verfahren).</li>
+<li>Die Funktion <code>lm()</code> schätzt die Regressionskoeffizienten y-Achsenabschnitt (<em>intercept</em>) und Steigung (<em>slope</em>).</li>
+<li>Es wird ein <span class="math inline">\(t\)</span>-Test ausgeführt, um zu prüfen, ob sich die Regressionskoeffizienten von Null unterscheiden. Wenn <span class="math inline">\(p &lt; 0.05\)</span> im <span class="math inline">\(t\)</span>-Test für <span class="math inline">\(x\)</span>, dann unterscheidet sich die Steigung signifikant von Null, d.h. <span class="math inline">\(x\)</span> ist ein guter Prädiktor für <span class="math inline">\(y\)</span>.</li>
+<li>Die Differenzen zwischen den tatsächlichen und den geschätzten y-Werten heißen <em>Residuals</em> oder <em>Error</em>; der <em>residual standard error</em> ist eine Schätzung für die Standardabweichung der Fehlerverteilung.</li>
+<li><span class="math inline">\(R^2\)</span> sind das Quadrat des Korrelationswertes <span class="math inline">\(r\)</span> und beschreibt die Proportion der Varianz in der abhängigen Variable <span class="math inline">\(y\)</span>, die von dem linearen Modell beschrieben wird.</li>
+<li>Es wird außerdem ein <span class="math inline">\(F\)</span>-Test ausgeführt, um zu prüfen, ob das lineare Modell erfolgreich einen signifikanten Anteil der Varianz in der abhängigen Variable erklärt. Wenn <span class="math inline">\(p &lt; 0.05\)</span> im <span class="math inline">\(F\)</span>-Test, dann beschreibt das Modell mit dem gewählten Prädiktor besser die empirischen Daten als ein Modell ohne Prädiktoren (Mittelwertmodell).</li>
+<li><em>SSE</em> ist die <em>sum of squares of error</em> und beschreibt den Abstand der Datenpunkte zur Regressionslinie; im <em>least squares</em> Verfahren wird versucht, SSE zu minimieren</li>
+<li><em>SSR</em> ist die <em>sum of squares of regression</em> und beschreibt, wie gut das Regressionsmodell im Vergleich zum Mittelwertmodell ist (SSY)</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="einführung-in-die-inferenzstatistik.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multiple-lineare-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
