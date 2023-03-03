@@ -1,0 +1,19 @@
+book_filename: "programmieren_statistik_r"
+language:
+  ui:
+    chapter_name: ""
+delete_merged_file: true
+output_dir: "book-output"
+rmd_files: [
+  "index.Rmd",
+  "01-firstCalcs.Rmd",
+  "02-dataFrames.Rmd",
+  "03-tidyverse.Rmd",
+  "04-summaryStats.Rmd",
+  "05-tidyverse.Rmd",
+  "06-plots.Rmd",
+  "07-tidyr.Rmd",
+  "08-joins.Rmd",
+  "09-prettyPlots.Rmd"
+]
+

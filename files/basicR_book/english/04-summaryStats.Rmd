@@ -1,0 +1,128 @@
+# Summary Statistics
+
+Please load the following packages and data frame for this chapter:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+vdata <- read.table(file.path(url, "vdata.txt"))
+```
+
+When you want to get an overview of some data, it is helpful to compute so called *summary statistics* (sometimes called descriptive statistics). Among others, these are the arithmetic mean, median, variance, standard deviation, minimum, maximum, etc. Here we aim to show you how these values can be computed without using functions from the *tidyverse*. Since R is a statistics software, functions to compute summary statistics are always available. The following code snippet presents the most important functions from base R for descriptive statistics, applied to the F1 values in `vdata`:
+
+```{r}
+mean(vdata$F1)             # arithmetic mean
+median(vdata$F1)           # median
+var(vdata$F1)              # variance
+sd(vdata$F1)               # standard deviation
+min(vdata$F1)              # minimum
+max(vdata$F1)              # maximum
+range(vdata$F1)            # minimum & maximum
+quantile(vdata$F1, 0.25)   # first quartile
+quantile(vdata$F1, 0.75)   # third quartile
+IQR(vdata$F1)              # interquartile range
+```
+
+## Mean & Median
+
+The arithmetic mean is calculated by summing $n$ numbers and then dividing this sum by $n$. Here is a very simple example:
+
+```{r}
+nums <- 1:5
+s <- sum(nums)
+s
+count <- length(nums)
+count
+# mean:
+s/count
+# for comparison:
+mean(nums)
+```
+
+The median on the other hand is the middle number in a sorted sequence of numbers. Let's reuse the above example (in which the numbers are already in ascending order):
+
+```{r}
+nums
+median(nums)
+```
+
+For an even number of numbers the median is the mean of the two middle values, e.g.:
+
+```{r}
+nums <- 1:6
+median(nums)
+mean(c(3, 4))
+```
+
+The median is more robust against outliers than the mean. Outliers are data points that are more extreme then the majority of data points in a data set. Here is another simple example:
+
+```{r}
+nums <- c(1:5, 100)
+nums
+mean(nums)
+median(nums)
+```
+
+The number 100 is obviously an outlier in the vector called `nums`. Because of that, the mean is now much higher than previously, while the median has changed only slightly.
+
+## Variance & Standard Deviation
+
+Variance and standard deviation are related measures for the dispersion of values around their mean. More precisely, the variance is the sum of the squared deviations of the values from their mean, divided by the number of values minus 1, while the standard deviation is the square root of the variance. The following example demonstrates how to compute the variance and standard deviation manually.
+
+```{r}
+nums <- c(12, 6, 24, 3, 17)
+# mean
+m <- mean(nums)
+m
+# squared differences
+squared_diff <- (nums - m)^2
+squared_diff
+# number of values
+n <- length(nums)
+n
+# sum of the squared differences
+s <- sum(squared_diff)
+s
+# variance
+variance <- s / (n - 1)
+variance
+# using the function var():
+var(nums)
+```
+
+To compute the standard deviation from that (which is used far more often in statistics than the variance) we only need to extract the square root of the variance:
+
+```{r}
+std_dev <- sqrt(variance)
+std_dev
+# using the function sd():
+sd(nums)
+```
+
+## Quantiles
+
+A quantile divides data points in such a way that a given part of the data points is below the quantile. Quantile is a hypernym: depending on how many chunks you divide your data points into, you can also use the terms percentile (100 chunks) or quartile (4 chunks). The median is another quantile because 50% of the data are below the median. In R, the function `quantile()` computes quantiles. The function takes as arguments the data points (i.e. a numeric vector) and then the proportion of data points that should be below the value to be computed. Important quantiles are the first and third quartile, i.e. the thresholds below which a quarter or three quarters of all data points lie.
+
+```{r}
+quantile(vdata$F1, 0.25)   # first quartile
+quantile(vdata$F1, 0.75)   # third quartile
+IQR(vdata$F1)              # interquartile range
+```
+
+The difference between the first and third quartile is called interquartile range and can be computed with the function `IQR()`.
+
+## Example of a Boxplot
+
+A boxplot contains many of the descriptive information that we have learned about so far:
+
+- Median: the horizontal line within the box is the median.
+- Box: the box contains the middle 50% of the data points. The lower end of the box is the first quartile (Q1), the upper end is the third quartile (Q3). The box is as big as the interquartile range.
+- Whiskers: the vertical lines stretching upwards/downwards from Q1 and Q3 to the highest/lowest data point that lies within `1.5 * IQR`. The calculation of the whiskers as `1.5 * IQR` is valid for boxplots created with `ggplot2`, but some other programs use a different calculation.
+- Points: outliers, i.e. all data points that are not contained in the box or whiskers.
+
+Here you see a boxplot for `F1` from the data frame `vdata`:
+
+![](img/boxplot.png)
+
+Later in this course, you'll learn how to create this boxplot yourself.

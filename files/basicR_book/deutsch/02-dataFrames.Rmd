@@ -1,0 +1,108 @@
+# Data Frames
+
+Eine äußerst wichtige Datenstruktur in R ist der Data Frame. Das ist eine zwei-dimensionale Tabelle. Die Zeilen werden auch *observations* genannt und die Spalten *variables* (nicht zu verwechseln mit den Variablen, d.h. abgespeicherten Werten und Objekten, wie im vorherigen Kapitel besprochen!). In der Phonetik arbeiten wir sehr häufig mit Data Frames, z.B. wenn wir akustische Informationen aus Sprachaufnahmen oder Messungen aus einem Perzeptionsexperiment extrahiert haben und diese auswerten oder statistisch analysieren wollen.
+
+## Import & Export
+
+In R gibt es verschiedene Möglichkeiten, eine Tabelle im Format `.csv` oder `.txt` einzulesen. Wenn Sie eine Tabelle von Ihrer Festplatte einlesen wollen, können Sie im Panel mit dem Environment in der Werkzeugleiste auf `Import Dataset` klicken und sich von dem Assistenten leiten lassen. Der Befehl, den der Assistent zum Laden des Data Frames verwendet, wird übrigens in der Konsole angezeigt.
+
+In diesem Kurs werden wir u.a. Data Frames von einer Webseite benutzen, daher müssen wir den Befehl zum Einlesen selbst schreiben. Der Befehl, den wir verwenden, lautet `read.table()`, und bekommt als wichtigstes Argument in Anführungszeichen den Pfad (bzw. die URL) zu dem Data Frame (aber schauen Sie auf die Hilfeseite dieser Funktion, um alle Argumente und weitere verwandte Funktionen zum Einlesen von Daten zu sehen):
+  
+```{r}
+ai <- read.table("http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt")
+```
+
+Da wir im Verlauf der Vorlesung mehrere Data Frames von derselben Webseite verwenden werden, können wir das Einlesen etwas cleverer gestalten, damit wir nicht immer wieder die komplizierte URL abtippen oder kopieren müssen. Dafür legen wir eine Variable mit der URL als Schriftzeichenobjekt an und verwenden dann die Funktion `file.path()`, mittels derer die URL und der Dateiname zusammengefügt werden:
+  
+```{r}
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+file.path(url, "ai.txt")
+
+# zusammen mit dem Befehl zum Einlesen:
+ai <- read.table(file.path(url, "ai.txt"))
+```
+
+Das Gegenstück zu `read.table()` ist `write.table()`, womit Sie einen Data Frame abspeichern können. Diese Funktion bekommt zuerst den Namen des Objekts, das abgespeichert werden soll, dann den Pfad samt gewünschtem Dateinamen (`./` steht für das aktuelle Verzeichnis), und als weiteres optionales Argument nutzen wir `row.names = FALSE`, damit es nicht eine Spalte mit den (hier nicht vorhandenen) Zeilennamen in dem abgespeicherten Data Frame gibt.
+  
+```{r, eval = F}
+write.table(ai, file.path("./", "ai.txt"), row.names = FALSE)
+```
+
+Natürlich können Sie Data Frames nicht nur einlesen, sondern auch selbst erstellen. Dafür wird der Befehl `data.frame()` verwendet. Diese Funktion bekommt als Argumente die Spaltennamen und anschließend die Werte, die in der Spalte stehen sollen. Hier ein Beispiel:
+  
+```{r}
+df <- data.frame(F1 = c(240, 220, 250, 210, 280, 520, 510, 605, 670, 613),
+                 vowel = rep(c("i","o"), each = 5))
+df
+```
+
+Data Frames haben eine eigene Objektklasse:
+
+```{r}
+class(df)
+```
+
+## Eigenschaften
+
+Wenn wir mit Datenstrukturen arbeiten, die viele Informationen enthalten, ist es wichtig, uns mit dem Objekt vertraut zu machen. R bietet viele nützliche Funktionen, um sich Data Frames anzuschauen und etwas über deren Eigenschaften zu erfahren:
+
+```{r, eval = F}
+# Data Frame in einem Sub-Fenster anschauen
+View(ai)
+```
+
+```{r}
+# Nur die ersten oder letzten paar Zeilen (Beobachtungen) ausgeben
+head(ai)
+tail(ai)
+
+# Reihen- und Spaltenanzahl
+nrow(ai)
+ncol(ai)
+dim(ai)
+
+# Spaltennamen (Variablennamen)
+colnames(ai)
+names(ai)
+```
+
+## Auf Spalten zugreifen 
+
+Obwohl wir in den kommenden Kapiteln mit der modernen *tidyverse*-Syntax arbeiten werden, wollen wir hier zeigen, wie man in traditioneller Weise auf Spalten in einem Data Frame zugreifen kann. Manchmal werden Sie nicht darum herum kommen, diese traditionelle Notation zu verwenden.
+
+Wenn Sie in Ihr Environment schauen, sehen Sie, dass dort unter "Values" die ganzen einfachen Variablen und Vektoren stehen und unter "Data" finden Sie die zwei Data Frames `ai` und `df`. Als Informationen zu den Data Frames stehen im Environment immer die Anzahl an *observations* (Zeilen) und *variables* (Spalten), z.B. `25 obs. of 3 variables`. Wenn Sie auf das kleine blaue Icon links neben dem Namen des Data Frames klicken, sehen Sie die Spaltennamen, welcher Objektklasse die Spalten angehören (`int` für *integer*, `num` für *numerics* bzw. *doubles*, usw.) und die ersten paar Werte aus der Spalte. Dieselben Informationen erhalten Sie, wenn Sie die Funktion `str()` (*structure*) auf einen Data Frame anwenden:
+
+```{r}
+str(ai)
+str(df)
+```
+
+Vor jeder Spalte in dieser Auflistung steht ein Dollarzeichen. Genau so können Sie auf Spalten in einem Data Frame zugreifen: Sie schreiben den Namen des Data Frames, dann (ohne Lehrzeichen!) das Dollarzeichen, und anschließend (wieder ohne Leerzeichen!) den Spaltennamen:
+
+```{r}
+df$F1
+```
+
+Sie sehen, dass eine Spalte an und für sich nichts anderes ist als ein Vektor! Das heißt, Sie können die Funktionen, mit denen wir zuvor Vektoren manipuliert haben, jetzt auch auf Spalten in Data Frames anwenden:
+
+```{r}
+length(df$F1)
+table(df$vowel)
+```
+
+<div class="gray">
+**Weiterführende Infos: Factors in Data Frames**
+
+Für den Data Frame `df`, den wir oben selbst angelegt haben, sehen Sie im Environment, dass die Spalte `vowel` der Objektklasse *factor* angehört, und dass dieser *factor* zwei *levels* hat -- obwohl wir die Spalte `vowel` mit Schriftzeichen gefüllt hatten! Die Funktion `data.frame()`, mit der wir `df` erstellt haben, hat ein Argument namens `stringsAsFactors`, das, wenn nicht anders angegeben, automatisch `TRUE` ist. Das heißt, beim Erstellen des Data Frames wurden die Schriftzeichen in der Spalte `vowel` in einen *factor* umgewandelt. Die zwei verschiedenartigen Werte (Kategorien) in dieser Spalte sind "i" und "o", dementsprechend hat dieser *factor* zwei *levels*.
+
+Wenn Sie sich nochmal die Informationen zu dem Data Frame `df` im Environment oder Ihrer Konsole anschauen, werden Sie feststellen, dass die Spalte `vowel` nicht nur ein Faktor mit zwei Levels ist, sondern dass die ersten Werte in dieser Spalte komischerweise Zahlen sind und nicht "i" und "o". Das liegt daran, dass Faktoren im Hintergrund (also für die NutzerInnen meist unsichtbar) als *integer* abgespeichert werden. Diese *integer* sind mit den einzigartigen Levels des Faktors assoziiert. Wenn also in unserem Environment bei der Spalte `vowel` der Wert 1 steht, dann repräsentiert dies das Level "i", der Wert 2 repräsentiert das Level "o".
+
+Wenn Sie beim Erstellen des Data Frames verhindern möchten, dass *strings* in *factors* umgewandelt werden, verwenden Sie das Argument `stringsAsFactors = FALSE`:
+
+```{r}
+df <- data.frame(F1 = c(240, 220, 250, 210, 280, 520, 510, 605, 670, 613),
+                 vowel = rep(c("i","o"), each = 5),
+                 stringsAsFactors = FALSE)
+```
+
+</div>

@@ -1,0 +1,260 @@
+# Tidying Data with `tidyr`
+
+Please load the following packages and data frames for this chapter:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(gridExtra)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+asp <- read.table(file.path(url, "asp.txt"))
+avokal <- read.table(file.path(url, "avokal.txt"))
+vcv <- read.table(file.path(url, "vcvC.txt"))
+```
+
+"*tidy datasets are all alike but every messy dataset is messy in its own way*" -- Hadley Wickham
+
+Hadley Wickham is the chief developer of the *tidyverse*. The functions of the tidyverse can not only be used to manipulate and process data, but also to clean them.
+
+A clean dataset follows these three principles:
+
+* Every column contains one variable
+* Every row contains one observation
+* Every cell contains one value
+
+These principles may seem obvious and trivial, but they will be helpful in your everyday work with data in R. You should follow the tidy-data-principles for two main reasons: First, every dataset will be structured in the same consistent way which will facilitate every analysis. Second, the functions of the tidyverse were made to work on columns so it is very reasonable to have one variable per column. In order to demonstrate this we'll show you examples of the two most common types of messy data.
+
+- *Column names are not variables, but values*: The columns `schnell` (engl. fast) and `langsam` (engl. slow) in the data frame `avokal` are actually values of the variable `velocity`.
+
+```{r}
+avokal
+```
+
+- *Several variables are stored in one column*: The column `Context` in the data frame `vcv` contains two kinds of information: the left and right phonetic context of a sound. It would be better to separate these into two columns which actually already exist in the data frame (`Left` and `Right`).
+
+```{r}
+vcv %>% head()
+```
+
+It is not trivial to structure a data frame cleanly. Just one example: You have measured the first four formants in vowels. Does it make more sense to have the elicited data in four columns `F1`, `F2`, `F3`, `F4`? Or rather in two columns `Hz` (with the formant values in Hertz) and `formant` (with the values 1, 2, 3, or 4)?
+
+Before we show you how to restructure the datasets above such that they follow the three principles, we want to introduce the **tibble**.
+
+## Tibbles
+
+The *tibble is a simpler version of a data frame which is often used in the tidyverse. Let's load another data frame and transform it into a tibble using `as_tibble()`:
+
+```{r}
+vdata <- read.table(file.path(url, "vdata.txt")) %>% 
+  as_tibble()
+```
+
+When we now enter the name of that tibble, `vdata`, in the console, we don't see the full dataset as usual, but instead only the first ten observations. In addition, we can see how many rows and columns the tibble consists of and which object classes the columns have:
+
+```{r}
+vdata
+```
+
+The tibble has the primary object class `tbl_df`, but additionally also `tbl` and `data.frame`. That is why we can still speak of data frames when we refer to a tibble.
+
+```{r}
+vdata %>% class()
+```
+
+Of course you can also create a tibble yourself, by using the function `tibble()` instead of `data.frame()`, e.g.:
+
+```{r}
+tibble(x = 1:5, y = 6:10)
+```
+
+If you use the import function `read_delim()` from the tidyverse package `readr` instead of the `read.table()` function, the dataset is imported as a tibble automatically.
+
+```{r}
+int <- read_delim(file.path(url, "intdauer.txt"), 
+                  delim = " ", 
+                  col_names = c("idx", "Vpn", "dB", "Dauer"), 
+                  skip = 1)
+int
+```
+
+`read_delim()` also returns the object class for every column in the so called *Column specification*. The import functions from `readr` are somewhat more sensitive than the standard R functions. Hier, for instance, we had to specify a few arguments (`delim`, `col_names`, and `skip`) in order to handle the fact that the data frame contained row indices. The standard function `read.table()` usually works if you just submit the path to the dataset.
+
+<div class="gray">
+**Further Information: Tibbles and `readr`**
+
+If you'd like to learn more about the tibble, we recommend [chapter 10 from *R for Data Science*](https://r4ds.had.co.nz/tibbles.html).
+
+The package `readr` offers further functions to load and save datasets, depending on how columns are separated in the file:
+
+- `read_csv()`: **c**omma **s**eparated **v**alues
+- `read_csv2()`: columns separated by semicolon
+- `read_tsv()`: columns separated by tab
+- `read_delim()`: works for all kinds of separators
+
+This and much more can also be found in [chapter 11 from *R for Data Science*](https://r4ds.had.co.nz/data-import.html).
+
+</div>
+
+## Pivoting
+
+![](img/ross-pivot-friends.gif)
+
+Once we have loaded our data, we can start cleaning them. We can pursue two aims with this: either to structure the data in such a way that every row contains one observation and every column contains one variable, or to structure the data such that it serves a specific purpose, e.g. plotting. `tidyr` calls this process **pivoting** and there is a great vignette about the topic:
+
+```{r, eval = F}
+vignette("pivot")
+```
+
+Above we loaded the data frame `avokal` and observed that the columns `schnell` (fast) and `langsam` (slow) are actually two values of the variable `velocity`. That is, it would be better to have a column `velocity` (values: "schnell", "langsam") and one called `duration` (values from `schnell` and `langsam` in milliseconds):
+
+```{r}
+avokal %>% 
+  pivot_longer(cols = c(schnell, langsam), 
+               names_to = "velocity", 
+               values_to = "duration")
+```
+
+The command **`pivot_longer()`** transforms the data into the so called "long format". The three most important arguments are:
+
+- `cols`: all columns that shall be transformed
+- `values_to`: the name of the new column with the values
+- `names_to`: the name of the new column that will contain the original column names
+
+The pivoting functions from `tidyr` are very powerful and you can do really complicated operations with them. Let's take the [data frame `billboard`](https://tidyr.tidyverse.org/reference/billboard.html) which is loaded together with the `tidyverse` and contains the Billboard Chart rankings from the year 2000:
+
+```{r}
+billboard
+```
+
+Similarly to `avokal`, `billboard` presents another case in which some columns (`wk1`, `wk2`, `wk3`, etc.) are actually values of one variable (`week`). So we'd like to create one column which contains the week (1, 2, 3, etc.) and one column that contains the Billboard rank. To achieve this, we take all colums whose names start with "wk", put these names in a new column called `week`, and the values from the original columns into a new column called `rank`. The prefex "wk" from the old column names can be dropped by means of the argument `names_prefix`. Lastly, we remove all NA (*not available*) values -- for instance, there is no row for week 8 of 2Pac's "Baby Don't Cry" because the song didn't rank in the top 100 that week.
+
+```{r}
+billboard %>% 
+  pivot_longer(cols = starts_with("wk"), 
+               names_to = "week", 
+               values_to = "rank",
+               names_prefix = "wk",
+               values_drop_na = TRUE)
+```
+
+The counterpart to `pivot_longer()` is **`pivot_wider()`**. This function is used much less frequently and takes as main arguments:
+
+- `names_from`: the column containing the unique values that shall be used as new column names
+- `values_from`: the column containing the values to fill the new columns
+
+A use case for `pivot_wider()` is given by the [data frame `us_rent_income`](https://tidyr.tidyverse.org/reference/us_rent_income.html) which is loaded withe the tidyverse (much like `billboard` and a few others):
+
+```{r}
+us_rent_income
+```
+
+We want to create a column `income` and a column `rent` from the levels of the column `variable` and fill the two new columns with the values from `estimate`.
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = estimate)
+```
+
+The results contains a few NA values. These can be replaced by zeros by means of the argument `values_fill`.
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = estimate,
+              values_fill = 0)
+```
+
+Again, `pivot_wider()` can conduct some very complex operations. The main arguments `names_from` and `values_from` can actually take more than one column. `pivot_wider()` then creates as many new columns as there are combinations of levels from the original columns. Here we put in the columns `estimate` and `moe` for `values_from`. Thus, we receive four new columns:
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = c(estimate, moe))
+```
+
+Last but not least a phonetic example. We want to create new columns from the levels of the column `Bet` (lexical stress) in the data frame `asp` and fill them with the duration values in column `d`. The code throws a warning because there are several values per cell in the new columns as you can also tell from the weird output:
+
+```{r}
+asp %>%
+  pivot_wider(names_from = Bet,
+              values_from = d)
+```
+
+The warning also kindly offers three solutions to this problem: We can use the argument `values_fn` to suppress the warning, show how many values per cell there are, or summarise the values using one of the summarising functions. The last solution seems to make sense here: wherever there are several values per cell, we compute their mean with `mean()`:
+
+```{r}
+asp %>%
+  pivot_wider(names_from = Bet,
+              values_from = d,
+              values_fn = mean)
+```
+
+In none of the pivoting examples we overwrote the data frames with their pivoted form (e.g. with a double pipe). The functions `pivot_longer()` and `pivot_wider()` are often useful for temporary changes, e.g. because you need the data frame in a certain format for a plot:
+
+```{r}
+avokal %>% 
+  pivot_longer(cols = c(schnell, langsam), names_to = "velocity", values_to = "duration") %>% 
+  ggplot() +
+  aes(x = velocity, y = duration) + 
+  geom_boxplot()
+```
+
+## Separating
+
+Our second example for messy data was the data frame `vcv` which contains two types of information in the column `Context`:
+
+```{r}
+vcv %>% head
+```
+
+We want to have the left and right phonetic context, which are separated here by a dot, in separate columns. (For the purpose of this demonstration we remove the columns `Left` and `Right` from the data frame because the are the desired solution.)
+
+```{r}
+vcv %<>% 
+  select(RT:Lang, Context) %>% 
+  as_tibble()
+```
+
+To achieve our aim we use the function **`separate()`** with the following obligatory arguments:
+
+- `col`: the column whose contents are to be separated
+- `into`: the new column names
+- `sep`: how to separate the strings in column `col`
+
+The first two arguments are pretty clear in our case: `col` is the column `Context` and `into` takes our desired column names `Left` and `Right`. For the third argument `sep`, on the other hand, there are two options. The first is to indicate the index at which to separate the string, e.g. put the first two letters in one and the rest of the letters in the second new column. To do this, we can use `sep = 2`. However, when we look at the distinct values in `Context`, this wouldn't be our desired result:
+
+```{r}
+levels(vcv$Context)
+```
+
+This is because the left context can consist of one or two letters; and also, there is a dot which would then be inherited by the left or right context, as you can see here:
+
+```{r}
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = 1)
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = 2)
+```
+
+The second option is a **regular expression** (also called regex). That means that we give the function a pattern that tells it how to separate the contents of `Context`. This would work well here because we would like to separate the contexts at the dot. Unfortunately, the dot is a marker for one (random) character in regular expressions. So if we want to indicate in our pattern that we actually mean a dot (and not any random character), we need to protect the dot by means of the escape sign, a double backslash.
+
+```{r}
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = "\\.")
+```
+
+So this is the result we aimed for: every column contains only one variable!
+
+<div class="gray">
+**Further Information: regular expressions**
+
+Regexs are a complex topic which we cannot get into in this module. If you want to learn more about them -- they are very useful in any programming language after all -- we recommend [chapter 14 from *R for Data Science*](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions).
+
+</div>

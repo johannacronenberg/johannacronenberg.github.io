@@ -1,0 +1,259 @@
+# Daten aufräumen mit `tidyr`
+
+Laden Sie die folgenden Packages und Data Frames:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(gridExtra)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+asp <- read.table(file.path(url, "asp.txt"))
+avokal <- read.table(file.path(url, "avokal.txt"))
+vcv <- read.table(file.path(url, "vcvC.txt"))
+```
+
+"*tidy datasets are all alike but every messy dataset is messy in its own way*" -- Hadley Wickham
+
+Hadley Wickham ist der Chef-Entwickler des *tidyverse*. Die Funktionen des *tidyverse* sind nicht nur auf Datenmanipulation und -verarbeitung ausgerichtet, sondern auch auf das Aufräumen von Datensätzen. 
+
+Ein aufgeräumter Datensatz folgt drei Prinzipien:
+
+* Jede Spalte enthält eine Variable
+* Jede Zeile enthält eine Beobachtung
+* Jede Zelle enthält einen Wert
+
+Diese Grundsätze scheinen zunächst offensichtlich, werden Ihnen aber in der täglichen Arbeit mit Daten in R immer wieder begegnen. Die drei Prinzipien sollten Sie vor allem aus zwei Gründen befolgen: Erstens ist jeder Datensatz so auf dieselbe konsistente Weise strukturiert, was Ihnen jede Analyse erleichtern wird. Zweitens sind die Funktionen in R, aber insbesondere die Funktionen des *tidyverse* auf die Arbeit mit Spalten ausgelegt. Das heißt, Sie wenden Funktionen häufig auf einzelne Spalten an. Deshalb ist es sinnvoll, wenn jede Spalte eine Variable enthält. Um dies zu verdeutlichen, zeigen wir Ihnen im Folgenden Beispiele für die zwei häufigsten Arten von *messy data*.
+
+- *Spaltennamen sind nicht Variablen, sondern Werte*: Die Spalten `schnell` und `langsam` im Data Frame `avokal` sind eigentlich Werte der Variable `Tempo`.
+
+```{r}
+avokal
+```
+
+- *Mehrere Variablen sind in einer Spalte gespeichert*: In der Spalte `Context` sind zwei Informationen abgespeichert: der linke und der rechte phonetische Kontext. Besser ist die Aufteilung in zwei Spalten, die sogar auch schon im Data Frame existieren (`Left` und `Right`).
+
+```{r}
+vcv %>% head()
+```
+
+Es ist nicht trivial, einen Data Frame sauber zu strukturieren. Nur ein Beispiel: Sie haben die ersten vier Formanten in Vokalen gemessen. Ist es sinnvoller, die erhobenen Daten in vier Spalten `F1`, `F2`, `F3`, `F4` festzuhalten? Oder besser in zwei Spalten `Hz` (mit den Formantwerten in Hertz) und `Formant` (mit den Werten 1, 2, 3 oder 4)?
+
+Bevor wir Ihnen zeigen, wie Sie die obigen Datensätze so umformen können, dass sie den drei Prinzipien für aufgeräumte Daten folgen, möchten wir Ihnen noch die **tibble** vorstellen.
+
+## Tibbles
+
+Die *tibble* ist eine vereinfachte Form eines Data Frames, die im *tidyverse* häufig verwendet wird. Wir laden hier einen weiteren Data Frame und formen ihn danach mittels `as_tibble()` um:
+
+```{r}
+vdata <- read.table(file.path(url, "vdata.txt")) %>% 
+  as_tibble()
+```
+
+Wenn wir den Namen der *tibble* jetzt in die Konsole eingeben, wird nicht wie beim Data Frame üblich der gesamte Datensatz angezeigt, sondern nur die ersten zehn Zeilen. Wir sehen außerdem, aus wie vielen Zeilen und Spalten die *tibble* besteht und welcher Objektklasse die einzelnen Spalten angehören:
+
+```{r}
+vdata
+```
+
+Die *tibble* hat vorrangig die Klasse `tbl_df`, aber zusätzlich noch `tbl` und `data.frame`. Wir werden deshalb im Folgenden trotzdem noch von Data Frames sprechen, wenn wir genau genommen eine *tibble* meinen.
+
+```{r}
+vdata %>% class()
+```
+
+Natürlich können Sie eine *tibble* auch selbst erstellen, indem Sie die Funktion `tibble()` anstelle der Funktion `data.frame()` verwenden, zum Beispiel so:
+
+```{r}
+tibble(x = 1:5, y = 6:10)
+```
+
+Wenn Sie die Import-Funktion `read_delim()` aus dem *tidyverse*-Package `readr` anstelle der `read.table()` Funktion verwenden, wird der Datensatz automatisch als *tibble* geladen:
+
+```{r}
+int <- read_delim(file.path(url, "intdauer.txt"), 
+                  delim = " ", 
+                  col_names = c("idx", "Vpn", "dB", "Dauer"), 
+                  skip = 1)
+int
+```
+
+`read_delim()` gibt Ihnen auch die Objektklasse für jede Spalte in der *Column specification* aus. Die Import-Funktionen aus `readr` sind etwas empfindlicher als die Standard-Funktionen in R. Hier mussten wir zum Beispiel einige Argumente spezifieren (`delim`, `col_names` und `skip`), um damit umzugehen, dass der Data Frame Zeilenindizes enthält. Die Standard-Funktion `read.table()` kommt hingegen meist damit klar, dass man nur den Pfad zum Datensatz angibt.
+
+<div class="gray">
+**Weiterführende Infos: Tibbles und `readr`**
+
+Wenn Sie mehr über die *tibble* erfahren möchten, empfehlen wir [Kapitel 10 aus *R for Data Science*](https://r4ds.had.co.nz/tibbles.html).
+
+Das Paket `readr` stellt noch weitere Funktionen zum Laden und Abspeichern von Datensätzen bereit, je nachdem wie die Spalten getrennt werden:
+
+- `read_csv()`: **c**omma **s**eparated **v**alues, d.h. durch Komma getrennte Spalten
+- `read_csv2()`: durch Semikolon getrennte Spalten
+- `read_tsv()`: durch Tab getrennte Spalten
+- `read_delim()`: für alle Trennzeichen geeignet
+
+All dies und mehr finden Sie auch in [Kapitel 11 aus *R for Data Science*](https://r4ds.had.co.nz/data-import.html).
+
+</div>
+
+## Pivoting
+
+![](img/ross-pivot-friends.gif)
+
+Wenn wir unsere Daten geladen haben, fangen wir mit dem Aufräumen an. Das Ziel ist entweder, dass die Daten so strukturiert sind, dass jede Zeile eine neue Beobachtung enthält und dass die Spalten jeweils eine Variable enthalten. Das Ziel kann auch sein, dass die Daten so strukturiert sind, dass sie unserem Zweck dienen (z.B. dem Erstellen einer Abbildung). `tidyr` nennt diesen Prozess **pivoting** und es gibt eine gut erklärte Vignette zu dem Thema:
+
+```{r, eval = F}
+vignette("pivot")
+```
+
+Oben haben wir den Data Frame `avokal` geladen und haben festgestellt, dass die Spalten `schnell` und `langsam` eigentlich zwei Ausprägungen der Variable `Tempo` sind. Das heißt, es wäre besser, eine Spalte namens `Tempo` (Werte: "schnell", "langsam") und eine namens `Dauer` (Werte aus `schnell` und `langsam` in Millisekunden) zu haben:
+
+```{r}
+avokal %>% 
+  pivot_longer(cols = c(schnell, langsam), 
+               names_to = "Tempo", 
+               values_to = "Dauer")
+```
+
+Der Befehl **`pivot_longer()`** wandelt den Data Frame in das so genannte "lange Format" um. Am wichtigsten sind die folgenden drei Argumente:
+
+- `cols`: alle Spalten, die umwandelt werden sollen
+- `values_to`: der Name der neuen Spalte mit den Werten
+- `names_to`: der Name der neuen Spalte mit den ehemaligen Spaltennamen
+
+Die Pivoting-Funktionen von `tidyr` sind sehr mächtig und können auch deutlich kompliziertere Operationen durchführen. Nehmen wir den [Data Frame `billboard`](https://tidyr.tidyverse.org/reference/billboard.html), der automatisch mit dem `tidyverse` geladen wird und die Rankings der Billboard Charts aus dem Jahr 2000 enthält:
+
+```{r}
+billboard
+```
+
+Auch hier ist es der Fall, dass die Spalten `wk1`, `wk2`, `wk3` usw. eigentlich Levels oder Ausprägungen der Variable `week` sind. Wir möchten also eine Spalte erstellen, die uns die Woche angibt, und eine Spalte, die den Rank in den Billboard Charts enthält. Um dies zu erreichen, nehmen wir alle Spalten, die mit "wk" beginnen, packen die Spaltennamen in eine neue Spalte namens `week` und die Werte aus den Spalten in die neue Spalte `rank`. Das Präfix "wk" aus den alten Spaltennamen können wir durch das Argument `names_prefix` ablegen. Und zuletzt löschen wir alle NA-Werte (NA steht für *not available*) -- es gibt z.B. keine Zeile für Woche 8 für 2Pac's "Baby Don't Cry", weil der Song in der achten Kalenderwoche nicht in den Top 100 gerankt wurde.
+
+```{r}
+billboard %>% 
+  pivot_longer(cols = starts_with("wk"), 
+               names_to = "week", 
+               values_to = "rank",
+               names_prefix = "wk",
+               values_drop_na = TRUE)
+```
+
+Es gibt noch ein Gegenstück zu `pivot_longer()`, nämlich **`pivot_wider()`**. Diese Funktion wird deutlich seltener gebraucht, und bekommt vor allem die Argumente:
+
+- `names_from`: die Spalte, deren einzigartige Werte als neue Spalten benutzt werden sollen
+- `values_from`: die Spalte, deren Werte die neuen Spalten füllen sollen
+
+Ein Beispiel dafür kann aus dem [Data Frame `us_rent_income`](https://tidyr.tidyverse.org/reference/us_rent_income.html) abgeleitet werden, der ebenfalls mit dem *tidyverse* geladen wird:
+
+```{r}
+us_rent_income
+```
+
+Wir möchten eine Spalte `income` und eine Spalte `rent` aus den Levels der Spalte `variable` erstellen und die neuen Spalten dann mit den Werten aus `estimate` füllen.
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = estimate)
+```
+
+Im Ergebnis sehen wir jetzt aber einige `NA`-Werte. Diese können wir zum Beispiel durch Nullen ersetzen, indem wir zusätzlich das Argument `values_fill` verwenden.
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = estimate,
+              values_fill = 0)
+```
+
+Auch hier gibt es wieder komplexere Operationen, die `pivot_wider()` durchführen kann. Die beiden Hauptargumente `names_from` und `values_from` können jeweils auch mehr als eine Spalte angegeben bekommen. `pivot_wider()` erstellt dann so viele neue Spalten, wie es Kombinationen zwischen den Levels aus den originalen Spalten bzw. Spaltennamen gibt. Hier geben wir zum Beispiel die Spalten `estimate` und `moe` bei `values_from` an und erhalten so in Kombination mit den zwei Levels aus `variable` vier neue Spalten:
+
+```{r}
+us_rent_income %>% 
+  pivot_wider(names_from = variable,
+              values_from = c(estimate, moe))
+```
+
+Zuletzt noch ein phonetisches Beispiel: Wir möchten aus den Levels der Spalte `Bet` (Betonung) des Data Frames `asp` neue Spalten machen und diese mit den Dauerwerten `d` füllen. Der Code wirft aber eine Warnmeldung, weil es mehrere Werte pro Zelle gibt in den neuen Spalten gibt, wie Sie an der seltsamen Schreibweise sehen können:
+
+```{r}
+asp %>%
+  pivot_wider(names_from = Bet,
+              values_from = d)
+```
+
+Netterweise gibt uns die Warnmeldung auch sofort drei Lösungswege an: Wir können das Argument `values_fn` benutzen, um die Warnung zu unterdrücken, uns anzeigen zu lassen wie viele Werte pro Zelle es gibt, oder mit einer zusammenfassenden Funktion die Werte umformen. Letzteres scheint hier sinnvoll zu sein: Dort, wo es mehrere Werte pro Zelle gibt, lassen wir mit `mean()` den Durchschnitt berechnen:
+
+```{r}
+asp %>%
+  pivot_wider(names_from = Bet,
+              values_from = d,
+              values_fn = mean)
+```
+
+In keinem unserer *pivoting*-Beispiele haben wir die Data Frames in ihrer veränderten Form überschrieben (z.B. mittels der Doppelpipe). Die Funktionen `pivot_longer()` und `pivot_wider()` kann man auch für temporäre Änderungen benutzen, z.B. wenn man den Data Frame in einer bestimmten Form nur für eine Abbildung braucht:
+
+```{r}
+avokal %>% 
+  pivot_longer(cols = c(schnell, langsam), names_to = "Tempo", values_to = "Dauer") %>% 
+  ggplot() +
+  aes(x = Tempo, y = Dauer) + 
+  geom_boxplot()
+```
+
+## Separating
+
+Unser zweites Beispiel für *messy data* ist der Data Frame `vcv`, bei dem zwei Informationen in der Spalte `Context` vorhanden sind:
+
+```{r}
+vcv %>% head
+```
+
+Wir möchten den linken und rechten Kontext, die hier durch einen Punkt getrennt werden, in eigenen Spalten haben (wir entfernen zu Demonstrationszwecken die Spalten `Left` und `Right`, denn die enthalten schon die gewünschte Lösung).
+
+```{r}
+vcv %<>% 
+  select(RT:Lang, Context) %>% 
+  as_tibble()
+```
+
+Um unser Ziel zu erreichen, nutzen wir die Funktion **`separate()`**, die obligatorisch folgende Argumente bekommt:
+
+- `col`: die Spalte, deren Inhalt aufgeteilt werden soll
+- `into`: die neuen Spaltennamen
+- `sep`: wie die *strings* in der gewählten Spalte getrennt werden sollen
+
+Die ersten zwei Argumente sind eigentlich klar: `col` ist die Spalte `Context`, und bei `into` geben wir die zwei gewünschten Spaltennamen `Left` und `Right` an. Für `sep` gibt es zwei Optionen: Die erste Möglichkeit ist mittels einer Zahl, die den Index angibt, ab dem getrennt werden soll: wenn z.B. die ersten zwei Buchstaben immer in die eine und der Rest in die zweite Spalte geschrieben werden soll, nutzen wir `sep = 2`. Wenn wir uns aber die unterschiedlichen Werte in `Context` anschauen, ist das hier nicht sinnvoll:
+
+```{r}
+levels(vcv$Context)
+```
+
+Der linke Kontext kann aus einem oder zwei Buchstaben bestehen; außerdem ist da noch ein Punkt, der dann entweder in den linken oder rechten Kontext übernommen werden würde, wie man hier sieht:
+
+```{r}
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = 1)
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = 2)
+```
+
+Die andere Möglichkeit ist eine **regular expression** (auch: regulärer Ausdruck oder RegEx). Dafür gibt man ein Muster (*pattern*) an, nach dem die Trennung in zwei Spalten erfolgen soll. Das würde für unser Beispiel gut passen, weil wir immer am Punkt trennen wollen. Der Punkt steht aber leider bei den regulären Ausdrücken für ein (und zwar egal welches) Schriftzeichen. Wenn wir den Punkt als Punkt verwenden wollen müssen wir ihn durch das Escape-Zeichen, den doppelten Backslash, schützen.
+
+```{r}
+vcv %>% 
+  separate(col = Context, 
+           into = c("Left", "Right"), 
+           sep = "\\.")
+```
+
+So erreichen wir also das Ziel, dass jede Spalte nur eine Variable enthält!
+
+<div class="gray">
+**Weiterführende Infos: reguläre Ausdrücke**
+
+RegExps sind ein komplexes Thema, in das wir hier nicht tiefer einsteigen werden. Wenn Sie sich einlesen wollen, empfehlen wir [Kapitel 14 aus *R for Data Science*](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions).
+</div>

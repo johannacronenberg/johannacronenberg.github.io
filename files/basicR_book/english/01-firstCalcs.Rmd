@@ -1,0 +1,293 @@
+# First Calculations in R
+
+On the bottom left of RStudio you can find the `Console`. This is where code is executed, i.e. the console is the direct connection between R and the computer. For instance, enter the following code line by line into the console and hit enter after every line:
+
+```{r}
+1 + 1
+10 - 5
+3 * 4
+12 / 6
+2^4
+```
+
+The answers to the entered calculations is returned in the console.
+
+## Variables & Functions
+
+Of course we won't just use the console as a calculator. Often we want to use certain values repeatedly without having to re-enter the calculation every time. That is why we save values as so called **variables**. These variables can be found in the *environment*, i.e. the panel on the top right.
+
+In order to create a new variable, you have to enter the desired variable name followed by the arrow `<-` followed by the value. Here we create a variable called `sum` which contains the value `1 + 1`:
+
+```{r}
+sum <- 1 + 1
+```
+
+To see the contents of the variable, simply enter the variable's name in the console and hit enter again:
+
+```{r}
+sum
+```
+
+You can see, that the variable doesn't return `1 + 1`, but `2`. Whenever we want to use the value of the calculation `1 + 1`, we can use `sum` instead:
+
+```{r}
+sum + 3
+```
+
+Caution! Variables are overwritten in R **without any warning**:
+
+```{r}
+x <- 4
+x
+x <- 3
+x
+```
+
+In your R environment are two variables now: `sum` has the value 2, `x` has the value 3. You can find out which variables are in your environment by using a so called **function**. Functions (also: commands) execute actions. These actions were defined as code which was written by someone and made available for all users of R (you can also write functions yourself, but that won't be covered in this course). Enter the following command into your console and hit the enter: 
+
+```{r}
+ls()
+```
+
+The function is called `ls()`, which stands for *list*, and returns the names of all variables in your environment. You can recognise functions because they are followed by brackets. The **arguments** of the function, i.e. any information or values needed by the function to do its job, are given within these brackets. `ls()` is one of the few functions in R which do not need any arguments.
+
+Another useful function is `rm()` (*remove*), which removes variables from the environment (careful: this decision is permanent!). This function takes as arguments the names of the variables which shall be deleted. Here we are deleting the variable `x`:
+
+```{r}
+rm(x)
+ls()
+```
+
+## Object Classes
+
+So far we have only handled numbers (so called *numerics*). There are quite a few more types of objects in R. For starters, the numeric objects can be *doubles* or *integers*.
+
+```{r}
+x <- 3.2   # double
+x
+y <- 4     # integer
+y
+```
+
+Additionally, there are *strings* or *characters* which must always be enclosed by quotes:
+
+```{r}
+z <- "hello world!"
+z
+```
+
+... as well as the two *boolean* values (aka *logicals*) which are written in caps:
+
+```{r}
+a <- TRUE    # Shorthand: T
+a
+b <- FALSE   # Shorthand: F
+b
+```
+
+Furthermore, there is another important class of objects called *factor* which is used for categorical data. This type of data, together with a few more object classes, will be introduced in more detail later.
+
+In order to find out the class of a variable, use the function `class()`. This function only has one argument -- the name of the variable:
+
+```{r}
+class(a)
+class(y)
+class(z)
+```
+
+## Vectors
+
+The function `c()` (*concatenate*) creates a vector, i.e. a data structure that contains elements of the same class.
+
+```{r}
+vec <- c("a", "b", "c") # all elements are strings
+vec
+
+vec <- c(3, 6, 89.3, 0, -10)  # all elements are numerics (more precisely: doubles)
+vec
+```
+
+If the elements are of different classes (*strings*, *booleans*, *numerics*), the elements are silently (i.e. without warning) converted into the same type.
+
+```{r}
+c(3, 4, "string", T)  # all elements are converted into strings
+c(2, 5, T, F)         # all elements are converted into numerics; TRUE = 1, FALSE = 0
+```
+
+## Arithmetic and Logical Operators
+
+You have already experienced that the console works as a calculator. The basic arithmetic operations as well as arithmetic functions can be applied to all numeric objects as well as to numeric vectors:
+
+```{r}
+a <- c(10, 4, 20)
+a * 10
+
+b <- c(5, 2, 7)
+a + b
+```
+
+R provides many arithmetic functions which only receive a numeric variable as argument:
+
+```{r}
+sum(a)        # sum of all elements
+sqrt(a)       # square root of each element
+log(a)        # logarithm of each element
+exp(a)        # exponential of each element
+```
+
+Logical operators compare two variables of the same class. The following logical operators exist in R:
+
+```{r, eval = F}
+x < y       # less than
+x > y       # more than
+x <= y      # less than or equal
+x >= y      # more than or equal
+x == y      # exactly equal
+x != y      # unequal
+!x          # not x
+x | y       # x OR y
+x & y       # x AND y
+isTRUE(x)   # test if x is TRUE
+x %in% y    # test if a value x is contained in a vector y
+```
+
+Expressions which use these operators return the boolean values, either `TRUE` or `FALSE`, as you can see in the following examples:
+
+```{r}
+x <- 3
+y <- 4
+x == y
+x != y
+x > y
+x <- c(1, 2, 3, 4, 5)
+x == 3
+"a" %in% c("a", "b", "c")
+```
+
+The logical operators will become very important in later chapters.
+
+## Manipulate Vectors
+
+We want to introduce a few more functions that can be helpful in working with vectors.
+
+Besides `c()` there are other functions that create vectors. First of all, there is a shorthand for vectors of sequential integers, by using the colon:
+
+```{r}
+1:10
+10:1
+```
+
+The function `seq()` creates a vector of numeric intervals, i.e. sequences of numbers which are equally spaced. The function has three arguments: the first (`from`) and the maximal (not necessarily last) value of the interval (`to`), and then either the desired length of the vector (`length.out`) or the steps of the interval (`by`).
+
+```{r}
+seq(from = 10, to = 20, length.out = 5)	  # 5 intervals between 10 and 20
+seq(from = 10, to = 20, by = 1.5)	        # in intervals of 1.5
+```
+
+<div class="gray">
+**Further Information: arguments in functions**
+
+Above you are shown for the first time, that arguments in functions have names (e.g. `from`, `to`, `length.out` and `by`). When arguments have names (which is almost always the case), you can either use the names as shown above or leave them out.
+
+```{r}
+seq(10, 20, length.out = 5)
+```
+
+If you do not use the arguments' names, you have to submit the necessary values to the function in the right order. The order of the function's arguments can be found on the help pages. Navigate to the tab `Help` on the bottom right and enter the function name `seq` in the search bar. When you hit enter you should see the help page of that function. As you can see, the order of the arguments is `from`, `to`, and then either `by` or `length.out`. We can omit the argument names `from` and `to` as long as we use the right values in the right order, i.e. first the value intended as `from`, then the one for `to`. However, the function does not know whether the third argument is supposed to be `by` or `length.out`, hence we write the argument as `length.out = 5`. If we did not mention the argument's name here, the function would interpret the number 5 as the argument `by`:
+
+```{r}
+seq(10, 20, 5)
+```
+
+If we use the arguments' names, the order does not matter:
+
+```{r}
+seq(to = 20, by = 1.5, from = 10)
+```
+
+</div>
+
+The function `rep()` repeats values (no matter if numeric, logical, or strings). Besides the values that are to be repeated, the function has the arguments `times` and/or `each` (or the argument `length.out` which we ignore for now). Here we demonstrate what these arguments do (also consult the help page of that function!):
+
+```{r}
+rep(1, times = 3)
+rep("a", times = 2)
+
+vek <- c("a", "b")
+rep(vek, times = 4)
+rep(vek, each = 4)
+rep(vek, times = 3, each = 3)
+```
+
+Lastly, there are two related functions that generate vectors of strings: `paste()` and `paste0()`. The function `paste()` takes all elements that are to be connected, and optionally the argument `sep` (*separator*) that determines which symbol connects the elements. `paste0()` only takes the elements. When the elements are all simple strings, `paste()` and `paste0()` generate a string, whereas when one element is a vector, the result is a vector of strings. 
+
+```{r}
+paste("a", "b", "c", sep = " ")
+paste("a", "b", "c", sep = "")
+paste0("a", "b", "c")
+
+paste("subject", 1:5, sep = "_")
+paste0("subject", 1:5)
+```
+
+There are a few more useful functions that manipulate vectors or give you information about the contents of vectors. Look at your R environment. There are three simple variables now: `sum`, `y`, and `z`. All other variables are vectors. For instance, you can see that the variable `a` is a numeric vector of length 3 (i.e. it contains 3 elements): it says `num [1:3]`. `num` means *numeric*, the notation `[1:3]` indicates that the vector is a one-dimensional object of length 3. To query the length of a vector without having to look at the environment, use the function `length()`:
+
+```{r}
+length(a)
+length(vec)
+```
+
+If you want to know which unique elements are in a vector, use `unique()`:
+
+```{r}
+vec <- c(1, 5, 2, 7, 6, 3, 7, 5)
+unique(vec)
+
+vec <- c("i", "i", "a", "a", "E", "E", "E", "E", "U")
+unique(vec)	
+```
+
+Finally we want to introduce a very versatile function called `table()`. When this function is applied to a vector, it returns the unique elements of the vector including how often they appear in the vector:
+
+```{r}
+table(vec)
+```
+
+So in `vec`, there are two occurrences of the element "a", four of the element "E", etc. We will see later what else `table()` can be used for.
+
+## Factors
+
+Now that you know about vectors, we'll introduce the object class called *factor*. Factors are used for categorical data, i.e. for those that can take a limited amount of diverse values. A factor can be created using the function `factor()`. Here we generate a factor of different age categories:
+
+```{r}
+age <- factor(c("young", "old", "old", "mid", "young", "young"))
+class(age)
+age
+```
+
+When the factor `age` is returned in the console, you first get the values in the entered order. Even though the values were strings, they are not returned as such (i.e. in quotes). This is because they are not just strings anymore, but categories. These categories are also called levels, which are also shown in the console. The levels can be queried with the function `levels()`:
+
+```{r}
+levels(age)
+```
+
+The function `factor()` can take an argument called `levels` with which you can determine the levels and their order yourself (otherwise, R puts the levels in alpha-numerical order).
+
+```{r}
+age <- factor(c("young", "old", "old", "mid", "young", "young"), 
+              levels = c("young", "mid", "old"))
+age
+```
+
+Numeric values are rarely categorical. But if, say, you asked five classmates what their age was and saved the values in a vector:
+
+```{r}
+age <- c(22, 25, 23, 22, 23)
+```
+
+... and you considered the age in years as categorical, you could transform the vector into a factor.
+
+```{r}
+age <- factor(c(22, 25, 23, 22, 23))
+age
+```

@@ -1,0 +1,215 @@
+--- 
+title: "Programming in R: An Introduction for Phoneticians"
+author: "Johanna Cronenberg"
+date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib]
+biblio-style: apalike
+link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
+fontsize: 12pt
+description: "An introduction to data processing in R focussing on *tidyverse*. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich."
+---
+
+```{r setup, include=FALSE}
+options(
+  htmltools.dir.version = FALSE, 
+  formatR.indent = 2,
+  width = 55, 
+  digits = 4, 
+  warnPartialMatchAttr = FALSE, 
+  warnPartialMatchDollar = FALSE
+)
+
+local({
+  r = getOption('repos')
+  if (!length(r) || identical(unname(r['CRAN']), '@CRAN@'))
+    r['CRAN'] = 'https://cran.rstudio.com' 
+  options(repos = r)
+})
+
+lapply(c('DT', 'formatR', 'svglite', 'rticles'), function(pkg) {
+  if (system.file(package = pkg) == '') install.packages(pkg)
+})
+
+# install from github
+githubs <- c('citr' = 'crsh/citr')
+lapply(names(githubs), function(pkg) {
+  if (system.file(package = pkg) == '') remotes::install_github(githubs[pkg], upgrade = FALSE)
+})
+```
+
+# Setup
+
+## Installation
+
+- Download and install the [Software R](https://ftp.fau.de/cran/). The latest version is currently `4.2.x` (February 2023).
+
+- Also download and install [RStudio](https://RStudio.com/products/RStudio/download/#download).
+
+- Watch this [short introduction to RStudio](https://www.youtube.com/watch?v=tyvEHQszZJs).
+
+- Create a directory on your hard drive to be used for this course.
+
+## R Projects
+
+This course will make use of an *R project* which will make working with R easier in the long run.
+
+- Open RStudio and click on the (very small) triangle in the top right hand corner labelled `Project: (None)`.
+
+- Then click on `New Project` and then `Existing Directory` and use `Browse` to select the directory that you just created on your hard drive.
+
+- Finish by clicking on `Create Project`.
+
+RStudio will then automatically open this project that has the same name as your course directory (see the triangle on the top right). The project can be closed via this triangle and also re-opened. The project can also be opened by clicking on the file that has been created in your course directory with the extension `.Rproj`.
+
+If you have any difficulty with project installation [watch this introductory video](https://www.youtube.com/watch?v=hKoSJGWnFFA).
+
+<div class="gray">
+**More information on R projects**
+
+R projects have many advantages especially if R is being used in several courses and there is a separate R project for each course. The project remembers which files were displayed and makes these available when the project is opened again -- so that you can carry on working where you left off. Moreover, the *working directory* of the project is your course directory. As a result, all files that you put into this directory are accessible via the `Files` toolbar on the bottom right. You can also check what your course directory is by entering `getwd()` into the console and hitting enter.
+
+</div>
+
+## Packages and R Version
+
+There are many thousands of *packages* i.e. *libraries* which make working in R easier. Please install the following (takes a few minutes):
+
+```{r, eval = F}
+install.packages(c("Rcpp", "remotes", "knitr", 
+                   "tidyverse", "magrittr", 
+                   "rmarkdown", "emuR", 
+                   "gridExtra", "emmeans", 
+                   "broom", "lmerTest", 
+                   "pbkrtest", "MuMIn"))
+```
+
+<div class="gray">
+**More information: Installation of R packages**
+
+Should the above result in the error message `installation of package had non-zero exit status`, then it means that the installation failed. For Windows, you might then additionally have to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/). For MacOS you might need to install/reset the *XCode command-line tools*. For this purpose, open a Mac terminal window and execute the following:
+
+```{bash, eval = F}
+xcode-select --install
+# Should the R packages installation still not work:
+xcode-select --reset
+```
+
+**If you are unsure about how to solve problems during the installation of R packages, please ask me!**
+</div>
+
+While some base packages are automatically loaded when you start up RStudio, most have to be loaded using the `library()` function, thus:
+
+```{r, eval = F}
+library(tidyverse)
+library(emuR)
+```
+
+<div class="gray">
+**Further Information: Updates**
+
+Please check regularly whether your packages need to be updated -- updates in R are not automatic! For this purpose, click in the main toolbar on `Tools > Check for Package Updates`. You can also check whether there are any updates to RStudio via `Help > Check for Updates`.
+
+R also has to be regularly updated. Check what version you have with `getRversion()`. Check the [R Webpage](https://ftp.fau.de/cran/) regularly to see whether a newer, stable version is available.
+</div>
+
+## Sessions
+
+A session starts when either R or RStudio or a project is opened. A session is terminated with `Session > Quit Session` in the main toolbar or with `Strg+Q` or `Ctrl+Q` or `q()`. The session also ends automatically when you quit RStudio.
+
+You will then be asked whether you want to save the workspace image. Should you want to keep the objects that you have created in any one session so that they are available again in the next session, click `save`. The workspace is then saved in your course directory with the extension `.RData`. If you don't want to save the workspace, click `Don't save`. If you decide you don't want to end the session after all, click `Cancel`.
+
+**For this course, please never save the *workspace* i.e. `Don't save`.**
+
+## Types of Documents
+
+### R Scripts
+
+The console in RStudio is the direct connection to R i.e. that's where R code can be executed. But storing R code in a document is important in order to be able to replicate previously executed code. You could do this with an **R script** which can be created with `File > New File > R Script` (or via `Strg + Shift + N`) and should always be saved with a `.R` extension. An R script only contains executable code. When an R script is run, all lines are executed except those that begin with `#` that are commented out. There are various ways of executing an R script. Select the required lines of code (or if it's just one line of code, put the cursor on the line) and then click `Run` or enter `Strg + enter` or `Ctrl + enter`. The output from running the command is then immediately visible in the console.
+
+### R Markdown
+
+In the last few years **R Markdown** has become another popular way for creating documents for R code that can be especially useful for creating reports and teaching material. R Markdown is a document containing snippets of R code that can then be executed in the way described above. R Markdown documents often have more text than code. You can create an R Markdown document with `File > New File > R Markdown` in the main toolbar. It's conventional to save the document with the extension `.Rmd`. An R markdown file is usually converted or *knitted* into a different format such as HTML or PDF or even Word. This is done via the button with a ball of wool marked `Knit` or via:
+
+```{r, eval = F}
+library(rmarkdown)
+render("document.Rmd")
+```
+
+R Markdown was used to create the HTML document that you are currently reading.
+
+Special symbols are used in the markdown document that are converted as follows when *knitted*: 
+
+\# Heading: A hashtag gives the largest heading size; the more hashtags used, the smaller the size of the heading.
+
+\*\*bold\*\*: A double asterisk before and after the text marks it as bold.
+
+\*italics\*: A single asterisk italicises text.
+
+\`code\`: The backslash quotes highlight the text: this is often used when marking code or variables outside of a code snippet (but note that any such code cannot be executed).
+
+\`\`\`: Three backslash quotes in sequence mark the beginning and the end of a code snippet (also known as a *code block*). All R code must be entered between the sets of three backslash quotes; any text inside a snippet has to be marked with a \# in order for it to be identified as a comment. Curly brackets identify the language in which the code is written (for our purposes: `{r}`).
+
+More information is available in the [cheatsheet for R Markdown](https://www.RStudio.org/links/r_markdown_cheat_sheet) (esp. page 2, left column).
+
+## Help
+
+### Recognising Errors
+
+- Warnings: if you make a syntax error (e.g. by forgetting a bracket), you will see a red warning sign at the beginning of the line of code that contains the error. Don't ignore this because it shows that a mistake has been made. The warning sign disappears once the error is corrected.
+
+- "Knit": We recommend that you regularly convert your Markdown document to HTML by clicking `Knit` on the toolbar at the top. If all goes well, you will hopefully see the compiled HTML in a new window or in the viewer. However, if you have syntax errors or other errors in your code, the HTML will not be generated and you will instead get an error in the console where you can also see in which line the error has occurred.
+
+- Execute code one line (or in blocks of a couple of lines) at a time. That way you can see the result and decide whether this is what you intended.
+
+### Ask the Community
+
+There is a very large and helpful R community that will make learning R easier for you. Here are a few useful links and commands in case you get stuck:
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r): A blog where you can often find an answer to your questions about R. The easiest way is to google your question in English; a stack overflow member's answer will be included in the first search results.
+
+- [Hadley Wickham's "R for Data Science"](https://r4ds.had.co.nz/): Hadley Wickham is the chief programmer of the "tidyverse". His books are very readable, well structured, and entertaining.
+
+- Cheatsheets: those are PDFs that provide an overview of functions with explanations and examples in a very compact form. You will find some cheatsheets in the main toolbar via `Help > Cheatsheets`. The first three are especially useful. You can also find cheatsheets by googling, see e.g. [Data Transformation with dplyr](https://raw.githubusercontent.com/RStudio/cheatsheets/master/data-transformation.pdf) or this very comprehensive [Reference Card](https://cran.r-project.org/doc/contrib/Short-refcard.pdf).
+
+- Vignettes: For some packages there are so-called "vignettes", which are mostly HTMLs or PDFs that have been written by the package's authors. You can search for vignettes using the following input to the console:
+
+```{r, eval = F}
+# for e.g. one of the libraries from tidyverse
+vignette("dplyr")
+```
+
+- You can get information about a function by entering its name in the RStudio `Help` tab on the bottom right. You'll then get information about the function's arguments and often some examples. You can also get help via the console, as follows (e.g. here for `getwd()`): 
+
+```{r, eval = F}
+?getwd
+help("getwd")
+```
+
+### Help with `ggplot2`
+
+`ggplot2` is both well-known and popular and there's plenty of help available for `ggplot2` from the R community. Here are some useful links for creating graphics:
+
+- The chapter [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) in Hadley Wickham's "R for Data Science"
+
+- [Cookbook for R](http://www.cookbook-r.com/Graphs/)
+
+- [Cheatsheet ggplot2](https://RStudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/ggplot2?sort=faq)
+
+### Statistics in R: Literature
+
+If you need more information about using statistics in R, the following are recommended:
+
+- Bodo Winter's "Statistics for Linguists: An Introduction using R": A recent book with excellent explanations to all major themes in inferential statistics. It's available online via the LMU library.
+
+- Stefan Gries' "Statistics for Linguistics with R: A Practical Introduction": Useful for decision making about which model to use for which type of question. Although the code is not always up-to-date (given that the book was published in 2009) the statistical content is still valid. Also online via the LMU library.
+
+- Harald Baayen's "Analyzing Linguistic Data: A Practical Introduction to Statistics": This is for more advanced readers. Although the R code is a bit out of date, the explanations and examples of statistics foundations are very helpful. Available as a hard copy from the LMU library.

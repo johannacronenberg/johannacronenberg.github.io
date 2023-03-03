@@ -1,0 +1,127 @@
+# Manipulating Data with `dplyr` (Continuation)
+
+## Grouping & Summarising
+
+Please load the following libraries and data frames for this chapter:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+int <- read.table(file.path(url, "intdauer.txt"))
+coronal <- read.table(file.path(url, "coronal.txt"))
+vdata <- read.table(file.path(url, "vdata.txt"))
+```
+
+Chapter \@ref(summary-statistics) was concerned with summary statistics regarding the F1 values stored in the data frame `vdata`. Of course we can calculate these values just as well using the *tidyverse* syntax. This is actually what the function `summarise()` from the package `dplyr` was made for. This function changes that data frame completely because the original observations are summarised to new, descriptive values. The columns of the original data are also usually dropped and new columns containing the calculated values are created. The function takes as arguments the new column names and a function with which the values for the new column shall be calculated:
+
+```{r}
+vdata %>% summarise(arith_mean = mean(F1))
+```
+
+The output of this pipe is a data frame of just one column called `arith_mean` and one observation which contains the arithmetic mean of `vdata$F1`. We can also compute several summary statistics within one call of `summarise()`, which results in a data frame with more columns:
+
+```{r}
+vdata %>% summarise(arith_mean = mean(F1),
+                    std_dev = sd(F1),
+                    s = sum(F1),
+                    maximum = max(F1),
+                    Q1 = quantile(F1, 0.25))
+```
+
+The functions `mutate()` and `summarise()` have in common that they create new columns from the old ones. However, while `mutate()` keeps all original columns and observations, `summarise()` creates a new data frame with usually less columns and observations than before.
+
+Say, you want to compute the arithmetic mean of F1 for a specific vowel `V` in the data frame `vdata` -- how would you do that? Using tidyverse, probably like this (for the vowel `V == "E"`):
+
+```{r}
+vdata %>% 
+  filter(V == "E") %>% 
+  summarise(arith_mean = mean(F1))
+```
+
+The mean F1 for "E" is approx. 426 Hz. If you're interested in the vowel-specific mean F1 values, it is very inefficient to rerun the code above for every single vowel category in the data frame. Instead, you can use the function `group_by()` which takes as arguments the names of all columns by which you want to group the result of the code. `summarise()` computes the desired summary statistics then **per group**. In our example, let's compute the mean for each vowel:
+
+```{r}
+vdata %>% 
+  group_by(V) %>% 
+  summarise(arith_mean = mean(F1))
+```
+
+This code created two columns: one contains the seven distinct vowel from the original data frame, the second the vowel-specific mean F1 values. Of course you can group the results by more than one column. It is, for instance, probably the case that the mean F1 is not just different for each vowel, but that the tenseness `Tense` of the vowel also affects F1. That is why we group now by vowel and tenseness and then compute the mean F1:
+
+```{r}
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(arith_mean = mean(F1))
+```
+
+Now we can see the mean F1 for lax "%", tense "%" (ignore the weird vowel encoding), lax "A", tense "A" and so on.
+
+<div class="gray">
+**Further Information: `summarise()` warning**
+
+Above you can see a warning that was thrown by the `summarise()` command. Warnings try to get your attention -- don't ignore them! This specific warning shows that the result of the pipe is a grouped data frame (object class `grouped_df`) and that `V` is the grouping variable:
+
+```{r}
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(arith_mean = mean(F1)) %>% 
+  class()
+```
+
+The warning also tells you that you can the change the grouping of the results by using the function's argument `.groups`. This argument can take on different values as you can read on the help page for `summarise()`.
+
+In the previous code snippets in which we used `group_by()` together with `summarise()` the warning didn't show up because we grouped by only one variable; thus the grouping is removed automatically in the results.
+</div>
+
+Importantly, you can only use `group_by()` on categorial columns, i.e. factors. It makes no sense to use grouping on non-categorical, numeric columns because there are no groups there (rather, every value in a numeric column is unique or at least rare). We, on the other hand, want to calculate summary statistics for categorical groups.
+
+Lastly we want to introduce the function `n()` and `n_distinct()`. `n()` takes no arguments and is used within `summarise()` and after `group_by()` to return the number of observations (rows) per group. `n_distinct()` takes the name of one column as an argument and finds out how many distinct (unique) values of a variable there are per group.
+
+```{r}
+# number of rows for every combination of V and Tense
+vdata %>% 
+  group_by(V, Tense) %>% 
+  summarise(count = n())
+# number of unique participants `Vpn` per region and social class
+coronal %>% 
+  group_by(Region, Socialclass) %>% 
+  summarise(count = n_distinct(Vpn))
+```
+
+<div class="gray">
+**Further Information: Describing functions unambiguously**
+
+Since functions from the *tidyverse*, especially from `dplyr`, have pretty common names (`filter()`, `summarise()`, `rename()`), they can be masked easily by functions of the same name from other packages. So if a function returns an error message, try re-loading the package of which the function you used is a part, or use the following notation: `dplyr::filter()`.
+
+</div>
+
+## Arranging
+
+In your everyday work with data frames it can be useful to arrange the data frame with regard to rows and/or columns. Use `arrange()` for sorting rows and `relocate()` for sorting columns. Here we arrange the data frame `int` in ascending order by duration `Dauer`:
+
+```{r}
+int %>% arrange(Dauer)
+```
+
+`arrange()` can also sort alphabetically and with regard to several columns:
+
+```{r}
+int %>% arrange(Vpn, Dauer)
+```
+
+To put a data frame in descending order, you can use `desc()` within `arrange()`:
+
+```{r}
+int %>% arrange(Vpn, desc(Dauer))
+```
+
+`relocate()` takes as arguments the names of all columns that are to be relocated. If you submit no further arguments, the columns are put in first place. Otherwise you can use the arguments `.before` and `.after` to specify the new location of the columns:
+
+```{r}
+vdata %>% slice(1)
+vdata %>% relocate(Subj) %>% slice(1)
+vdata %>% relocate(Subj, Cons) %>% slice(1)
+vdata %>% relocate(where(is.numeric), .after = Subj) %>% slice(1)
+vdata %>% relocate(where(is.character), .before = dur) %>% slice(1)
+```

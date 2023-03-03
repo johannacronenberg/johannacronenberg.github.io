@@ -1,0 +1,267 @@
+# Pretty Plots
+
+Laden Sie die folgenden Packages und Data Frames:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(gridExtra)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+asp <- read.table(file.path(url, "asp.txt")) %>% as_tibble()
+coronal <- read.table(file.path(url, "coronal.txt")) %>% as_tibble()
+vdata <- read.table(file.path(url, "vdata.txt")) %>% as_tibble()
+int <- read.table(file.path(url, "intdauer.txt")) %>% as_tibble()
+```
+
+`ggplot2` bietet Ihnen vielfältige Möglichkeiten, Ihre Abbildungen zu verschönern und zu individualisieren. Hier stellen wir Ihnen die wichtigsten Spezifikationen vor.
+
+## Achsenbeschriftungen
+
+Die Beschriftungen der Achsen wird mit `xlab()` bzw. `ylab()` erstellt. Einen Titel können Sie mit `ggtitle()` hinzufügen:
+
+```{r}
+ggplot(asp) + 
+  aes(x = Kons, y = d) + 
+  geom_boxplot() + 
+  xlab("Artikulationsstelle") + 
+  ylab("Dauer (ms)") + 
+  ggtitle("Boxplot-Daten")
+```
+
+Ansonsten können Sie auch `labs()` nutzen für alle Labels zusammen:
+
+```{r}
+ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar(position = "fill") + 
+  labs(x = "Region", 
+       y = "Proportion", 
+       title = "Proportionale Aufteilung von Frikativen",
+       subtitle = "Aufgeteilt nach Region")
+```
+
+## Koordinatensystem begrenzen
+
+Um den sichtbaren Bereich eines Plots zu begrenzen oder zu erweitern, können Sie die folgenden Funktionen verwenden. Diese haben jedoch unterschiedliche "Nebenwirkungen" (s. auch [hier](https://ggplot2.tidyverse.org/reference/coord_cartesian.html)):
+
+* `xlim()` und/oder `ylim()` bzw. `scale_x_continuous(limits = c())` und/oder `scale_y_continuous(limits = c())`: Eliminiert Datenpunkte beim Heranzoomen und wirft eine Warnmeldung. Dies beeinflusst ggf. Regressionslinien und andere überlagerte Abbildungskomponenten.
+* `coord_cartesian(xlim = c(), ylim = c())`: Blendet die Datenpunkte nur aus und wirft daher keine Warnmeldung. Dies beeinflusst Regressionslinien und andere überlagerte Abbildungskomponenten nicht.
+
+```{r}
+# ohne Achsenbeschränkung:
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point()
+
+# mit coord_cartesian()
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point() + 
+  coord_cartesian(xlim = c(10,40), 
+                  ylim = c(30,280))
+
+# mit xlim() und ylim()
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point() + 
+  xlim(10, 40) + 
+  ylim(30, 280)
+```
+
+## Farben
+
+`ggplot2` verwendet standardmäßig immer dieselbe Farbpalette. Ihnen stehen aber deutlich mehr Farben zur Verfügung, wie Ihnen diese [Farbauswahl](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf) zeigt. Die Farbnamen bekommen Sie auch mit:
+
+```{r, eval = F}
+colors()
+```
+
+```{r}
+# die ersten 10 anzeigen:
+colors()[1:10]
+```
+
+Ihre Farbauswahl teilen Sie mit den Argumenten `col` (Umriss- bzw. Linienfarbe) bzw. `fill` (Füllfarbe) im *aesthetic mapping* mit. Wenn wir die Variable `Kons` in folgendem Boxplot farb-kodieren wollen, sieht das so aus:
+
+```{r}
+# mit "fill" (empfohlen für Boxplots!)
+ggplot(asp) + 
+  aes(x = Kons, y = d, fill = Kons) + 
+  geom_boxplot()
+
+# mit "col"
+ggplot(asp) + 
+  aes(x = Kons, y = d, col = Kons) + 
+  geom_boxplot()
+```
+
+Wie Sie sehen, wurde diesen zwei Plots automatisch eine Legende hinzugefügt, die aufschlüsselt, welche Farben für welche Werte der Variable `Kons` verwendet wurden. Jetzt wollen wir unsere Farben selbst auswählen:
+
+```{r}
+# "fill" mit eigenen Farben
+farben <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Kons) + 
+  geom_boxplot(fill = farben)
+```
+
+Hier gibt es keine Legende. Wenn wir bei selbst gewählten Farben eine Legende haben wollen, benutzen wir eine Funktion namens `scale_color_manual()` bzw. `scale_fill_manual()`:
+
+```{r}
+# "fill" mit eigenen Farben
+farben <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Kons) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = farben)
+
+# dasselbe für den Barplot
+ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar() + 
+  scale_fill_manual(values = farben)
+```
+
+Für Boxplots gibt es übrigens die Möglichkeit, die Outlier unabhängig von der Box zu gestalten:
+
+```{r}
+farben <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Bet) + 
+  geom_boxplot(outlier.color = "red", 
+               outlier.shape = 4, 
+               outlier.size = 3) + 
+  scale_fill_manual(values = farben)
+```
+
+## Weitere Spezifikationen
+
+Es gibt natürlich noch deutlich mehr Spezifikationen für die einzelnen Abbildungstypen als die Farbe, z.B. die Zeichengröße, den Linientyp, die Punktform, die Schriftart... 
+
+* `col`: Umriss- bzw. Linienfarbe
+* `fill`: Füllfarbe
+* `shape`: Form
+* `size`: Größe
+* `linewidth`: Liniendicke
+* `lty`: Linientyp
+* `stroke`: Dicke für Text
+
+Dazu gibt es eine Vignette:
+
+```{r, eval = F}
+vignette("ggplot2-specs")
+```
+
+Einige dieser Spezifikationen wenden wir hier an:
+
+```{r}
+ggplot(int) + 
+  aes(x = dB, y = Dauer) +
+  geom_point(col = "purple", 
+             size = 3, 
+             shape = 0) + 
+  geom_line(col = "orange", 
+            size = 1.5, 
+            lty = "twodash")
+```
+
+Sie sollten sich aber natürlich immer sorgfältig überlegen, ob eine Spezifikation notwendig ist, um die Abbildung klarer zu gestalten.
+
+## Schriftzeichengröße
+
+Die Default-Schriftzeichengröße der Achsenbeschriftung und Titel ist 11pt oder kleiner. Vor allem wenn Sie Ihre Plots präsentieren, ist es SEHR wichtig, dass Sie die Schriftzeichengröße verändern. Wir empfehlen **mind. 16-24pt**. Hierfür müssen wir das `theme()` ändern.
+
+```{r}
+ggplot(asp) + 
+  aes(x = Kons, y = d) + 
+  geom_boxplot() + 
+  xlab("Artikulationsstelle") + 
+  ylab("Dauer (ms)") + 
+  ggtitle("Boxplot-Daten") + 
+  theme(text = element_text(size = 24),            # Beschriftungen & Titel
+        axis.text = element_text(size = 18))       # Achsenbeschriftungen
+```
+
+<div class="gray">
+**Weiterführende Infos: `theme()`**
+
+Das `theme()` ist z.B. für die Hintergrundfarbe der Plots, die Achsen, und vieles weitere zuständig. Diese [Übersicht an Argumenten](https://ggplot2.tidyverse.org/reference/theme.html) der Funktion `theme()` zeigt Ihnen, wie viel Sie damit einstellen können.
+</div>
+
+## Plots unterteilen und anordnen
+
+### Plots unterteilen
+
+`ggplot2` bietet zwei Möglichkeiten, einen Plot in mehrere zu unterteilen: `facet_wrap()` und `facet_grid()`. Hauptargument dieser Funktionen ist/sind die üblicherweise kategoriale(n) Variable(n), deren Werte in getrennten Panels dargestellt werden sollen. Zum Beispiel können wir die Datenpunkte, die mit unterschiedlichen Phonemen assoziiert sind, in getrennten Panels darstellen.
+
+Die Formeln, um die Variablen anzugeben, sehen wie folgt aus:
+
+* `.~Var1` bzw. `~Var1`
+* `Var1~.` (Punkt muss da sein!)
+* `Var1~Var2`
+* `Var1+Var2~Var3`
+* `Var1~Var2+Var3`
+
+Es bietet sich nicht an, mehr als drei Variablen in `facet_wrap()` oder `facet_grid()` zu verwenden, da dies die Übersichtlichkeit des Plots deutlich einschränkt.
+
+`facet_wrap()` ordnet die Panels eines Plots in Reihen *und* Spalten an.
+
+```{r}
+# aufteilen nach Versuchsperson
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_wrap(~Subj)
+
+# aufteilen nach Versuchsperson und Gespanntheit
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_wrap(Subj~Tense)
+```
+
+`facet_grid()` hingegen ordnet in Zeilen *oder* Spalten. Die Reihenfolge für die Formel ist `facet_grid(Zeilen~Spalten)`
+
+```{r}
+# aufteilen nach Versuchsperson in Zeilen
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(Subj~.)
+
+# aufteilen nach Versuchsperson in Spalten
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(~Subj)
+
+# aufteilen nach Versuchsperson und Tense
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(Subj~Tense)
+```
+
+### Plots anordnen
+
+Des Weiteren gibt es die Möglichkeit, mehrere Plots neben- oder untereinander anzuordnen. Hierfür verwenden wir die Funktion `grid.arrange()` die oben geladene Library `gridExtra`.
+
+```{r}
+plot1 <- ggplot(asp) +
+  aes(x = Kons, y = d) +
+  geom_boxplot()
+
+plot2 <- ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar()
+
+plot3 <- ggplot(int) +
+  aes(x = dB, y = Dauer) +
+  geom_line() + geom_point()
+
+# in drei Spalten und einer Zeile anordnen
+grid.arrange(plot1, plot2, plot3, ncol = 3, nrow = 1)
+
+# in einer Spalte und drei Zeilen anordnen
+grid.arrange(plot1, plot2, plot3, ncol = 1, nrow = 3)
+```

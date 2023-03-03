@@ -1,0 +1,293 @@
+# Erste Berechnungen in R
+
+Unten links in RStudio sehen Sie die `Console`. Darin wird Code ausgeführt, d.h. die Konsole ist die Verbindung zwischen R und dem Computer, der die Berechnungen umsetzt. Geben Sie z.B. den folgenden Code Zeile für Zeile in die Konsole ein und drücken Sie nach jeder Zeile Enter:
+
+```{r}
+1 + 1
+10 - 5
+3 * 4
+12 / 6
+2^4
+```
+
+Die Konsole gibt Ihnen die Antwort auf die eingegebene Rechnung zurück.
+
+## Variablen & Funktionen
+
+Natürlich werden wir die Konsole nicht nur als Taschenrechner benutzen. Ganz häufig wollen wir bestimmte Werte mehrfach verwenden, ohne jedes Mal den Wert oder die Berechnung eingeben zu müssen. Deshalb speichern wir Werte als sogenannte **Variablen** ab. Diese Variablen sind dann in Ihrem *Environment* (Panel oben rechts) vorhanden.
+
+Um eine neue Variable anzulegen, gibt man in der Konsole zuerst den gewünschten Variablennamen ein, dann den Zuweisungspfeil `<-` und dann den zu speichernden Wert. Im folgenden legen wir eine Variable namens `summe` an, die den Wert `1 + 1` enthält:
+
+```{r}
+summe <- 1 + 1
+```
+
+Um den Inhalt der Variable anzusehen, geben Sie einfach den Variablennamen in die Konsole ein und drücken wieder Enter:
+
+```{r}
+summe
+```
+
+Sie sehen, dass nicht `1 + 1` zurückgegeben wird, sondern `2`. Wann immer wir den Wert der Berechnung `1 + 1` verwenden wollen, können wir stattdessen auch `summe` verwenden:
+
+```{r}
+summe + 3
+```
+
+Achtung! Variablen werden in R **ohne Warnmeldung überschrieben**:
+
+```{r}
+x <- 4
+x
+x <- 3
+x
+```
+
+In Ihrem Environment haben Sie nun zwei Variablen: `summe` hat den Wert 2, `x` hat den Wert 3. Sie können auch herausbekommen, welche Variablen in Ihrem Environment sind, indem Sie eine sogenannte **Funktion** verwenden. Funktionen (auch: Befehle) führen Aktionen aus. Dahinter steht Code, den jemand geschrieben und für alle NutzerInnen verfügbar gemacht hat (man kann auch selbst Funktionen schreiben, aber das werden wir in diesem Kurs nicht behandeln). Geben Sie folgendes in Ihre Konsole ein und drücken Sie Enter:
+
+```{r}
+ls()
+```
+
+Die Funktion heißt `ls()`, das steht für *list* (auflisten), und gibt Ihnen die Namen aller Variablen in Ihrem Environment zurück. Funktionen können Sie an den runden Klammern nach dem Funktionsnamen erkennen. In den runden Klammern stehen die sogenannten **Argumente** der Funktion, also Angaben, die die Funktion benötigt, um etwas berechnen zu können. `ls()` ist eine der wenigen Funktionen in R, die keine Argumente benötigen.
+
+Eine weitere nützliche Funktion ist `rm()` (*remove*), damit können Sie Variablen aus dem Environment entfernen (Achtung: diese Entscheidung ist endgültig!). Die Funktion bekommt als Argumente die Namen der Variablen, die Sie löschen wollen. Im Folgenden entfernen wir die Variable `x`:
+
+```{r}
+rm(x)
+ls()
+```
+
+## Objektklassen
+
+Bisher haben wir nur mit Zahlen (sog. *numerics*) gearbeitet. In R gibt es noch viele weitere Arten von Objekten. Bei den numerischen Objekten unterscheidet man zwischen *double* (Dezimalzahlen) und *integer* (Ganzzahlen).
+
+```{r}
+x <- 3.2   # double
+x
+y <- 4     # integer
+y
+```
+
+Es gibt außerdem Schriftzeichen-Objekte (engl. *strings* oder *character*), die immer in Anführungszeichen gesetzt werden müssen:
+
+```{r}
+z <- "Hallo Welt!"
+z
+```
+
+... und die zwei booleschen Werte (engl. *booleans* oder *logicals*), die ohne Anführungszeichen aber in Großbuchstaben geschrieben werden:
+
+```{r}
+a <- TRUE    # Kurzform: T
+a
+b <- FALSE   # Kurzform: F
+b
+```
+
+Es gibt zusätzlich noch eine wichtige Objektklasse namens *factor*, die für kategorische Daten verwendet wird. Diese Art von Daten werden wir, zusammen mit noch ein paar weiteren Objektklassen, später kennenlernen.
+
+Um herauszufinden, welche Objektklasse eine Variable hat, verwendet man die Funktion `class()`. Diese Funktion bekommt nur ein Argument, nämlich den Namen der Variable, deren Objektklasse Sie erfragen wollen.
+
+```{r}
+class(a)
+class(y)
+class(z)
+```
+
+## Vektoren
+
+Die Funktion `c()` (*concatenate*) erzeugt einen Vektor, d.h. eine Datenstruktur mit mehreren Elementen desselben Typs. 
+
+```{r}
+vec <- c("a", "b", "c") # alle Elemente sind Schriftzeichen
+vec
+
+vec <- c(3, 6, 89.3, 0, -10)  # alle Elemente sind numerisch (genauer: doubles)
+vec
+```
+
+Sollten die Elemente unterschiedlichen Klassen angehören (*strings*, *booleans*, *numerics*), werden die Elemente still, also ohne Warnmeldung, in denselben Typ umgewandelt.
+
+```{r}
+c(3, 4, "string", T)      # alle Elemente werden in strings umgewandelt
+c(2, 5, T, F)             # alle Elemente werden in numerics umgewandelt; TRUE = 1, FALSE = 0
+```
+
+## Arithmetik und logische Operatoren
+
+Sie haben schon gesehen, dass die Konsole wie ein Taschenrechner funktioniert. Die Grundrechenarten sowie arithmetische Funktionen können Sie auf alle numerischen Objekte anwenden, auch auf numerische Vektoren:
+
+```{r}
+a <- c(10, 4, 20)
+a * 10
+
+b <- c(5, 2, 7)
+a + b
+```
+
+In R gibt es viele arithmetische Funktionen, die als Argument einfach eine numerische Variable bekommen:
+
+```{r}
+sum(a)        # Summe aller Elemente
+sqrt(a)       # Wurzel (square root) pro Element
+log(a)        # Logarithmus eines jeden Elements
+exp(a)        # Exponential für jedes Element
+```
+
+Logische Operatoren vergleichen zwei Variablen derselben Objektklasse miteinander. Die folgenden logischen Operatoren existieren in R:
+
+```{r, eval = F}
+x < y       # weniger als
+x > y       # mehr als
+x <= y      # weniger als oder gleich
+x >= y      # mehr als oder gleich
+x == y      # genau gleich
+x != y      # ungleich
+!x          # nicht x
+x | y       # x ODER y
+x & y       # x UND y
+isTRUE(x)   # prüfen, ob x TRUE ist
+x %in% y    # prüfen, ob ein Wert x in einem Vektor y enthalten ist
+```
+
+Die Antwort auf diese Operatoren sind die booleschen Werte, also entweder `TRUE` oder `FALSE`, wie folgende Beispiele zeigen:
+
+```{r}
+x <- 3
+y <- 4
+x == y
+x != y
+x > y
+x <- c(1, 2, 3, 4, 5)
+x == 3
+"a" %in% c("a", "b", "c")
+```
+
+Die logischen Operatoren werden später noch sehr wichtig werden.
+
+## Vektoren manipulieren
+
+Wir wollen Ihnen noch ein paar Funktionen vorstellen, die hilfreich bei der Arbeit mit Vektoren sind. 
+
+Neben `c()` gibt es noch weitere Funktionen, mit denen man Vektoren erstellen kann. Zuerst gibt es eine Kurznotation für numerische Vektoren von aufeinander folgenden Ganzzahlen, nämlich den Doppelpunkt:
+
+```{r}
+1:10
+10:1
+```
+
+Die Funktion `seq()` erzeugt einen Vektor mit numerischen Intervallen, also Zahlensequenzen, bei denen alle Zahlen gleich weit voneinander entfernt sind. Die Funktion bekommt drei Argumente: den ersten (`from`) und den maximalen (nicht zwangsläufig letzten) Wert des Intervalls (`to`), und dann entweder die gewünschte Länge des Vektors (`length.out`) oder die Abstufung des Intervalls (`by`).
+
+```{r}
+seq(from = 10, to = 20, length.out = 5)	  # 5 Intervalle zwischen 10 und 20
+seq(from = 10, to = 20, by = 1.5)	        # in Intervallen von 1.5
+```
+
+<div class="gray">
+**Weiterführende Infos: Argumente in Funktionen**
+
+Oben sehen Sie zum ersten Mal, dass Funktionsargumente Namen haben können (z.B. `from`, `to`, `length.out` und `by`). Wenn Argumente Namen haben (was fast immer der Fall ist), können Sie entweder die Namen dieser Argumente verwenden wie oben gezeigt, oder Sie lassen die Namen komplett weg.
+
+```{r}
+seq(10, 20, length.out = 5)
+```
+
+Wenn Sie die Namen weglassen, müssen Sie die Argumente in der richtigen Reihenfolge verwenden. Die Reihenfolge der Argumente können Sie auf den Hilfeseiten herausfinden. Navigieren Sie dazu in den Tab `Help` im Panel unten rechts und geben Sie den Funktionsnamen `seq` in die Suchleiste ein. Wenn Sie Enter drücken, sollte die Hilfeseite der Funktion erscheinen. Die Reihenfolge der Argumente für diese Funktion ist `from`, `to` und dann entweder `by` oder `length.out`, wie Sie sehen können. Wir können die Argumentnamen `from` und `to` weglassen, solange wir die richtigen Zahlen an der richtigen Stelle in der Funktion verwenden (also zuerst den Wert für `from`, dann den Wert für `to`). Der Funktion ist aber nicht automatisch klar, ob als drittes Argument `by` oder `length.out` kommt, daher schreiben wir das Argument hier ausführlich als `length.out = 5`. Wenn wir dies nicht machen würden, würde die Funktion das Argument an dritter Stelle in der Funktion als den Wert für `by` interpretieren:
+
+```{r}
+seq(10, 20, 5)
+```
+
+Wenn wir allerdings die Namen der Argumente verwenden, ist die Reihenfolge egal:
+
+```{r}
+seq(to = 20, by = 1.5, from = 10)
+```
+
+</div>
+
+Die Funktion `rep()` wiederholt Werte (egal ob numerisch, logisch oder *strings*). Neben den zu wiederholenden Werten bekommt die Funktion das Argument `times` und/oder das Argument `each` (oder das Argument `length.out`, das wir hier erstmal ignorieren). Im folgenden demonstrieren wir, was diese Argumente anrichten (schauen Sie auch auf die Hilfsseite für diese Funktion!):
+
+```{r}
+rep(1, times = 3)
+rep("a", times = 2)
+
+vek <- c("a", "b")
+rep(vek, times = 4)
+rep(vek, each = 4)
+rep(vek, times = 3, each = 3)
+```
+
+Zuletzt gibt es noch zwei verwandte Funktionen, die Schriftzeichen-Vektoren generieren: `paste()` und `paste0()`. Die Funktion `paste()` bekommt zunächst all die Elemente, die Sie miteinander verbinden wollen, und optional das Argument `sep` (*separator*), das bestimmt, mit welchem Zeichen die Elemente verbunden werden. `paste0()` bekommt nur die Elemente, die dann direkt aneinander gebunden werden. Wenn die Elemente alle einfache Variablen sind, erstellen `paste()` und `paste0()` ein einfaches Schriftzeichenobjekt, wenn eines der Elemente ein Vektor ist, ergibt sich ein Schriftzeichen-Vektor. 
+
+```{r}
+paste("a", "b", "c", sep = " ")
+paste("a", "b", "c", sep = "")
+paste0("a", "b", "c")
+
+paste("subject", 1:5, sep = "_")
+paste0("subject", 1:5)
+```
+
+Es gibt noch einige weitere nützliche Funktionen, um Vektoren zu manipulieren oder etwas über den Inhalt der Vektoren zu erfahren. Schauen Sie mal in Ihr Environment. Dort befinden sich jetzt drei einfache Variablen: `summe`, `y` und `z`. Alle anderen Variablen sind Vektoren. Sie sehen z.B. bei der Variable `a`, dass es sich um einen numerischen Vektor der Länge 3 (d.h. er enthält 3 Elemente) handelt: dort steht `num [1:3]`. `num` steht für *numeric*, die Notation `[1:3]` bedeutet, dass dies ein eindimensionales Objekt der Länge 3 ist. Um die Länge eines Vektors herauszufinden, ohne in Ihr Environment zu schauen, gibt es die Funktion `length()`:
+
+```{r}
+length(a)
+length(vec)
+```
+
+Wenn Sie erfahren möchten, welche unterschiedlichen (einzigartigen) Elemente in einem Vektor sind, nutzen Sie `unique()`:
+
+```{r}
+vec <- c(1, 5, 2, 7, 6, 3, 7, 5)
+unique(vec)
+
+vec <- c("i", "i", "a", "a", "E", "E", "E", "E", "U")
+unique(vec)	
+```
+
+Zuletzt stellen wir Ihnen noch eine sehr vielseitig einsetzbare Funktion vor, nämlich `table()`. Wenn diese Funktion auf einen Vektor angewendet wird, erhalten Sie als Ergebnis eine Auflistung der unterschiedlichen Elemente des Vektors mit ihrer Vorkommenshäufigkeit in diesem Vektor:
+
+```{r}
+table(vec)
+```
+
+Im Vektor `vec` gibt es also zwei Mal das Element "a", vier Mal das Element "E", usw. Wir werden später noch sehen, wofür `table()` sonst noch eingesetzt werden kann.
+
+## Faktoren
+
+Nachdem Sie jetzt wissen, was ein Vektor ist, möchten wir Ihnen noch eine Objektklasse namens Faktor (*factor*) vorstellen. Faktoren werden für kategoriale Daten verwendet, also solche, die nur eine begrenzte Anzahl an verschiedenartigen Werten annehmen können. Einen Faktor erzeugt man mit der Funktion `factor()`. Hier erzeugen wir zum Beispiel einen Faktoren-Vektor, der verschiedene Alterskategorien enthält:
+
+```{r}
+age <- factor(c("jung", "alt", "alt", "mittel", "jung", "jung"))
+class(age)
+age
+```
+
+Bei der Ausgabe des Faktors `age`, den wir angelegt haben, sehen wir zuerst die eingegebenen Werte in der eingegebenen Reihenfolge. Obwohl wir die Werte als Schriftzeichen eingegeben haben, werden sie nicht als Schriftzeichen (in Anführungszeichen) ausgegeben. Das liegt daran, dass dies jetzt nicht mehr einfache Schriftzeichen, sondern Kategorien sind. Die Kategorien werden auch Levels genannt und in der Ausgabe ebenfalls angezeigt. Man kann die Levels auch mittels der Funktion `levels()` abfragen:
+
+```{r}
+levels(age)
+```
+
+Die Funktion `factor()` kann ein Argument namens `levels` bekommen, mit dem man die Levels selbst bestimmen und ihre Reihenfolge festlegen kann (R ordnet die Levels sonst alpha-numerisch aufsteigend).
+
+```{r}
+age <- factor(c("jung", "alt", "alt", "mittel", "jung", "jung"), 
+              levels = c("jung", "mittel", "alt"))
+age
+```
+
+Auch numerische Werte können (in eher seltenen Fällen) kategorial sein. Nehmen wir an, Sie haben fünf Kommilitoninnen nach ihrem Alter in Jahren gefragt und die Werte in einem Vektor abgespeichert:
+
+```{r}
+age <- c(22, 25, 23, 22, 23)
+```
+
+Wenn Sie das Alter in Jahren als kategorial betrachten, können Sie den Vektor in einen Faktor umwandeln.
+
+```{r}
+age <- factor(c(22, 25, 23, 22, 23))
+age
+```

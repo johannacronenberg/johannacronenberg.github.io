@@ -1,0 +1,267 @@
+# Pretty Plots
+
+Load the following packages and data frames for this chapter:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(gridExtra)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+asp <- read.table(file.path(url, "asp.txt")) %>% as_tibble()
+coronal <- read.table(file.path(url, "coronal.txt")) %>% as_tibble()
+vdata <- read.table(file.path(url, "vdata.txt")) %>% as_tibble()
+int <- read.table(file.path(url, "intdauer.txt")) %>% as_tibble()
+```
+
+`ggplot2` offers very many ways of improving and personalising your plots. In this chapter we introduce the most important plot specifications.
+
+## Axis Labels
+
+Axis labels are created with `xlab()` and `ylab()`, respectively. A title can be added with `ggtitle()`.
+
+```{r}
+ggplot(asp) + 
+  aes(x = Kons, y = d) + 
+  geom_boxplot() + 
+  xlab("Place of Articulation") + 
+  ylab("Duration (ms)") + 
+  ggtitle("Boxplot Data")
+```
+
+Otherwise you can also use `labs()` for all labels together:
+
+```{r}
+ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar(position = "fill") + 
+  labs(x = "Region", 
+       y = "Proportion", 
+       title = "Proportional Use of Fricatives",
+       subtitle = "Separated by Region")
+```
+
+## Limit the Coordinate System
+
+In order to limit or expand the visible area of a plot, you can use the following functions. However, they have various side effects (also see [here](https://ggplot2.tidyverse.org/reference/coord_cartesian.html)):
+
+* `xlim()` and/or `ylim()`, respectively `scale_x_continuous(limits = c())` and/or `scale_y_continuous(limits = c())`: eliminates data points by zooming in and throws a warning about that. These functions may affect regression lines and other superimposed plot components.
+* `coord_cartesian(xlim = c(), ylim = c())`: hides data points and thus does not throw a warning. This does not influence regression lines and other superimposed plot components.
+
+```{r}
+# without limits:
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point()
+
+# with coord_cartesian()
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point() + 
+  coord_cartesian(xlim = c(10,40), 
+                  ylim = c(30,280))
+
+# with xlim() and ylim()
+ggplot(int) + 
+  aes(x = dB, y = Dauer) + 
+  geom_point() + 
+  xlim(10, 40) + 
+  ylim(30, 280)
+```
+
+## Colours
+
+`ggplot2` always uses the same colour palette by default. But there are many more colours at your disposal as shown in this [selection](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). You can get the first ten of these with:
+
+```{r, eval = F}
+colors()
+```
+
+```{r}
+# only show the first ten:
+colors()[1:10]
+```
+
+The variable to be colour-coded in a `ggplot` is given by `col` (outline or line colour) or `fill` (filler colour) in the *aesthetic mapping*. This is what it looks like to colour-code the variable `Kons` in a boxplot of durations:
+
+```{r}
+# with "fill" (recommended!)
+ggplot(asp) + 
+  aes(x = Kons, y = d, fill = Kons) + 
+  geom_boxplot()
+
+# with "col" (dispreferred!)
+ggplot(asp) + 
+  aes(x = Kons, y = d, col = Kons) + 
+  geom_boxplot()
+```
+
+As you can see, a legend for the colours was automatically added to the plot. Now, let's choose the colours ourselves:
+
+```{r}
+# "fill" with our own colours
+colours <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Kons) + 
+  geom_boxplot(fill = colours)
+```
+
+This plot does not have a legend. If we want to have one, we need to use the functions `scale_color_manual()` or `scale_fill_manual()`, respectively:
+
+```{r}
+# "fill" with our own colours
+colours <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Kons) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = colours)
+
+# the same for the bar plot
+ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar() + 
+  scale_fill_manual(values = colours)
+```
+
+By the way, boxplots offer the possibility of styling the outliers independently of the box:
+
+```{r}
+colours <- c("darkgoldenrod1", "navy")
+ggplot(asp) + 
+  aes(y = d, x = Kons, fill = Bet) + 
+  geom_boxplot(outlier.color = "red", 
+               outlier.shape = 4, 
+               outlier.size = 3) + 
+  scale_fill_manual(values = colours)
+```
+
+## Further Specifications
+
+Of course there are many more specifications for the distinct types of plots than just the colour, e.g. the size, line type, shape of points, font...
+
+* `col`: outline or line colour
+* `fill`: filler colour
+* `shape`: shape of points
+* `size`: size of points
+* `linewidth`: width of lines
+* `lty`: line type
+* `stroke`: font stroke
+
+There is a vignette about that:
+
+```{r, eval = F}
+vignette("ggplot2-specs")
+```
+
+Let's use some of these specifications here:
+
+```{r}
+ggplot(int) + 
+  aes(x = dB, y = Dauer) +
+  geom_point(col = "purple", 
+             size = 3, 
+             shape = 0) + 
+  geom_line(col = "orange", 
+            size = 1.5, 
+            lty = "twodash")
+```
+
+Always consider carefully whether a specification is actually necessary in order to make the plot clearer.
+
+## Font Size
+
+The default font size of the axes and title is 11pt or smaller. Especially in presentations your plots should have font sizes of **at least 16-24pt**. In order to do that in `ggplot`, we need to change the `theme()`.
+
+```{r}
+ggplot(asp) + 
+  aes(x = Kons, y = d) + 
+  geom_boxplot() + 
+  xlab("Place of Articulation") + 
+  ylab("Duration (ms)") + 
+  ggtitle("Boxplot Data") + 
+  theme(text = element_text(size = 24),            # Axes and title
+        axis.text = element_text(size = 18))       # Axis labels
+```
+
+<div class="gray">
+**Further Information: `theme()`**
+
+The `theme()` is responsible for the background colour of the plots, the appearance of the axes and many other things. An overview of the [arguments to `theme()`](https://ggplot2.tidyverse.org/reference/theme.html) might give you an impression of all the things you can adapt in your plots.
+</div>
+
+## Dividing and Arranging Plots
+
+### Dividing Plots
+
+`ggplot2` offers two ways of dividing a plot: `facet_wrap()` and `facet_grid()`. The main argument to these functions is the usually categorical variable(s) whose values shall appear in distinct panels. For instance, we can plot data points associated with different phonemes or speakers in separate panels.
+
+The formulas submitted to `facet_wrap()` and `facet_grid()` look like this:
+
+* `.~Var1` or `~Var1`
+* `Var1~.` (the dot is obligatory!)
+* `Var1~Var2`
+* `Var1+Var2~Var3`
+* `Var1~Var2+Var3`
+
+It is impractical to use more than three variables in `facet_wrap()` and `facet_grid()` because that makes the plot way harder to read and comprehend.
+
+`facet_wrap()` sorts the panels of a plot into rows *and* columns.
+
+```{r}
+# divide by subject
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_wrap(~Subj)
+
+# divide by subject and tenseness
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_wrap(Subj~Tense)
+```
+
+`facet_grid()`, on the other hand, sorts the panels into either rows *or* columns. The order for the formula is `facet_grid(rows~columns)`.
+
+```{r}
+# divide by subject in rows
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(Subj~.)
+
+# divide by subject in columns
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(~Subj)
+
+# divide by subject and tenseness
+ggplot(vdata) + 
+  aes(x = F1, y = F2) + 
+  geom_point() + 
+  facet_grid(Subj~Tense)
+```
+
+### Arrange Plots
+
+Furthermore, you can arrange several plots beside each other or one below the other. For that, we use the function `grid.arrange()` from the library `gridExtra`.
+
+```{r}
+plot1 <- ggplot(asp) +
+  aes(x = Kons, y = d) +
+  geom_boxplot()
+
+plot2 <- ggplot(coronal) + 
+  aes(x = Region, fill = Fr) + 
+  geom_bar()
+
+plot3 <- ggplot(int) +
+  aes(x = dB, y = Dauer) +
+  geom_line() + geom_point()
+
+# in three columns and one row
+grid.arrange(plot1, plot2, plot3, ncol = 3, nrow = 1)
+
+# in one column and three rows
+grid.arrange(plot1, plot2, plot3, ncol = 1, nrow = 3)
+```

@@ -1,0 +1,129 @@
+# Joining with `dplyr`
+
+Please load the following packages and data frame for this chapter:
+
+```{r}
+library(tidyverse)
+library(magrittr)
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+vcv <- read.table(file.path(url, "vcvC.txt"))
+```
+
+Perhaps you are familiar with so called *joins* from your work with relational data bases and/or SQL. The principle of relational data bases is to store all information and values in themed tables. After an experiment, for instance, you might have a table of measured values (formants, fundamental frequency, etc.) and one table with metadata about the participants (age, origin, education, etc.). Additionally it might make sense to have a table with information about the collected material (words, lexical stress, phonemes, stimuli, etc.) and about the tested conditions (speech rate, which interlocutor, etc.). If necessary, one can (temporarily) join two tables via a **key**, i.e. a column that contains some sort of ID. In `dplyr` we differentiate between *mutating joins* and *filtering joins*.
+
+## Mutating Joins
+
+Similarly to `mutate()`, mutating joins add columns to a data frame `x`. Contrary to `mutate()` though, the added columns come from a different data frame `y`. In both data frames `x` and `y` there must be a column that contains the identifier or key which connects the two tables.
+
+### Inner Join
+
+The simplest form of a mutating join is the so called inner join. The function `inner_join()` takes as arguments the two data frames `x` and `y` and the identifier `by`. The result of an inner join contains all columns of both `x` and `y` as well as all rows that have matches in both data frames. Missing values (NA) do **not** appear in the result of an inner join, so be careful with that.
+
+As an example we will be using a table of fundamental frequency values measured in the speech of ten speakers, as well as a table with metadata concerning the speakers:
+
+```{r}
+measures <- tibble(subject = rep(paste0("s", 1:10), each = 10),
+                   F0 = rnorm(100, 120, 15))
+measures
+meta <- tibble(subject = paste0("s", 1:10),
+               age = rep(c("old", "young"), each = 5))
+meta
+```
+
+Both tibbles have a column `subject` which we will use as key in our inner join:
+
+```{r}
+inner_join(x = measures, y = meta, by = "subject")
+```
+
+It can happen that the column that provides the identifier has different names in `x` and `y`. In this case we can tell the join via `by = c("a"="b")` that the column `a` from data frame `x` shall be matched with the column `b` from data frame `y`. This works for all joining functions presented in this chapter.
+
+```{r}
+measures %<>% rename(Vpn = subject)
+inner_join(x = measures, y = meta, by = c("Vpn"="subject"))
+measures %<>% rename(subject = Vpn)
+```
+
+This example has so far always returned all observations from `measures` and all columns of both data frames. This is because `measures` and `meta` both contain information on the same ten speakers. If we have less information in one of the two data frames, the result is suddenly missing rows:
+
+```{r}
+# measures of 20 instead of 10 speakers:
+measures <- tibble(subject = rep(paste0("s", 1:20), each = 10),
+                   F0 = rnorm(200, 120, 15))
+inner_join(x = measures, y = meta, by = "subject")
+```
+
+The result of this inner join has no rows for speakers 11 to 20 because there is no information on these speakers in the data frame `meta`!
+
+### Outer Join
+
+Contrary to the inner join, the outer join keeps rows with missing values. The missing values are shown as NA. The simplest version of an outer join is the full join which returns all rows and all columns from both data frames. The function to do this is `full_join()` (we point out an interesting part of the result here using `slice()`):
+
+```{r}
+full_join(x = measures, y = meta, by = "subject") %>% 
+  slice(95:105)
+```
+
+This result consists of 200 rows (if we do not use `slice()`) -- when we used the inner join above with the exact same two tibbles, the result only consisted of 100 rows. This is because `full_join()` kept the 100 rows of values for speakers 11 to 20 while `inner_join()` removed them because there was no matching metadata for these speakers in `meta`. Thus, the result of the full join contains NA values in the appended column `age` for speakers 11 to 20.
+
+If you don't want to keep all rows from both data frames, the functions `left_join()` and `right_join()` are at your disposal. The `left_join()` keeps all rows from data frame `x` while the `right_join()` keeps all rows from data frame `y`. In our example we want to keep all rows from `measures` and just add the information on the speakers' age from `meta`:
+
+```{r}
+left_join(x = measures, y = meta, by = "subject")
+right_join(x = meta, y = measures, by = "subject")
+```
+
+## Filtering Joins
+
+The second type of joins in R are the so called filtering joins which do not add columns but instead only return selected rows. There are two functions for this in the tidyverse:
+
+- `semi_join()`: returns all observations in data frame `x` for which there is a match in data frame `y`
+- `anti_join()`: returns all observations in data frame `x` for which there is no match in data frame `y`
+
+We will demonstrate these functions using the following data frames:
+
+```{r}
+vcv %<>% as_tibble()
+vcv
+vcv_summary <- vcv %>% 
+  group_by(Subject, Vowel) %>% 
+  summarise(mean_rt = mean(RT)) %>% 
+  ungroup() %>%
+  slice_max(mean_rt, n = 5)
+vcv_summary
+```
+
+The data frame `vcv_summary` contains the five highest mean reaction times and the corresponding speaker and vowel. If we want to find out from which observations in `vcv` these mean values were calculated, we can use the semi join. More precisely, we want all rows from `vcv` returned for which there is a match in `vcv_summary` with respect to the columns `Subject` and `Vowel`.
+
+```{r}
+semi_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel"))
+```
+
+This result contains all observations from which the average reaction times in `vcv_summary` were computed. We can underline this by looking at the unique combinations of `Subject` and `Vowel` in the result of the semi join -- they are the same five combinations as in `vcv_summary`.
+
+```{r}
+semi_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel")) %>% 
+  select(Subject, Vowel) %>% 
+  unique()
+```
+
+With the anti join, on the other hand, we get all observations from which the mean reaction times were *not*  computed, or in other words: all observations from `vcv` for which there is no match in `vcv_summary` with regard to `Subject` and `Vowel`.
+
+```{r}
+anti_join(x = vcv, y = vcv_summary, by = c("Subject", "Vowel"))
+```
+
+Anti joins can be helpful in searching for errors in your own data. Let's reuse the example from above, `measures` with values for 20 speakers and `meta` with metadata for these speakers. If we apply the anti join here, we will immediately see for which rows in `measures` there is no match in `meta`, i.e. for which speakers we are missing metadata.
+
+```{r}
+anti_join(x = measures, y = meta, by = "subject")
+```
+
+The result is the opposite of the inner join: Here we receive the 100 observations from speakers 11 to 20 for whom there is no metadata.
+
+<div class="gray">
+**Further Information: `dplyr`**
+
+The joins were the last functions from the tidyverse which we introduce in this module. An overview of all functions presented here and many more can be found in this [Cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf).
+
+</div>

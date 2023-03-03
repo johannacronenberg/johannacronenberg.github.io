@@ -1,0 +1,108 @@
+# Data Frames
+
+A very important data structure in R is the data frame which is a two-dimensional table. The rows are also called *observations*, while the columns are called *variables* (which should not be confused with the *variables*, i.e. saved values or objects, from the previous chapter!). In phonetics, we often work with data frames, e.g. when we have extracted acoustic information from speech recordings or measures from a perception experiment and want to analyse those (statistically).
+
+## Import & Export
+
+There are several ways of importing a `.csv` or `.txt` table in R. If you want to load a table from your hard drive, you can use the `Import Dataset` assistant shown in the toolbar right above the R environment on the top right. The command used by the assistant to import the data frame will be shown in the console.
+
+In this course you will use data frames that are provided on a website, which is why we have to write our own command to load them. The command we'll use is `read.table()` and its main argument is the path (i.e. the URL in this case) to the data frame (but check the help page of this function for further information on its arguments and further import functions):
+  
+```{r}
+ai <- read.table("http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt")
+```
+
+Since we will use several data frames from the same website throughout this course, we can optimise our import function so that we don't have to type or copy & paste the same complicated URL every time. To do so, we store the URL as a variable of the *string* type and then use the function `file.path()` with which the URL and file name are concatenated:
+  
+```{r}
+url <- "http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf"
+file.path(url, "ai.txt")
+
+# with the import command:
+ai <- read.table(file.path(url, "ai.txt"))
+```
+
+The counterpart to `read.table()` is `write.table()` which is used to save a data frame from R to your hard drive. This function takes the name of the object in R which is to be saved and then the path including the desired file name (`./` signals the current directory). In addition, we'll use the optional argument `row.names = FALSE` so that the function does not add a column for the (in this case, non-existent) row names in the stored table.
+  
+```{r, eval = F}
+write.table(ai, file.path("./", "ai.txt"), row.names = FALSE)
+```
+
+Of course you cannot just load data frames, you can also write them yourself using the function `data.frame()`. This function takes as arguments the column names and the values to fill these columns. Here is an example:
+  
+```{r}
+df <- data.frame(F1 = c(240, 220, 250, 210, 280, 520, 510, 605, 670, 613),
+                 vowel = rep(c("i","o"), each = 5))
+df
+```
+
+Data frames have their own object class:
+
+```{r}
+class(df)
+```
+
+## Characteristics
+
+When we work with data structures that contain a lot of information, it is important to make yourself familiar with that object. R provides many useful functions to look at data frames or gather information about their characteristics:
+
+```{r, eval = F}
+# look at data frame in separate panel
+View(ai)
+```
+
+```{r}
+# return first or last observations
+head(ai)
+tail(ai)
+
+# number of rows and/or columns
+nrow(ai)
+ncol(ai)
+dim(ai)
+
+# column names
+colnames(ai)
+names(ai)
+```
+
+## Accessing Columns
+
+Although we will work with the modern *tidyverse* syntax in the following chapters, we want to introduce briefly how to access columns of data frames in a traditional way because this can sometimes be the most efficient way.
+
+Take a look at your R environment: you'll see that the simple variables and vectors are listed under "Values" while the two data frames `ai` and `df` are listed under "Data". The environment also shows the number of observations and variables for each data frame, e.g. `25 obs. of 3 variables`. When you click on the tiny blue icon next to the data frame's name, it opens an overview of the column names, their object class (`int` for integers, `num` for numerics, etc.) as well as the first few values in that column. The same information can be obtained by applying the function `str()` (*structure*) to the data frame:
+
+```{r}
+str(ai)
+str(df)
+```
+
+In front of every column in this overview you see the dollar sign. This is actually how you can access columns in data frames: type the data frame's name, then (without spaces!) the dollar sign, then (again without spaces!) the column name:
+
+```{r}
+df$F1
+```
+
+You can see here that a column is basically a vector! And that means that you can now apply the functions, which we have previously used to manipulate vectors, to the columns in data frames:
+
+```{r}
+length(df$F1)
+table(df$vowel)
+```
+
+<div class="gray">
+**Further Information: Factors in Data Frames**
+
+In the R environment you can see that the column `vowel` of the data frame `df` which we created above is a *factor*, and that this factor has two *levels* -- even though we had filled the column `vowel` with a vector of strings, and not with a factor! The function `data.frame()` that generated `df` has an argument called `stringsAsFactors` which is set to `TRUE` by default. That means that the strings in the column `vowels` were automatically converted into a factor when the data frame was created. The two distinct values (categories) in this column are "i" and "o", so the factor has two levels.
+
+When you take another look at the data frame `df` you'll also see that the column `vowel` is not just a factor with two levels, but that the first values in this column are weirdly numbers, and not "i" or "o". This is because factors are stored as integers in the background (i.e. usually invisible to users of R). These integers are associated with the levels of the factor. So when the environment lists the value 1 in the column `vowel` of `df`, it represents the level "i", while the value 2 represents the level "o".
+
+If you want to prevent strings from being converted into factors, you can simply set `stringsAsFactors = FALSE`:
+
+```{r}
+df <- data.frame(F1 = c(240, 220, 250, 210, 280, 520, 510, 605, 670, 613),
+                 vowel = rep(c("i","o"), each = 5),
+                 stringsAsFactors = FALSE)
+```
+
+</div>
