@@ -2,8 +2,8 @@
   "name": "[joː'hana]",
   "short_name": "[joː'hana]",
   "lang": "en-us",
-  "theme_color": "#1565c0",
-  "background_color": "#1565c0",
+  "theme_color": "rgb(64, 82, 120)",
+  "background_color": "rgb(64, 82, 120)",
   "icons": [{
     "src": "/media/icon_hu324f82d363688900c47de4645567d9c7_22237_192x192_fill_lanczos_center_3.png",
     "sizes": "192x192",
