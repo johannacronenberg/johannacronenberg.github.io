@@ -263,7 +263,7 @@ data.head()
 
 
 
-&lt;div id=&#34;chart-365892741&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-342957816&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -273,7 +273,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-365892741&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-342957816&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
@@ -748,6 +748,20 @@ $$&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Add the publication&amp;rsquo;s &lt;strong&gt;full text&lt;/strong&gt; or &lt;strong&gt;supplementary notes&lt;/strong&gt; here. You can use rich formatting such as including &lt;a href=&#34;https://docs.hugoblox.com/content/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;code, math, and images&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://johannacronenberg.github.io/teaching/classes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://johannacronenberg.github.io/teaching/classes/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Programming and Statistics in R&lt;/strong&gt; (2020 &amp;ndash; 2022, undergraduate lecture and tutorial, University of Munich)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Laboratory Phonology&lt;/strong&gt; (2020 &amp;amp; 2022, graduate lecture, University of Munich)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Advanced Speech Technology&lt;/strong&gt; (2019 &amp;amp; 2021, graduate lecture, University of Munich)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dynamic Methods to Investigate Aspiration&lt;/strong&gt; (2021, workshop for PhD students, University of Michigan)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Introduction to Programming in R and tidyverse&lt;/strong&gt; (2020, workshop for PhD students, University of Munich)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Introduction to Linear Regression and Mixed Models in R&lt;/strong&gt; (2020, workshop for PhD students, University of Munich)&lt;/p&gt;
 </description>
     </item>
     
