@@ -12,29 +12,5 @@
       <link>https://johannacronenberg.github.io/teaching/</link>
     </image>
     
-    <item>
-      <title>Advanced Speech Technology</title>
-      <link>https://johannacronenberg.github.io/teaching/class3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://johannacronenberg.github.io/teaching/class3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Laboratory Phonology</title>
-      <link>https://johannacronenberg.github.io/teaching/class2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://johannacronenberg.github.io/teaching/class2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programming and Statistics in R</title>
-      <link>https://johannacronenberg.github.io/teaching/class1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://johannacronenberg.github.io/teaching/class1/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>
