@@ -263,7 +263,7 @@ data.head()
 
 
 
-&lt;div id=&#34;chart-857216493&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-863712459&#34; class=&#34;chart&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -273,7 +273,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-857216493&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-863712459&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
@@ -752,17 +752,27 @@ $$&lt;/p&gt;
     </item>
     
     <item>
-      <title></title>
-      <link>https://johannacronenberg.github.io/teaching/classes/</link>
+      <title>Advanced Speech Technology</title>
+      <link>https://johannacronenberg.github.io/teaching/class3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://johannacronenberg.github.io/teaching/classes/</guid>
-      <description>&lt;p&gt;&lt;b&gt;Programming and Statistics in R&lt;/b&gt; (2020 &amp;ndash; 2022, undergraduate lecture and tutorial, University of Munich)&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Laboratory Phonology&lt;/strong&gt; (2020 &amp;amp; 2022, graduate lecture, University of Munich)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Advanced Speech Technology&lt;/strong&gt; (2019 &amp;amp; 2021, graduate lecture, University of Munich)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Dynamic Methods to Investigate Aspiration&lt;/strong&gt; (2021, workshop for PhD students, University of Michigan)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Introduction to Programming in R and tidyverse&lt;/strong&gt; (2020, workshop for PhD students, University of Munich)&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Introduction to Linear Regression and Mixed Models in R&lt;/strong&gt; (2020, workshop for PhD students, University of Munich)&lt;/p&gt;
-</description>
+      <guid>https://johannacronenberg.github.io/teaching/class3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Laboratory Phonology</title>
+      <link>https://johannacronenberg.github.io/teaching/class2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://johannacronenberg.github.io/teaching/class2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming and Statistics in R</title>
+      <link>https://johannacronenberg.github.io/teaching/class1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://johannacronenberg.github.io/teaching/class1/</guid>
+      <description></description>
     </item>
     
   </channel>
