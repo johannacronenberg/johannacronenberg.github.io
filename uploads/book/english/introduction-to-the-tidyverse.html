@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Introduction to the tidyverse | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Introduction to the tidyverse | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Introduction to the tidyverse | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-frames.html"/>
+<link rel="next" href="summary-statistics.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/einführung-ins-tidyverse.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="introduction-to-the-tidyverse" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Introduction to the tidyverse<a href="introduction-to-the-tidyverse.html#introduction-to-the-tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>For this chapter you will need the following packages and data frames:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="introduction-to-the-tidyverse.html#cb167-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ───────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="introduction-to-the-tidyverse.html#cb169-1" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names
+## 
+## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="introduction-to-the-tidyverse.html#cb171-1" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb171-2"><a href="introduction-to-the-tidyverse.html#cb171-2" tabindex="-1"></a>asp <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;asp.txt&quot;</span>))</span>
+<span id="cb171-3"><a href="introduction-to-the-tidyverse.html#cb171-3" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;intdauer.txt&quot;</span>))</span>
+<span id="cb171-4"><a href="introduction-to-the-tidyverse.html#cb171-4" tabindex="-1"></a>vdata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>))</span></code></pre></div>
+<p>Please use the methods from chapter @ref{characteristics} to familiarise yourself with the three data frames!</p>
+<p>The <em>tidyverse</em> is a collection of packages that help with the diverse aspects of data processing. We will work with a subset of these packages in this and the following chapters. When you load the tidyverse you’ll see the following output:</p>
+<p><img src="img/library_tidyverse.png" /></p>
+<p>The tidyverse, version 2.0, consists of the listed nine packages (<code>dplyr</code>, <code>forcats</code>, <code>ggplot2</code>, <code>lubridate</code>, <code>purrr</code>, <code>readr</code>, <code>stringr</code>, <code>tibble</code>, <code>tidyr</code>). Each of them can also be loaded separately. Additionally, the output above shows two conflicts. The notation <code>dplyr::filter()</code> translates to “the function <code>filter()</code> from the package <code>dplyr</code>”. This function overwrites the function <code>filter()</code> from the package <code>stats</code> (which is one of the packages that is available upon starting RStudio, i.e. without having to load it using <code>library()</code>). Functions from distinct packages can overwrite each other when they have the same function name, e.g. <code>filter()</code>. If you were to use <code>filter()</code> in your code now, you would be using the function from <code>dplyr</code> and not the one from <code>stats</code>. If you explicitly want to use the function from <code>stats</code>, just use the notation shown above, i.e. <code>stats::filter()</code>.</p>
+<p>Many functions of the tidyverse replace traditional R notations which are often less easy to read and write than tidyverse code. We will use the tidyverse to clean up data frames, filter or manipulate them.</p>
+<div id="pipes" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Pipes<a href="introduction-to-the-tidyverse.html#pipes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we have to learn the tidyverse syntax:</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="introduction-to-the-tidyverse.html#cb172-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##       d             Wort Vpn Kons Bet
+## 1 26.18 Fruehlingswetter k01    t  un
+## 2 23.06          Gestern k01    t  un
+## 3 26.81           Montag k01    t  un
+## 4 14.75            Vater k01    t  un
+## 5 42.38            Tisch k01    t  be
+## 6 21.56           Mutter k01    t  un</code></pre>
+<p>We begin each snippet of code with the data frame and then just add the functions that we want to apply to the data frame in chronological order. Between each function you put the <strong>pipe symbol <code>%&gt;%</code></strong> the pipe always takes the object on its left-hand side and submits it to the function on its right-hand side. So in this code snippet above, the function <code>head()</code> is applied to the data frame <code>asp</code>. This has exactly the same effect as:</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="introduction-to-the-tidyverse.html#cb174-1" tabindex="-1"></a><span class="fu">head</span>(asp)</span></code></pre></div>
+<pre><code>##       d             Wort Vpn Kons Bet
+## 1 26.18 Fruehlingswetter k01    t  un
+## 2 23.06          Gestern k01    t  un
+## 3 26.81           Montag k01    t  un
+## 4 14.75            Vater k01    t  un
+## 5 42.38            Tisch k01    t  be
+## 6 21.56           Mutter k01    t  un</code></pre>
+<p>Using the simple pipe in a snippet of tidyverse code, the data frame is not changed. The result of the code is simply printed in the console. If, however, you want to save the result of a tidyverse pipe in a variable you can use the usual notation with the arrow <code>&lt;-</code>:</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="introduction-to-the-tidyverse.html#cb176-1" tabindex="-1"></a>numberOfRows <span class="ot">&lt;-</span> asp <span class="sc">%&gt;%</span> <span class="fu">nrow</span>()</span>
+<span id="cb176-2"><a href="introduction-to-the-tidyverse.html#cb176-2" tabindex="-1"></a>numberOfRows</span></code></pre></div>
+<pre><code>## [1] 2892</code></pre>
+<p>The special thing is that you can attach as many functions to a pipe as you want. The functions will then always be applied to the result from the previous function, as we will see soon. Within a function you can access the columns of the data frame by means of their name, without using any special symbols or notations.</p>
+</div>
+<div id="manipulating-data-with-dplyr" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Manipulating Data with <code>dplyr</code><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The most important functions which you will need in your day-to-day usage of R are part of the package <a href="https://dplyr.tidyverse.org/index.html"><code>dplyr</code></a>. We differentiate here between different kinds of operations that you can apply to data frames using <code>dplyr</code> functions.</p>
+<div id="filtering" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Filtering<a href="introduction-to-the-tidyverse.html#filtering" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A common task is filtering or selecting certain rows and/or columns. You can choose certain rows by means of the function <strong><code>filter()</code></strong>. The argument(s) of that function is/are one or more logical expressions using the logical operators from chapter <a href="first-calculations-in-r.html#arithmetic-and-logical-operators">2.4</a>. If you want to select all rows of the data frame <code>asp</code> for which the string “Montag” is in the column <code>Wort</code>, you can use the operator <code>==</code>:</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="introduction-to-the-tidyverse.html#cb178-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Wort <span class="sc">==</span> <span class="st">&quot;Montag&quot;</span>)</span></code></pre></div>
+<pre><code>##           d   Wort Vpn Kons Bet
+## 3     26.81 Montag k01    t  un
+## 63    17.75 Montag k01    t  un
+## 123   45.12 Montag k02    t  un
+## 182   40.50 Montag k03    t  un
+## 241   33.00 Montag k04    t  un
+## 300   32.69 Montag k04    t  un
+## 359   50.82 Montag k05    t  un
+## 476   27.93 Montag k06    t  un
+## 537   17.25 Montag k61    t  un
+## 597   21.13 Montag k62    t  un
+## 656   20.75 Montag k62    t  un
+## 2078 105.94 Montag k70    t  un
+## 2079  17.56 Montag k70    t  un
+## 2080  22.25 Montag k70    t  un
+## 2155  60.25 Montag K19    t  un
+## 2156  14.87 Montag K20    t  un
+## 2157  17.56 Montag K20    t  un
+## 2231  47.31 Montag K74    t  un
+## 2232  34.94 Montag K74    t  un
+## 2233  35.44 Montag K74    t  un
+## 2310  22.62 Montag k61    t  un
+## 2311  16.43 Montag k61    t  un
+## 2312  29.31 Montag k61    t  un
+## 2391  50.31 Montag k61    t  un
+## 2392  33.12 Montag k61    t  un
+## 2393  39.68 Montag k61    t  un
+## 2403  42.88 Montag k61    t  un
+## 2424  35.44 Montag k62    t  un
+## 2506  11.25 Montag k62    t  un
+## 2528   8.06 Montag k62    t  un
+## 2604  33.94 Montag dlm    t  un
+## 2624  29.87 Montag dlm    t  un
+## 2704  30.32 Montag dlm    t  un
+## 2725  21.93 Montag dlm    t  un
+## 2800  49.12 Montag hpt    t  un
+## 2821  24.87 Montag hpt    t  un</code></pre>
+<p>All rows for which the duration <code>d</code> is lower than 10 ms is given by the following expression:</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="introduction-to-the-tidyverse.html#cb180-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">filter</span>(d <span class="sc">&lt;</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##          d             Wort Vpn Kons Bet
+## 180  9.130 Fruehlingswetter k03    t  un
+## 205  8.440     verstauchter k03    t  un
+## 540  6.688           Mutter k61    t  un
+## 773  8.000           Butter k64    t  un
+## 895  7.060 Buttergeschichte k66    t  un
+## 982  9.500           Butter k66    t  un
+## 999  8.300           Butter K22    t  un
+## 1142 9.750            Vater K30    t  un
+## 1155 8.630        Schwester K61    t  un
+## 1170 5.690         maechtig K62    t  un
+## 1294 9.690           Butter k07    t  un
+## 1362 8.870          Freitag k08    t  un
+## 1548 6.500            Vater k10    t  un
+## 1564 8.750          spaeter k11    t  un
+## 1565 5.250         Sonntags k11    t  un
+## 2507 6.570     unterbrechen k62    t  un
+## 2528 8.060           Montag k62    t  un
+## 2542 9.500          Samstag k62    t  un
+## 2580 8.880         samstags k62    t  un</code></pre>
+<p>Of course you can connect several logical expressions using the logical operators for “and” <code>&amp;</code> or for “or” <code>|</code>. The following expression, for instance, only returns rows for which the participant <code>Vpn</code> is either “k01” or “k02” or “k03” and the consonant <code>Kons</code> is not “t”:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="introduction-to-the-tidyverse.html#cb182-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Vpn <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;k01&quot;</span>, <span class="st">&quot;k02&quot;</span>, <span class="st">&quot;k03&quot;</span>) <span class="sc">&amp;</span> Kons <span class="sc">!=</span> <span class="st">&quot;t&quot;</span>)</span></code></pre></div>
+<pre><code>##         d          Wort Vpn Kons Bet
+## 7   50.00        konnte k01    k  un
+## 8   78.12        Kaffee k01    k  be
+## 11  64.13 Broetchenkorb k01    k  be
+## 12  48.94        keinen k01    k  be
+## 13  59.00        Kuchen k01    k  be
+## 16  56.00     einkaufen k01    k  be
+## 19  34.37        Zucker k01    k  un
+## 20  55.75 Suessigkeiten k01    k  un
+## 21  55.62        kaufen k01    k  be
+## 22  55.94     Konserven k01    k  un
+## 23  61.81         Kasse k01    k  be
+## 28  47.25    Kartoffeln k01    k  un
+## 31  37.62        Kaffee k01    k  be
+## 33  54.19       Koennen k01    k  un
+## 35  35.49      Dickicht k01    k  un
+## 40  59.44   Kuechenofen k01    k  be
+## 42  64.50         kocht k01    k  be
+## 48  69.19        Karten k01    k  be
+## 49  58.69    Fahrkarten k01    k  be
+## 53  30.82         Acker k01    k  un
+## 57  95.13          kurz k01    k  be
+## 58  57.38    verkuendet k01    k  be
+## 59  72.00        kommen k01    k  be
+## 67  37.75        konnte k01    k  un
+## 68  52.69        Kaffee k01    k  be
+## 71  71.43 Broetchenkorb k01    k  be
+## 72  51.75        keinen k02    k  be
+## 73  70.82        Kuchen k02    k  be
+## 76  68.19     einkaufen k02    k  be
+## 79  17.38        Zucker k02    k  un
+## 80  50.25 Suessigkeiten k02    k  un
+## 81  43.07        kaufen k02    k  be
+## 82  35.62     Konserven k02    k  un
+## 83  59.25         Kasse k02    k  be
+## 88  44.94    Kartoffeln k02    k  un
+## 91  34.44        Kaffee k02    k  be
+## 93  35.62       Koennen k02    k  un
+## 95  30.69      Dickicht k02    k  un
+## 100 72.32   Kuechenofen k02    k  be
+## 102 33.75         kocht k02    k  be
+## 108 61.06        Karten k02    k  be
+## 109 50.82    Fahrkarten k02    k  be
+## 113 23.93         Acker k02    k  un
+## 117 67.87          kurz k02    k  be
+## 118 35.62    verkuendet k02    k  be
+## 119 44.56        kommen k02    k  be
+## 127 39.87        konnte k02    k  un
+## 128 46.00        Kaffee k02    k  be
+## 131 67.57 Broetchenkorb k02    k  be
+## 132 58.25        keinen k02    k  be
+## 133 58.81        Kuchen k02    k  be
+## 136 54.94     einkaufen k02    k  be
+## 139 30.88        Zucker k02    k  un
+## 140 49.18 Suessigkeiten k02    k  un
+## 141 63.44        kaufen k02    k  be
+## 142 45.25     Konserven k02    k  un
+## 143 50.50         Kasse k02    k  be
+## 148 54.31    Kartoffeln k03    k  un
+## 151 53.25        Kaffee k03    k  be
+## 153 34.00       Koennen k03    k  un
+## 155 47.82      Dickicht k03    k  un
+## 160 50.56   Kuechenofen k03    k  be
+## 162 38.38         kocht k03    k  be
+## 168 62.43        Karten k03    k  be
+## 169 36.94    Fahrkarten k03    k  be
+## 172 46.69         Acker k03    k  un
+## 176 43.38          kurz k03    k  be
+## 177 54.75    verkuendet k03    k  be
+## 178 53.75        kommen k03    k  be
+## 186 32.56        konnte k03    k  un
+## 187 41.81        Kaffee k03    k  be
+## 190 56.81 Broetchenkorb k03    k  be
+## 191 52.93        keinen k03    k  be
+## 192 59.88        Kuchen k03    k  be
+## 195 46.13     einkaufen k03    k  be
+## 198 29.51        Zucker k03    k  un
+## 199 43.13 Suessigkeiten k03    k  un
+## 200 36.75        kaufen k03    k  be
+## 201 33.82     Konserven k03    k  un
+## 202 60.69         Kasse k03    k  be
+## 206 32.25    Kartoffeln k03    k  un
+## 209 48.00        Kaffee k03    k  be
+## 211 33.19       Koennen k03    k  un
+## 213 56.81      Dickicht k03    k  un
+## 218 65.37   Kuechenofen k03    k  be
+## 220 40.81         kocht k03    k  be</code></pre>
+<p>The rows in a data frame are usually numbered, i.e. all rows have an index. If you want to select rows by their index, use <strong><code>slice()</code></strong> or the related functions <code>slice_head()</code>, <code>slice_tail()</code>, <code>slice_min()</code> and <code>slice_max()</code>. The function <code>slice()</code> takes the index of the rows to be selected as its only argument:</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="introduction-to-the-tidyverse.html#cb184-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">4</span>)             <span class="co"># select row 4</span></span></code></pre></div>
+<pre><code>##       d  Wort Vpn Kons Bet
+## 4 14.75 Vater k01    t  un</code></pre>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="introduction-to-the-tidyverse.html#cb186-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)          <span class="co"># select the first 10 rows</span></span></code></pre></div>
+<pre><code>##        d             Wort Vpn Kons Bet
+## 1  26.18 Fruehlingswetter k01    t  un
+## 2  23.06          Gestern k01    t  un
+## 3  26.81           Montag k01    t  un
+## 4  14.75            Vater k01    t  un
+## 5  42.38            Tisch k01    t  be
+## 6  21.56           Mutter k01    t  un
+## 7  50.00           konnte k01    k  un
+## 8  78.12           Kaffee k01    k  be
+## 9  53.63           Tassen k01    t  be
+## 10 45.94           Teller k01    t  be</code></pre>
+<p>The functions <code>slice_head()</code> and <code>slice_tail()</code> have an argument <code>n</code> which is the amount of rows starting with the first or last, respectively, that are to be selected.</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="introduction-to-the-tidyverse.html#cb188-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">2</span>)   <span class="co"># select the first two rows</span></span></code></pre></div>
+<pre><code>##       d             Wort Vpn Kons Bet
+## 1 26.18 Fruehlingswetter k01    t  un
+## 2 23.06          Gestern k01    t  un</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="introduction-to-the-tidyverse.html#cb190-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">3</span>)   <span class="co"># select the last three rows</span></span></code></pre></div>
+<pre><code>##          d       Wort Vpn Kons Bet
+## 2890 24.94 vormittags kko    t  un
+## 2891 21.93   Richtung kko    t  un
+## 2892 51.94   Verkehrt kko    k  be</code></pre>
+<p>The functions <code>slice_min()</code> and <code>slice_max()</code> return the <code>n</code> rows that have the lowest, respectively highest, values in a given column. If <code>n</code> is not provided by the user, the function automatically uses <code>n = 1</code>, i.e. only one row is returned.</p>
+<div class="gray">
+<p><strong>Further Information: Defaults for arguments</strong></p>
+<p>If you do not specify certain arguments in functions, often the <em>default</em> values will be used. For an example, look at the help page of the function <code>seq()</code>. This tells you the following information about this function and its arguments:</p>
+<p><img src="img/seq.png" /></p>
+<p>The arguments <code>from</code> and <code>to</code> have the default value 1. And since these are the only obligatory arguments in that case, you can actually execute the function without giving it any arguments explicitly:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="introduction-to-the-tidyverse.html#cb192-1" tabindex="-1"></a><span class="fu">seq</span>()</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>The argument <code>by</code> also has a default value that is calculated from the values of <code>to</code>, <code>from</code> and <code>length.out</code> unless the user supplies the argument.</p>
+<p>Often you can find the defaults for arguments on the help pages under <em>Usage</em>, sometimes they are only provided in the description of the arguments below that.</p>
+</div>
+<p>Here are two examples for the two functions which refer to the duration in column <code>d</code> of the data frame <code>asp</code>.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="introduction-to-the-tidyverse.html#cb194-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_min</span>(d)        <span class="co"># choose the row where d has the lowest value</span></span></code></pre></div>
+<pre><code>##         d     Wort Vpn Kons Bet
+## 1565 5.25 Sonntags k11    t  un</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="introduction-to-the-tidyverse.html#cb196-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_min</span>(d, <span class="at">n =</span> <span class="dv">5</span>) <span class="co"># choose the five rows where d has the lowest values</span></span></code></pre></div>
+<pre><code>##          d         Wort Vpn Kons Bet
+## 1565 5.250     Sonntags k11    t  un
+## 1170 5.690     maechtig K62    t  un
+## 1548 6.500        Vater k10    t  un
+## 2507 6.570 unterbrechen k62    t  un
+## 540  6.688       Mutter k61    t  un</code></pre>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="introduction-to-the-tidyverse.html#cb198-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(d)        <span class="co"># choose the row where d has the highest value</span></span></code></pre></div>
+<pre><code>##          d Wort Vpn Kons Bet
+## 2063 138.8 Kiel k70    k  be</code></pre>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="introduction-to-the-tidyverse.html#cb200-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(d, <span class="at">n =</span> <span class="dv">5</span>) <span class="co"># choose the five rows where d has the highest values</span></span></code></pre></div>
+<pre><code>##          d      Wort Vpn Kons Bet
+## 2063 138.8      Kiel k70    k  be
+## 2843 129.7      Kiel hpt    k  be
+## 1006 116.5 Ladentuer K23    t  be
+## 2070 111.6     Tagen k70    t  be
+## 1456 111.4     kauen k09    k  be</code></pre>
+<p>These two functions can even be applied to columns that contain strings. In this case the selection is done alphabetically.</p>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="introduction-to-the-tidyverse.html#cb202-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_min</span>(Wort)     <span class="co"># choose the row where Wort has the &quot;lowest&quot; value</span></span></code></pre></div>
+<pre><code>##         d   Wort Vpn Kons Bet
+## 51  47.63 Abteil k01    t  be
+## 111 56.25 Abteil k02    t  be
+## 171 56.81 Abteil k03    t  be
+## 229 31.63 Abteil k04    t  be
+## 288 67.31 Abteil k04    t  be
+## 347 76.25 Abteil k05    t  be
+## 406 38.07 Abteil k05    t  be
+## 463 52.62 Abteil k06    t  be
+## 524 46.93 Abteil k61    t  be
+## 585 35.18 Abteil k61    t  be
+## 644 47.00 Abteil k62    t  be
+## 703 79.37 Abteil k63    t  be</code></pre>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="introduction-to-the-tidyverse.html#cb204-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(Wort)     <span class="co"># choose the row where Wort has the &quot;highest&quot; value</span></span></code></pre></div>
+<pre><code>##          d          Wort Vpn Kons Bet
+## 2444 80.75 zurueckkommen k62    k  be
+## 2546 73.44 zurueckkommen k62    k  be
+## 2641 53.30 zurueckkommen dlm    k  be
+## 2743 63.12 zurueckkommen dlm    k  be
+## 2838 79.63 zurueckkommen hpt    k  be</code></pre>
+<p>Since there are several rows for which the column <code>Wort</code> has the lowest (“abkaufen”) respectively highest value (“Zwischenstop”), all of these rows are returned despite <code>n = 1</code>.</p>
+</div>
+<div id="selecting" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Selecting<a href="introduction-to-the-tidyverse.html#selecting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The function for selecting columns is called <strong><code>select()</code></strong> which can be used in several ways. The only arguments to the function are the names of the columns to be selected. In the following examples you’ll also see for the first time how to concatenate several functions, because we’ll limit the output of the <code>select()</code> function by adding <code>slice(1)</code> for pure visual reasons.</p>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="introduction-to-the-tidyverse.html#cb206-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">select</span>(Vpn) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)         <span class="co"># only column Vpn</span></span></code></pre></div>
+<pre><code>##   Vpn
+## 1 k01</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="introduction-to-the-tidyverse.html#cb208-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">select</span>(Vpn, Bet) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)    <span class="co"># columns Vpn and Bet</span></span></code></pre></div>
+<pre><code>##   Vpn Bet
+## 1 k01  un</code></pre>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="introduction-to-the-tidyverse.html#cb210-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">select</span>(d<span class="sc">:</span>Kons) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)      <span class="co"># columns d until Kons</span></span></code></pre></div>
+<pre><code>##       d             Wort Vpn Kons
+## 1 26.18 Fruehlingswetter k01    t</code></pre>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="introduction-to-the-tidyverse.html#cb212-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">!</span>(d<span class="sc">:</span>Kons)) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)   <span class="co"># all columns except those between d and Kons</span></span></code></pre></div>
+<pre><code>##   Bet
+## 1  un</code></pre>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="introduction-to-the-tidyverse.html#cb214-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>Wort) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)       <span class="co"># all columns except Wort</span></span></code></pre></div>
+<pre><code>##       d Vpn Kons Bet
+## 1 26.18 k01    t  un</code></pre>
+<p>Within the function <code>select()</code> it can be helpful to use the functions <strong><code>starts_with()</code></strong> and <strong><code>ends_with()</code></strong>, if you want to select all columns whose name starts or ends with the same letter(s). We’ll demonstrate this using the data frame <code>vdata</code> which has the following columns:</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="introduction-to-the-tidyverse.html#cb216-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;X&quot;     &quot;Y&quot;     &quot;F1&quot;    &quot;F2&quot;    &quot;dur&quot;   &quot;V&quot;    
+##  [7] &quot;Tense&quot; &quot;Cons&quot;  &quot;Rate&quot;  &quot;Subj&quot;</code></pre>
+<p><code>starts_with()</code> allows us to select <code>F1</code> and <code>F2</code> because both start with “F”:</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="introduction-to-the-tidyverse.html#cb218-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;F&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##    F1  F2
+## 1 313 966</code></pre>
+<p>Similarly to what you have learnt about filtering, you can connect the functions <code>starts_with()</code> and <code>ends_with()</code> using the logical operators <code>&amp;</code> and <code>|</code>. Here we select the column “F1” (admittedly in a pretty laborious way):</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="introduction-to-the-tidyverse.html#cb220-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">&quot;F&quot;</span>) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">ends_with</span>(<span class="st">&quot;2&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##    F1
+## 1 313</code></pre>
+<p>Sometimes we do not want our tidyverse pipes to return a column in the form of a data frame, but as a simple vector. This can be done with <strong><code>pull()</code></strong>. In the following pipe, we first choose the first ten rows of <code>asp</code> and then want to return the column <code>Bet</code> as a vector:</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="introduction-to-the-tidyverse.html#cb222-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Bet)</span></code></pre></div>
+<pre><code>##  [1] &quot;un&quot; &quot;un&quot; &quot;un&quot; &quot;un&quot; &quot;be&quot; &quot;un&quot; &quot;un&quot; &quot;be&quot; &quot;be&quot; &quot;be&quot;</code></pre>
+<p>In the output you see that <code>Bet</code> was indeed returned as a vector.</p>
+</div>
+<div id="mutating" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Mutating<a href="introduction-to-the-tidyverse.html#mutating" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Mutating here means to add or change columns in data frames. The command to do that is called <strong><code>mutate()</code></strong> and takes as arguments the new columns and the values to fill the columns. When you want to add several new columns you can do so in the same <code>mutate()</code> command. The following code, for instance, adds two new columns called <code>F1</code> and <code>F2</code> to the data frame <code>int</code>:</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="introduction-to-the-tidyverse.html#cb224-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##   Vpn    dB Dauer
+## 1  S1 24.50   162
+## 2  S2 32.54   120
+## 3  S2 38.02   223
+## 4  S2 28.38   131
+## 5  S1 23.47    67
+## 6  S2 37.82   169</code></pre>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="introduction-to-the-tidyverse.html#cb226-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">282</span>, <span class="dv">277</span>, <span class="dv">228</span>, <span class="dv">270</span>, <span class="dv">313</span>, <span class="dv">293</span>, <span class="dv">289</span>, <span class="dv">380</span>, <span class="dv">293</span>, <span class="dv">307</span>, <span class="dv">238</span>, <span class="dv">359</span>, <span class="dv">300</span>, <span class="dv">318</span>, <span class="dv">231</span>),</span>
+<span id="cb226-2"><a href="introduction-to-the-tidyverse.html#cb226-2" tabindex="-1"></a>               <span class="at">F2 =</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">516</span>, <span class="dv">496</span>, <span class="dv">530</span>, <span class="dv">566</span>, <span class="dv">465</span>, <span class="dv">495</span>, <span class="dv">577</span>, <span class="dv">501</span>, <span class="dv">579</span>, <span class="dv">562</span>, <span class="dv">542</span>, <span class="dv">604</span>, <span class="dv">491</span>, <span class="dv">577</span>))</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer  F1  F2
+## 1   S1 24.50   162 282 470
+## 2   S2 32.54   120 277 516
+## 3   S2 38.02   223 228 496
+## 4   S2 28.38   131 270 530
+## 5   S1 23.47    67 313 566
+## 6   S2 37.82   169 293 465
+## 7   S2 30.08    81 289 495
+## 8   S1 24.50   192 380 577
+## 9   S1 21.37   116 293 501
+## 10  S2 25.60    55 307 579
+## 11  S1 40.20   252 238 562
+## 12  S1 44.27   232 359 542
+## 13  S1 26.60   144 300 604
+## 14  S1 20.88   103 318 491
+## 15  S2 26.05   212 231 577</code></pre>
+<p>These new columns are not automatically saved in the data frame! There are two ways to attach new columns to a data frame permanently. The first is as usually with the arrow <code>&lt;-</code>. Let’s create a new variable <code>int_new</code> that contains the data frame <code>int</code> including the two new columns (we also could have overwritten the original data frame <code>int</code> with the mutated data frame by calling the variable <code>int</code>).</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="introduction-to-the-tidyverse.html#cb228-1" tabindex="-1"></a>int_new <span class="ot">&lt;-</span> int <span class="sc">%&gt;%</span> </span>
+<span id="cb228-2"><a href="introduction-to-the-tidyverse.html#cb228-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">282</span>, <span class="dv">277</span>, <span class="dv">228</span>, <span class="dv">270</span>, <span class="dv">313</span>, <span class="dv">293</span>, <span class="dv">289</span>, <span class="dv">380</span>, <span class="dv">293</span>, <span class="dv">307</span>, <span class="dv">238</span>, <span class="dv">359</span>, <span class="dv">300</span>, <span class="dv">318</span>, <span class="dv">231</span>),</span>
+<span id="cb228-3"><a href="introduction-to-the-tidyverse.html#cb228-3" tabindex="-1"></a>         <span class="at">F2 =</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">516</span>, <span class="dv">496</span>, <span class="dv">530</span>, <span class="dv">566</span>, <span class="dv">465</span>, <span class="dv">495</span>, <span class="dv">577</span>, <span class="dv">501</span>, <span class="dv">579</span>, <span class="dv">562</span>, <span class="dv">542</span>, <span class="dv">604</span>, <span class="dv">491</span>, <span class="dv">577</span>))</span>
+<span id="cb228-4"><a href="introduction-to-the-tidyverse.html#cb228-4" tabindex="-1"></a>int_new <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##   Vpn    dB Dauer  F1  F2
+## 1  S1 24.50   162 282 470
+## 2  S2 32.54   120 277 516
+## 3  S2 38.02   223 228 496
+## 4  S2 28.38   131 270 530
+## 5  S1 23.47    67 313 566
+## 6  S2 37.82   169 293 465</code></pre>
+<p>The second way is the so-called <strong>double pipe</strong> from the package <code>magrittr</code>: <strong><code>%&lt;&gt;%</code></strong>. The double pipe can only be the first pipe in a line of pipes (as we shall see soon). Furthermore you only need to put the data frame to be overwritten to the left of the double pipe, not again on the right.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="introduction-to-the-tidyverse.html#cb230-1" tabindex="-1"></a>int <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">282</span>, <span class="dv">277</span>, <span class="dv">228</span>, <span class="dv">270</span>, <span class="dv">313</span>, <span class="dv">293</span>, <span class="dv">289</span>, <span class="dv">380</span>, <span class="dv">293</span>, <span class="dv">307</span>, <span class="dv">238</span>, <span class="dv">359</span>, <span class="dv">300</span>, <span class="dv">318</span>, <span class="dv">231</span>),</span>
+<span id="cb230-2"><a href="introduction-to-the-tidyverse.html#cb230-2" tabindex="-1"></a>                <span class="at">F2 =</span> <span class="fu">c</span>(<span class="dv">470</span>, <span class="dv">516</span>, <span class="dv">496</span>, <span class="dv">530</span>, <span class="dv">566</span>, <span class="dv">465</span>, <span class="dv">495</span>, <span class="dv">577</span>, <span class="dv">501</span>, <span class="dv">579</span>, <span class="dv">562</span>, <span class="dv">542</span>, <span class="dv">604</span>, <span class="dv">491</span>, <span class="dv">577</span>))</span>
+<span id="cb230-3"><a href="introduction-to-the-tidyverse.html#cb230-3" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##   Vpn    dB Dauer  F1  F2
+## 1  S1 24.50   162 282 470
+## 2  S2 32.54   120 277 516
+## 3  S2 38.02   223 228 496
+## 4  S2 28.38   131 270 530
+## 5  S1 23.47    67 313 566
+## 6  S2 37.82   169 293 465</code></pre>
+<p>There are two functions that are very useful within <code>mutate()</code> if the values of a new column are dependent on those of existing columns. For binary decisions you can use <strong><code>ifelse()</code></strong>, otherwise <strong><code>case_when()</code></strong>.</p>
+<p>Let’s assume you want to attach another column to the data frame <code>int</code>. You know that participant “S1” is 29 years old, whereas participant “S2” is 33 years old. You want to add a column <code>age</code> with that information. In that case, you should use <code>ifelse()</code> within <code>mutate()</code>. <code>ifelse()</code> takes as arguments a logical expression, then the value for rows for which that expression evaluates to <code>TRUE</code>, and lastly the value for rows for which the expression is <code>FALSE</code>. When you execute this command, it is tested for every row whether the participant is “S1”, if so, it puts the value 29 in the new column <code>age</code>, otherwise it puts the value 33.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="introduction-to-the-tidyverse.html#cb232-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">ifelse</span>(Vpn <span class="sc">==</span> <span class="st">&quot;S1&quot;</span>, <span class="dv">29</span>, <span class="dv">33</span>))</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer  F1  F2 age
+## 1   S1 24.50   162 282 470  29
+## 2   S2 32.54   120 277 516  33
+## 3   S2 38.02   223 228 496  33
+## 4   S2 28.38   131 270 530  33
+## 5   S1 23.47    67 313 566  29
+## 6   S2 37.82   169 293 465  33
+## 7   S2 30.08    81 289 495  33
+## 8   S1 24.50   192 380 577  29
+## 9   S1 21.37   116 293 501  29
+## 10  S2 25.60    55 307 579  33
+## 11  S1 40.20   252 238 562  29
+## 12  S1 44.27   232 359 542  29
+## 13  S1 26.60   144 300 604  29
+## 14  S1 20.88   103 318 491  29
+## 15  S2 26.05   212 231 577  33</code></pre>
+<p>When this kind of decision is non-binary, you can use the function <code>case_when()</code>. This function takes as many logical expressions and corresponding values as desired. We’ll add another new column to the data frame <code>int</code> which will be called <code>noise</code>. When the column <code>dB</code> has a value of below 25 decibels, the column <code>noise</code> should have the value “quiet”, for noise levels between 25 and 35 it should say “mid”, and for values above 35 decibels it should say “loud”. The notation of these conditions is as follows: First the logical expression, then a tilde <code>~</code>, and finally the value to be written into the new column if the logical expression is <code>TRUE</code>.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="introduction-to-the-tidyverse.html#cb234-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">noise =</span> <span class="fu">case_when</span>(dB <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">&quot;quiet&quot;</span>,</span>
+<span id="cb234-2"><a href="introduction-to-the-tidyverse.html#cb234-2" tabindex="-1"></a>                                 dB <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> dB <span class="sc">&lt;</span> <span class="dv">35</span> <span class="sc">~</span> <span class="st">&quot;mid&quot;</span>,</span>
+<span id="cb234-3"><a href="introduction-to-the-tidyverse.html#cb234-3" tabindex="-1"></a>                                 dB <span class="sc">&gt;</span> <span class="dv">35</span> <span class="sc">~</span> <span class="st">&quot;loud&quot;</span>))</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer  F1  F2 noise
+## 1   S1 24.50   162 282 470 quiet
+## 2   S2 32.54   120 277 516   mid
+## 3   S2 38.02   223 228 496  loud
+## 4   S2 28.38   131 270 530   mid
+## 5   S1 23.47    67 313 566 quiet
+## 6   S2 37.82   169 293 465  loud
+## 7   S2 30.08    81 289 495   mid
+## 8   S1 24.50   192 380 577 quiet
+## 9   S1 21.37   116 293 501 quiet
+## 10  S2 25.60    55 307 579   mid
+## 11  S1 40.20   252 238 562  loud
+## 12  S1 44.27   232 359 542  loud
+## 13  S1 26.60   144 300 604   mid
+## 14  S1 20.88   103 318 491 quiet
+## 15  S2 26.05   212 231 577   mid</code></pre>
+</div>
+<div id="renaming" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Renaming<a href="introduction-to-the-tidyverse.html#renaming" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Columns should always be given reasonable names, i.e. names that tell you exactly and concisely what the content of the column is – this is not a trivial demand!).</p>
+<p>In the data frame <code>asp</code> almost all column names are abbreviations:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="introduction-to-the-tidyverse.html#cb236-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;d&quot;    &quot;Wort&quot; &quot;Vpn&quot;  &quot;Kons&quot; &quot;Bet&quot;</code></pre>
+<p>Using the function <strong><code>rename()</code></strong> we’ll rename all the columns and save the result directly in <code>asp</code> using the double pipe. The arguments of that function are the desired column name, then <code>=</code>, and then the old column name. You do not need to put the column names in quotes. You can also rename several columns at once.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="introduction-to-the-tidyverse.html#cb238-1" tabindex="-1"></a>asp <span class="sc">%&lt;&gt;%</span> <span class="fu">rename</span>(<span class="at">duration =</span> d, </span>
+<span id="cb238-2"><a href="introduction-to-the-tidyverse.html#cb238-2" tabindex="-1"></a>                <span class="at">subject =</span> Vpn, </span>
+<span id="cb238-3"><a href="introduction-to-the-tidyverse.html#cb238-3" tabindex="-1"></a>                <span class="at">consonant =</span> Kons, </span>
+<span id="cb238-4"><a href="introduction-to-the-tidyverse.html#cb238-4" tabindex="-1"></a>                <span class="at">stress =</span> Bet)</span>
+<span id="cb238-5"><a href="introduction-to-the-tidyverse.html#cb238-5" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> <span class="fu">colnames</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;duration&quot;  &quot;Wort&quot;      &quot;subject&quot;   &quot;consonant&quot;
+## [5] &quot;stress&quot;</code></pre>
+</div>
+</div>
+<div id="more-examples-of-complex-pipes" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> More Examples of Complex Pipes<a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As you have seen already, you can concatenate multiple functions using pipes. While doing that, it is very important to consider that each function is applied to the result of the previous function. If you write long pipes (i.e. several functions connected via <code>%&gt;%</code>), you should always add a line break right after the <code>%&gt;%</code> for reasons of legibility.</p>
+<p>The following two pipes have the same result and do not throw any error, but they progress differently. In the first example, the column <code>subject</code> is selected before the first row is returned, in the second example the steps are reversed.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="introduction-to-the-tidyverse.html#cb240-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> </span>
+<span id="cb240-2"><a href="introduction-to-the-tidyverse.html#cb240-2" tabindex="-1"></a>  <span class="fu">select</span>(subject) <span class="sc">%&gt;%</span> </span>
+<span id="cb240-3"><a href="introduction-to-the-tidyverse.html#cb240-3" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##   subject
+## 1     k01</code></pre>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="introduction-to-the-tidyverse.html#cb242-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span> </span>
+<span id="cb242-2"><a href="introduction-to-the-tidyverse.html#cb242-2" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb242-3"><a href="introduction-to-the-tidyverse.html#cb242-3" tabindex="-1"></a>  <span class="fu">select</span>(subject)</span></code></pre></div>
+<pre><code>##   subject
+## 1     k01</code></pre>
+<p>Such pipes can occasionally lead to errors if you do not decide carefully which functions to execute first. For instance, let’s say you want to select the column <code>X</code> from the data frame <code>vdata</code> but you also want to rename it to <code>age</code>. The following code is going to throw an error because the function <code>select()</code> can not be applied to a column <code>X</code> after that column has been renamed to <code>age</code>:</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="introduction-to-the-tidyverse.html#cb244-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb244-2"><a href="introduction-to-the-tidyverse.html#cb244-2" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">age =</span> X) <span class="sc">%&gt;%</span> </span>
+<span id="cb244-3"><a href="introduction-to-the-tidyverse.html#cb244-3" tabindex="-1"></a>  <span class="fu">select</span>(X)</span></code></pre></div>
+<pre><code>## Error in `select()`:
+## ! Can&#39;t subset columns that don&#39;t exist.
+## ✖ Column `X` doesn&#39;t exist.</code></pre>
+<p>This error also tells you exactly what went wrong. The correct order of functions is this (we also use <code>slice(1:10)</code> to reduce the visible output):</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="introduction-to-the-tidyverse.html#cb246-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb246-2"><a href="introduction-to-the-tidyverse.html#cb246-2" tabindex="-1"></a>  <span class="fu">select</span>(X) <span class="sc">%&gt;%</span> </span>
+<span id="cb246-3"><a href="introduction-to-the-tidyverse.html#cb246-3" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">age =</span> X) <span class="sc">%&gt;%</span> </span>
+<span id="cb246-4"><a href="introduction-to-the-tidyverse.html#cb246-4" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##      age
+## 1  52.99
+## 2  53.61
+## 3  55.14
+## 4  53.06
+## 5  52.74
+## 6  53.30
+## 7  54.37
+## 8  51.20
+## 9  54.65
+## 10 58.42</code></pre>
+<p>Another example: you want to be given the duration values (<code>Dauer</code>) in <code>int</code> for F1 values below 270 Hz.</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="introduction-to-the-tidyverse.html#cb248-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> </span>
+<span id="cb248-2"><a href="introduction-to-the-tidyverse.html#cb248-2" tabindex="-1"></a>  <span class="fu">pull</span>(Dauer) <span class="sc">%&gt;%</span> </span>
+<span id="cb248-3"><a href="introduction-to-the-tidyverse.html#cb248-3" tabindex="-1"></a>  <span class="fu">filter</span>(F1 <span class="sc">&lt;</span> <span class="dv">270</span>)</span></code></pre></div>
+<pre><code>## Error in UseMethod(&quot;filter&quot;): no applicable method for &#39;filter&#39; applied to an object of class &quot;c(&#39;integer&#39;, &#39;numeric&#39;)&quot;</code></pre>
+<p>This error is much more cryptic. Let’s reconstruct what went wrong. We pulled the column <code>Dauer</code> from the data frame <code>int</code>, and that column does exist. However, we used <code>pull()</code> for that operation, which returns the column as a vector, and not as a data frame. You can test this as follows:</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="introduction-to-the-tidyverse.html#cb250-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Dauer)</span></code></pre></div>
+<pre><code>##  [1] 162 120 223 131  67 169  81 192 116  55 252 232
+## [13] 144 103 212</code></pre>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="introduction-to-the-tidyverse.html#cb252-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">pull</span>(Dauer) <span class="sc">%&gt;%</span> <span class="fu">class</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p>Yes, this is a vector of integers. In the code above, we then tried to apply a function to that vector that is meant to be applied to data frames only – that’s why the pipe threw an error. The solution in this case is to filter <em>first</em>, and then pull the duration values:</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="introduction-to-the-tidyverse.html#cb254-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> </span>
+<span id="cb254-2"><a href="introduction-to-the-tidyverse.html#cb254-2" tabindex="-1"></a>  <span class="fu">filter</span>(F1 <span class="sc">&lt;</span> <span class="dv">270</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb254-3"><a href="introduction-to-the-tidyverse.html#cb254-3" tabindex="-1"></a>  <span class="fu">pull</span>(Dauer)</span></code></pre></div>
+<pre><code>## [1] 223 252 212</code></pre>
+<p>These are the duration values for the three rows for which F1 is lower than 270 Hz.</p>
+<p>Finally, we want to show an example of a complex pipe using the double pipe at the beginning. So what we do here will overwrite the data frame, and not just print the result in the console. We want to add the column <code>noise</code> to the data frame <code>int</code> permanently now, then select all rows for which the subject is “S1” and the duration is between 100 and 200 ms, and lastly we want to select the columns <code>noise</code> and <code>Dauer</code> as well as the first five rows.</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="introduction-to-the-tidyverse.html#cb256-1" tabindex="-1"></a>int <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb256-2"><a href="introduction-to-the-tidyverse.html#cb256-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">noise =</span> <span class="fu">case_when</span>(dB <span class="sc">&lt;</span> <span class="dv">25</span> <span class="sc">~</span> <span class="st">&quot;quiet&quot;</span>,</span>
+<span id="cb256-3"><a href="introduction-to-the-tidyverse.html#cb256-3" tabindex="-1"></a>                           dB <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> dB <span class="sc">&lt;</span> <span class="dv">35</span> <span class="sc">~</span> <span class="st">&quot;mid&quot;</span>,</span>
+<span id="cb256-4"><a href="introduction-to-the-tidyverse.html#cb256-4" tabindex="-1"></a>                           dB <span class="sc">&gt;</span> <span class="dv">35</span> <span class="sc">~</span> <span class="st">&quot;loud&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb256-5"><a href="introduction-to-the-tidyverse.html#cb256-5" tabindex="-1"></a>  <span class="fu">filter</span>(Vpn <span class="sc">==</span> <span class="st">&quot;S1&quot;</span> <span class="sc">&amp;</span> Dauer <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">&amp;</span> Dauer <span class="sc">&lt;</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb256-6"><a href="introduction-to-the-tidyverse.html#cb256-6" tabindex="-1"></a>  <span class="fu">select</span>(Dauer, noise) <span class="sc">%&gt;%</span> </span>
+<span id="cb256-7"><a href="introduction-to-the-tidyverse.html#cb256-7" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb256-8"><a href="introduction-to-the-tidyverse.html#cb256-8" tabindex="-1"></a>int</span></code></pre></div>
+<pre><code>##    Dauer noise
+## 1    162 quiet
+## 8    192 quiet
+## 9    116 quiet
+## 13   144   mid
+## 14   103 quiet</code></pre>
+<p>The data frame <code>int</code> now only consists of two columns and five rows and this operation can not be undone. So please be careful and think about whether or not you want to overwrite a data frame with the result of a pipe.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-frames.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

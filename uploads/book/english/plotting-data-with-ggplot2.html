@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Plotting Data with ggplot2 | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Plotting Data with ggplot2 | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Plotting Data with ggplot2 | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="manipulating-data-with-dplyr-continuation.html"/>
+<link rel="next" href="tidying-data-with-tidyr.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/daten-abbilden-mit-ggplot2.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="plotting-data-with-ggplot2" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Plotting Data with <code>ggplot2</code><a href="plotting-data-with-ggplot2.html#plotting-data-with-ggplot2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter you’ll need the following packages and data frames:</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="plotting-data-with-ggplot2.html#cb360-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb360-2"><a href="plotting-data-with-ggplot2.html#cb360-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb360-3"><a href="plotting-data-with-ggplot2.html#cb360-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb360-4"><a href="plotting-data-with-ggplot2.html#cb360-4" tabindex="-1"></a>asp <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;asp.txt&quot;</span>))</span>
+<span id="cb360-5"><a href="plotting-data-with-ggplot2.html#cb360-5" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;intdauer.txt&quot;</span>))</span>
+<span id="cb360-6"><a href="plotting-data-with-ggplot2.html#cb360-6" tabindex="-1"></a>coronal <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;coronal.txt&quot;</span>))</span>
+<span id="cb360-7"><a href="plotting-data-with-ggplot2.html#cb360-7" tabindex="-1"></a>vdata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>))</span></code></pre></div>
+<p><a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> is a library from the <em>tidyverse</em> that gives you very many possibilities to visualise your data. <code>gg</code> stands for <em>grammar of graphics</em>. The command with which you start to build a plot is <code>ggplot()</code> and its argument is the data frame that contains the data to be plotted. Then you add the so called <em>aesthetic mappings</em> with <code>aes()</code> as well as functions for the type of the plot, the labels, legend, etc. Every function is connected through <code>+</code> (not with pipes!).</p>
+<div id="boxplots" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Boxplots<a href="plotting-data-with-ggplot2.html#boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Boxplots are some of the most useful visualisations in research and science. In R they are created with the command <a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html"><code>geom_boxplot()</code></a>. First, we’ll show how the boxplot in chapter <a href="#beispiel-boxplot"><strong>??</strong></a> was created. The function <code>ggplot()</code> receives the data frame <code>vdata</code>. In <code>aes()</code> we state that F1 shall be plotted on the y-axis. And finally, we use <code>geom_boxplot()</code> to indicate that we want this to be a boxplot.</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="plotting-data-with-ggplot2.html#cb361-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb361-2"><a href="plotting-data-with-ggplot2.html#cb361-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">y =</span> F1) <span class="sc">+</span> </span>
+<span id="cb361-3"><a href="plotting-data-with-ggplot2.html#cb361-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-103-1.svg" width="672" /></p>
+<p>Boxplots are great for comparing values across categorical groups. These groups are commonly plotted on the x-axis. Here is an example for the duration of distinct consonants in the data frame <code>asp</code>:</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="plotting-data-with-ggplot2.html#cb362-1" tabindex="-1"></a><span class="fu">ggplot</span>(asp) <span class="sc">+</span></span>
+<span id="cb362-2"><a href="plotting-data-with-ggplot2.html#cb362-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d) <span class="sc">+</span></span>
+<span id="cb362-3"><a href="plotting-data-with-ggplot2.html#cb362-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-104-1.svg" width="672" /></p>
+<p>Boxplots can also be visualised horizontally (although this is less common). In this case we would put the categories on the y-axis and the values on the x-axis:</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="plotting-data-with-ggplot2.html#cb363-1" tabindex="-1"></a><span class="fu">ggplot</span>(asp) <span class="sc">+</span></span>
+<span id="cb363-2"><a href="plotting-data-with-ggplot2.html#cb363-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> d, <span class="at">y =</span> Kons) <span class="sc">+</span></span>
+<span id="cb363-3"><a href="plotting-data-with-ggplot2.html#cb363-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-105-1.svg" width="672" /></p>
+<p>Sometimes, the boxplot is supposed to have a <em>notch</em>. Simply set the argument <code>notch = TRUE</code> in <code>geom_boxplot()</code> (and, if you like, <code>notchwidth</code> to adapt the width of the notch):</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="plotting-data-with-ggplot2.html#cb364-1" tabindex="-1"></a><span class="fu">ggplot</span>(asp) <span class="sc">+</span></span>
+<span id="cb364-2"><a href="plotting-data-with-ggplot2.html#cb364-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d) <span class="sc">+</span></span>
+<span id="cb364-3"><a href="plotting-data-with-ggplot2.html#cb364-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-106-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="plotting-data-with-ggplot2.html#cb365-1" tabindex="-1"></a><span class="fu">ggplot</span>(asp) <span class="sc">+</span></span>
+<span id="cb365-2"><a href="plotting-data-with-ggplot2.html#cb365-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d) <span class="sc">+</span></span>
+<span id="cb365-3"><a href="plotting-data-with-ggplot2.html#cb365-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch =</span> <span class="cn">TRUE</span>, <span class="at">notchwidth =</span> <span class="fl">0.3</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-106-2.svg" width="672" /></p>
+<div class="gray">
+<p><strong>Further Information: Aesthetic mappings &amp; Piping Data Frames</strong></p>
+<p>Strictly speaking, the <em>aesthetic mappings</em> are an argument of the function that determines the type of the plot (e.g. of <code>geom_boxplot()</code>). Later on, you’ll see that some plotting functions allow or need certain arguments that are not permitted by others. In most cases, we extract the <code>aes()</code> function from the plot-type function because it is more legible. However, you are free to include the <em>aesthetic mappings</em> in the plot-type function as an argument:</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="plotting-data-with-ggplot2.html#cb366-1" tabindex="-1"></a><span class="fu">ggplot</span>(asp) <span class="sc">+</span></span>
+<span id="cb366-2"><a href="plotting-data-with-ggplot2.html#cb366-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d), </span>
+<span id="cb366-3"><a href="plotting-data-with-ggplot2.html#cb366-3" tabindex="-1"></a>               <span class="at">notch =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb366-4"><a href="plotting-data-with-ggplot2.html#cb366-4" tabindex="-1"></a>               <span class="at">notchwidth =</span> <span class="fl">0.3</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-107-1.svg" width="672" /></p>
+<p>Within a <code>ggplot()</code> all functions are connected with a plus sign. The data frame, however, can the piped onto <code>ggplot()</code> if you want:</p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="plotting-data-with-ggplot2.html#cb367-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span></span>
+<span id="cb367-2"><a href="plotting-data-with-ggplot2.html#cb367-2" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb367-3"><a href="plotting-data-with-ggplot2.html#cb367-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d) <span class="sc">+</span></span>
+<span id="cb367-4"><a href="plotting-data-with-ggplot2.html#cb367-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-108-1.svg" width="672" /></p>
+<p>This can be very useful if you want to apply several functions to a data frame before plotting it. For instance, here we filter the data frame <code>asp</code> for observations with lexical stress before then plotting the duration of <em>only</em> the stressed words:</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="plotting-data-with-ggplot2.html#cb368-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span></span>
+<span id="cb368-2"><a href="plotting-data-with-ggplot2.html#cb368-2" tabindex="-1"></a>  <span class="fu">filter</span>(Bet <span class="sc">==</span> <span class="st">&quot;be&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb368-3"><a href="plotting-data-with-ggplot2.html#cb368-3" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb368-4"><a href="plotting-data-with-ggplot2.html#cb368-4" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Kons, <span class="at">y =</span> d) <span class="sc">+</span></span>
+<span id="cb368-5"><a href="plotting-data-with-ggplot2.html#cb368-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-109-1.svg" width="672" /></p>
+</div>
+</div>
+<div id="scatter--lineplots" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Scatter- &amp; Lineplots<a href="plotting-data-with-ggplot2.html#scatter--lineplots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Scatter plots are created using the functions <a href="https://ggplot2.tidyverse.org/reference/geom_point.html"><code>geom_point()</code></a> and/or <a href="https://ggplot2.tidyverse.org/reference/geom_path.html"><code>geom_line()</code></a>. These two functions can also be used together. Scatter plots usually have numeric-continuous data on their x- and y-axes. Here is a plot of the volume in decibel against the duration in milliseconds:</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="plotting-data-with-ggplot2.html#cb369-1" tabindex="-1"></a><span class="co"># points:</span></span>
+<span id="cb369-2"><a href="plotting-data-with-ggplot2.html#cb369-2" tabindex="-1"></a><span class="fu">ggplot</span>(int) <span class="sc">+</span></span>
+<span id="cb369-3"><a href="plotting-data-with-ggplot2.html#cb369-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Dauer, <span class="at">y =</span> dB) <span class="sc">+</span></span>
+<span id="cb369-4"><a href="plotting-data-with-ggplot2.html#cb369-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() </span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-110-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="plotting-data-with-ggplot2.html#cb370-1" tabindex="-1"></a><span class="co"># line:</span></span>
+<span id="cb370-2"><a href="plotting-data-with-ggplot2.html#cb370-2" tabindex="-1"></a><span class="fu">ggplot</span>(int) <span class="sc">+</span>  </span>
+<span id="cb370-3"><a href="plotting-data-with-ggplot2.html#cb370-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Dauer, <span class="at">y =</span> dB) <span class="sc">+</span> </span>
+<span id="cb370-4"><a href="plotting-data-with-ggplot2.html#cb370-4" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-110-2.svg" width="672" /></p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="plotting-data-with-ggplot2.html#cb371-1" tabindex="-1"></a><span class="co"># both:</span></span>
+<span id="cb371-2"><a href="plotting-data-with-ggplot2.html#cb371-2" tabindex="-1"></a><span class="fu">ggplot</span>(int) <span class="sc">+</span></span>
+<span id="cb371-3"><a href="plotting-data-with-ggplot2.html#cb371-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Dauer, <span class="at">y =</span> dB) <span class="sc">+</span> </span>
+<span id="cb371-4"><a href="plotting-data-with-ggplot2.html#cb371-4" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb371-5"><a href="plotting-data-with-ggplot2.html#cb371-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-110-3.svg" width="672" /></p>
+<p>Sometimes it is helpful to include <a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">reference lines</a> in a plot. Horizontal lines are created with <code>geom_hline()</code>, vertical ones with <code>geom_vline()</code>. To draw a horizontal line, you have to tell the plot where this line is supposed to meet the y-axis. This is why <code>geom_hline()</code> always needs the argument <code>yintercept</code>. For <code>geom_vline()</code>, <code>xintercept</code> is the point at which a vertical line and the x-axis meet. Let’s add two straight lines to the plot from before:</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="plotting-data-with-ggplot2.html#cb372-1" tabindex="-1"></a><span class="fu">ggplot</span>(int) <span class="sc">+</span></span>
+<span id="cb372-2"><a href="plotting-data-with-ggplot2.html#cb372-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Dauer, <span class="at">y =</span> dB) <span class="sc">+</span></span>
+<span id="cb372-3"><a href="plotting-data-with-ggplot2.html#cb372-3" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb372-4"><a href="plotting-data-with-ggplot2.html#cb372-4" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">150</span>) <span class="sc">+</span> </span>
+<span id="cb372-5"><a href="plotting-data-with-ggplot2.html#cb372-5" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">35</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-111-1.svg" width="672" /></p>
+</div>
+<div id="barplots" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Barplots<a href="plotting-data-with-ggplot2.html#barplots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another important type of plot is the barplot which is created using <a href="https://ggplot2.tidyverse.org/reference/geom_bar.html"><code>geom_bar()</code></a>. You can only use <code>x</code> or <code>y</code> in the <em>aesthetic mappings</em> because the opposite axis always shows a count or a proportion which is kindly computed by <code>ggplot</code>. The following plot shows, for example, how many occurrences there are of the three regions in the data frame <code>coronal</code>:</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="plotting-data-with-ggplot2.html#cb373-1" tabindex="-1"></a><span class="fu">ggplot</span>(coronal) <span class="sc">+</span></span>
+<span id="cb373-2"><a href="plotting-data-with-ggplot2.html#cb373-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Region) <span class="sc">+</span></span>
+<span id="cb373-3"><a href="plotting-data-with-ggplot2.html#cb373-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-112-1.svg" width="672" /></p>
+<p>The bars can also be plotted horizontally by using <code>y</code> instead of <code>x</code> in the <em>aesthetic mappings</em>.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="plotting-data-with-ggplot2.html#cb374-1" tabindex="-1"></a><span class="fu">ggplot</span>(coronal) <span class="sc">+</span></span>
+<span id="cb374-2"><a href="plotting-data-with-ggplot2.html#cb374-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">y =</span> Region) <span class="sc">+</span></span>
+<span id="cb374-3"><a href="plotting-data-with-ggplot2.html#cb374-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-113-1.svg" width="672" /></p>
+<p>You can easily comprehend the plotted counts here by means of the <code>table()</code> function:</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="plotting-data-with-ggplot2.html#cb375-1" tabindex="-1"></a><span class="fu">table</span>(coronal<span class="sc">$</span>Region)</span></code></pre></div>
+<pre><code>## 
+## R1 R2 R3 
+## 81 80 79</code></pre>
+<p>A barplot can also contain another categorical variable. The second variable to be plotted is given to the argument <code>fill</code> which represents the levels of that variable as fillers. In the next chapter you’ll learn how to choose these colours yourself. In the following plot, you can see how often the fricatives <code>Fr</code> “s” (red) and “sh” (blue) were produced in each of the three regions:</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="plotting-data-with-ggplot2.html#cb377-1" tabindex="-1"></a><span class="fu">ggplot</span>(coronal) <span class="sc">+</span></span>
+<span id="cb377-2"><a href="plotting-data-with-ggplot2.html#cb377-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">fill =</span> Fr) <span class="sc">+</span></span>
+<span id="cb377-3"><a href="plotting-data-with-ggplot2.html#cb377-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-115-1.svg" width="672" /></p>
+<p>Let’s try to use <code>summarise()</code> and <code>group_by()</code> to comprehend how this plot came about. We group by region and fricative and then let the function <code>n()</code> within <code>summarise()</code> determine the number of observations in the data frame for each combination of the two variables.</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="plotting-data-with-ggplot2.html#cb378-1" tabindex="-1"></a>coronal <span class="sc">%&gt;%</span> </span>
+<span id="cb378-2"><a href="plotting-data-with-ggplot2.html#cb378-2" tabindex="-1"></a>  <span class="fu">group_by</span>(Region, Fr) <span class="sc">%&gt;%</span> </span>
+<span id="cb378-3"><a href="plotting-data-with-ggplot2.html#cb378-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;Region&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 6 × 3
+## # Groups:   Region [3]
+##   Region Fr    count
+##   &lt;chr&gt;  &lt;chr&gt; &lt;int&gt;
+## 1 R1     s        58
+## 2 R1     sh       23
+## 3 R2     s        59
+## 4 R2     sh       21
+## 5 R3     s        66
+## 6 R3     sh       13</code></pre>
+<p>A further argument of <code>geom_bar()</code> is <code>position</code>…</p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="plotting-data-with-ggplot2.html#cb381-1" tabindex="-1"></a><span class="co"># ...to plot proportions instead of an absolute count:</span></span>
+<span id="cb381-2"><a href="plotting-data-with-ggplot2.html#cb381-2" tabindex="-1"></a><span class="fu">ggplot</span>(coronal) <span class="sc">+</span></span>
+<span id="cb381-3"><a href="plotting-data-with-ggplot2.html#cb381-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">fill =</span> Fr) <span class="sc">+</span></span>
+<span id="cb381-4"><a href="plotting-data-with-ggplot2.html#cb381-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-117-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="plotting-data-with-ggplot2.html#cb382-1" tabindex="-1"></a><span class="co"># ...to plot the bars next to each other:</span></span>
+<span id="cb382-2"><a href="plotting-data-with-ggplot2.html#cb382-2" tabindex="-1"></a><span class="fu">ggplot</span>(coronal) <span class="sc">+</span></span>
+<span id="cb382-3"><a href="plotting-data-with-ggplot2.html#cb382-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Region, <span class="at">fill =</span> Fr) <span class="sc">+</span></span>
+<span id="cb382-4"><a href="plotting-data-with-ggplot2.html#cb382-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-117-2.svg" width="672" /></p>
+</div>
+<div id="histograms-probability-density" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Histograms &amp; Probability Density<a href="plotting-data-with-ggplot2.html#histograms-probability-density" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Histograms show the distribution of numeric-continuous data by dividing the range of values into many little sections. Similarly to the barplot, the bars (called <em>bins</em> here), show how many data points are within a range of values. In <code>ggplot</code>, histograms are created with <a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html"><code>geom_histogram()</code></a>. The <em>aesthetic mappings</em> argument <code>x</code> determines which column from the data frame is plotted. Here is a histogram of F1 values in <code>vdata</code>:</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="plotting-data-with-ggplot2.html#cb383-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb383-2"><a href="plotting-data-with-ggplot2.html#cb383-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1) <span class="sc">+</span> </span>
+<span id="cb383-3"><a href="plotting-data-with-ggplot2.html#cb383-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-118-1.svg" width="672" /></p>
+<p>In order to be able to visually differentiate the bins, let’s give them a white border. This is achieved by means of the argument <code>color = "white"</code> in <code>geom_histogram()</code>:</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="plotting-data-with-ggplot2.html#cb385-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb385-2"><a href="plotting-data-with-ggplot2.html#cb385-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1) <span class="sc">+</span> </span>
+<span id="cb385-3"><a href="plotting-data-with-ggplot2.html#cb385-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-119-1.svg" width="672" /></p>
+<p>We can also determine ourselves how wide the bins are supposed to be, with the argument <code>binwidth</code>. Currently, one bin in our plot has a width of about 40 Hz. The following plot shows the same data as before, but with bins that have a width of 10 Hz or 100 Hz, respectively:</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="plotting-data-with-ggplot2.html#cb387-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb387-2"><a href="plotting-data-with-ggplot2.html#cb387-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1) <span class="sc">+</span> </span>
+<span id="cb387-3"><a href="plotting-data-with-ggplot2.html#cb387-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb387-4"><a href="plotting-data-with-ggplot2.html#cb387-4" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-120-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="plotting-data-with-ggplot2.html#cb388-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb388-2"><a href="plotting-data-with-ggplot2.html#cb388-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1) <span class="sc">+</span> </span>
+<span id="cb388-3"><a href="plotting-data-with-ggplot2.html#cb388-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb388-4"><a href="plotting-data-with-ggplot2.html#cb388-4" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-120-2.svg" width="672" /></p>
+<p>You can see that this makes a huge difference in representing the data – so please choose carefully when you change the <code>binwidth</code> in a histogram.</p>
+<p>The probability density is related to the histogram. The only change we need to make to turn our histogram into a probability density is to set the argument <code>y = ..density..</code> in <code>aes()</code>. This changes the y-axis in such a way that we see the probability density instead of the count of data points. The area of the bins of a probability density plot is <em>by definition</em> always 1.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="plotting-data-with-ggplot2.html#cb389-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb389-2"><a href="plotting-data-with-ggplot2.html#cb389-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1, <span class="at">y =</span> ..density..) <span class="sc">+</span> </span>
+<span id="cb389-3"><a href="plotting-data-with-ggplot2.html#cb389-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb389-4"><a href="plotting-data-with-ggplot2.html#cb389-4" tabindex="-1"></a>                 <span class="at">binwidth =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## Warning: The dot-dot notation (`..density..`) was deprecated in
+## ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see
+## where this warning was generated.</code></pre>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-121-1.svg" width="672" /></p>
+<p>The probability density is computed as <code>count / (n * binwidth)</code> where <code>n</code> is the number of data points. In the histogram above with <code>binwidth = 100</code> there are 285 data points (<em>count</em>) in the bin between 150 Hz and 250 Hz. The probability density for this bin is computed as follows:</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="plotting-data-with-ggplot2.html#cb391-1" tabindex="-1"></a>count <span class="ot">&lt;-</span> <span class="dv">285</span></span>
+<span id="cb391-2"><a href="plotting-data-with-ggplot2.html#cb391-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(vdata)</span>
+<span id="cb391-3"><a href="plotting-data-with-ggplot2.html#cb391-3" tabindex="-1"></a>binwidth <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb391-4"><a href="plotting-data-with-ggplot2.html#cb391-4" tabindex="-1"></a>dens <span class="ot">&lt;-</span> count <span class="sc">/</span> (n <span class="sc">*</span> binwidth)</span>
+<span id="cb391-5"><a href="plotting-data-with-ggplot2.html#cb391-5" tabindex="-1"></a>dens</span></code></pre></div>
+<pre><code>## [1] 0.0009557</code></pre>
+<p>This value <code>dens</code> is the same as the density value for the same bin in our probability density plot.</p>
+<p>The area of this bin is computed as <code>binwidth * binheight</code>, thus:</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="plotting-data-with-ggplot2.html#cb393-1" tabindex="-1"></a>area <span class="ot">&lt;-</span> binwidth <span class="sc">*</span> dens</span>
+<span id="cb393-2"><a href="plotting-data-with-ggplot2.html#cb393-2" tabindex="-1"></a>area</span></code></pre></div>
+<pre><code>## [1] 0.09557</code></pre>
+<p>If you sum the area of all bins in this plot, you will find that the total area is 1.</p>
+<p>Now imagine a probability density plot consisting of infinitely many bins (which would accordingly have to be infinitely narrow). Then these are not distinct bins anymore, but instead a continuous function called <em>probability density function</em>. There is a function for this in <code>ggplot2</code>, too, called <a href="https://ggplot2.tidyverse.org/reference/geom_density.html"><code>geom_density()</code></a>.</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="plotting-data-with-ggplot2.html#cb395-1" tabindex="-1"></a><span class="fu">ggplot</span>(vdata) <span class="sc">+</span> </span>
+<span id="cb395-2"><a href="plotting-data-with-ggplot2.html#cb395-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> F1) <span class="sc">+</span> </span>
+<span id="cb395-3"><a href="plotting-data-with-ggplot2.html#cb395-3" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-124-1.svg" width="672" /></p>
+<p>Just like in the probability density histogram, the integral (i.e. the area) under this density curve is 1.</p>
+<div class="gray">
+<p><strong>Further Information: Histograms and Probability Density</strong></p>
+<p>For further information, consult Wilke’s <em>Fundamentals of Data Visualization in R</em>, <a href="https://serialmentor.com/dataviz/histograms-density-plots.html">chapter 7</a>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="manipulating-data-with-dplyr-continuation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tidying-data-with-tidyr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Summary Statistics | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Summary Statistics | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Summary Statistics | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-the-tidyverse.html"/>
+<link rel="next" href="manipulating-data-with-dplyr-continuation.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/summary-statistics.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="summary-statistics" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Summary Statistics<a href="summary-statistics.html#summary-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Please load the following packages and data frame for this chapter:</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="summary-statistics.html#cb258-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb258-2"><a href="summary-statistics.html#cb258-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb258-3"><a href="summary-statistics.html#cb258-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb258-4"><a href="summary-statistics.html#cb258-4" tabindex="-1"></a>vdata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>))</span></code></pre></div>
+<p>When you want to get an overview of some data, it is helpful to compute so called <em>summary statistics</em> (sometimes called descriptive statistics). Among others, these are the arithmetic mean, median, variance, standard deviation, minimum, maximum, etc. Here we aim to show you how these values can be computed without using functions from the <em>tidyverse</em>. Since R is a statistics software, functions to compute summary statistics are always available. The following code snippet presents the most important functions from base R for descriptive statistics, applied to the F1 values in <code>vdata</code>:</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="summary-statistics.html#cb259-1" tabindex="-1"></a><span class="fu">mean</span>(vdata<span class="sc">$</span>F1)             <span class="co"># arithmetic mean</span></span></code></pre></div>
+<pre><code>## [1] 407.3</code></pre>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="summary-statistics.html#cb261-1" tabindex="-1"></a><span class="fu">median</span>(vdata<span class="sc">$</span>F1)           <span class="co"># median</span></span></code></pre></div>
+<pre><code>## [1] 366</code></pre>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="summary-statistics.html#cb263-1" tabindex="-1"></a><span class="fu">var</span>(vdata<span class="sc">$</span>F1)              <span class="co"># variance</span></span></code></pre></div>
+<pre><code>## [1] 21255</code></pre>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="summary-statistics.html#cb265-1" tabindex="-1"></a><span class="fu">sd</span>(vdata<span class="sc">$</span>F1)               <span class="co"># standard deviation</span></span></code></pre></div>
+<pre><code>## [1] 145.8</code></pre>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="summary-statistics.html#cb267-1" tabindex="-1"></a><span class="fu">min</span>(vdata<span class="sc">$</span>F1)              <span class="co"># minimum</span></span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="summary-statistics.html#cb269-1" tabindex="-1"></a><span class="fu">max</span>(vdata<span class="sc">$</span>F1)              <span class="co"># maximum</span></span></code></pre></div>
+<pre><code>## [1] 1114</code></pre>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="summary-statistics.html#cb271-1" tabindex="-1"></a><span class="fu">range</span>(vdata<span class="sc">$</span>F1)            <span class="co"># minimum &amp; maximum</span></span></code></pre></div>
+<pre><code>## [1]    0 1114</code></pre>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="summary-statistics.html#cb273-1" tabindex="-1"></a><span class="fu">quantile</span>(vdata<span class="sc">$</span>F1, <span class="fl">0.25</span>)   <span class="co"># first quartile</span></span></code></pre></div>
+<pre><code>## 25% 
+## 300</code></pre>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="summary-statistics.html#cb275-1" tabindex="-1"></a><span class="fu">quantile</span>(vdata<span class="sc">$</span>F1, <span class="fl">0.75</span>)   <span class="co"># third quartile</span></span></code></pre></div>
+<pre><code>##   75% 
+## 509.8</code></pre>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="summary-statistics.html#cb277-1" tabindex="-1"></a><span class="fu">IQR</span>(vdata<span class="sc">$</span>F1)              <span class="co"># interquartile range</span></span></code></pre></div>
+<pre><code>## [1] 209.8</code></pre>
+<div id="mean-median" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Mean &amp; Median<a href="summary-statistics.html#mean-median" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The arithmetic mean is calculated by summing <span class="math inline">\(n\)</span> numbers and then dividing this sum by <span class="math inline">\(n\)</span>. Here is a very simple example:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="summary-statistics.html#cb279-1" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb279-2"><a href="summary-statistics.html#cb279-2" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sum</span>(nums)</span>
+<span id="cb279-3"><a href="summary-statistics.html#cb279-3" tabindex="-1"></a>s</span></code></pre></div>
+<pre><code>## [1] 15</code></pre>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="summary-statistics.html#cb281-1" tabindex="-1"></a>count <span class="ot">&lt;-</span> <span class="fu">length</span>(nums)</span>
+<span id="cb281-2"><a href="summary-statistics.html#cb281-2" tabindex="-1"></a>count</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="summary-statistics.html#cb283-1" tabindex="-1"></a><span class="co"># mean:</span></span>
+<span id="cb283-2"><a href="summary-statistics.html#cb283-2" tabindex="-1"></a>s<span class="sc">/</span>count</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="summary-statistics.html#cb285-1" tabindex="-1"></a><span class="co"># for comparison:</span></span>
+<span id="cb285-2"><a href="summary-statistics.html#cb285-2" tabindex="-1"></a><span class="fu">mean</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>The median on the other hand is the middle number in a sorted sequence of numbers. Let’s reuse the above example (in which the numbers are already in ascending order):</p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="summary-statistics.html#cb287-1" tabindex="-1"></a>nums</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="summary-statistics.html#cb289-1" tabindex="-1"></a><span class="fu">median</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>For an even number of numbers the median is the mean of the two middle values, e.g.:</p>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="summary-statistics.html#cb291-1" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb291-2"><a href="summary-statistics.html#cb291-2" tabindex="-1"></a><span class="fu">median</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 3.5</code></pre>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="summary-statistics.html#cb293-1" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
+<pre><code>## [1] 3.5</code></pre>
+<p>The median is more robust against outliers than the mean. Outliers are data points that are more extreme then the majority of data points in a data set. Here is another simple example:</p>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="summary-statistics.html#cb295-1" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">100</span>)</span>
+<span id="cb295-2"><a href="summary-statistics.html#cb295-2" tabindex="-1"></a>nums</span></code></pre></div>
+<pre><code>## [1]   1   2   3   4   5 100</code></pre>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="summary-statistics.html#cb297-1" tabindex="-1"></a><span class="fu">mean</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 19.17</code></pre>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="summary-statistics.html#cb299-1" tabindex="-1"></a><span class="fu">median</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 3.5</code></pre>
+<p>The number 100 is obviously an outlier in the vector called <code>nums</code>. Because of that, the mean is now much higher than previously, while the median has changed only slightly.</p>
+</div>
+<div id="variance-standard-deviation" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Variance &amp; Standard Deviation<a href="summary-statistics.html#variance-standard-deviation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Variance and standard deviation are related measures for the dispersion of values around their mean. More precisely, the variance is the sum of the squared deviations of the values from their mean, divided by the number of values minus 1, while the standard deviation is the square root of the variance. The following example demonstrates how to compute the variance and standard deviation manually.</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="summary-statistics.html#cb301-1" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">6</span>, <span class="dv">24</span>, <span class="dv">3</span>, <span class="dv">17</span>)</span>
+<span id="cb301-2"><a href="summary-statistics.html#cb301-2" tabindex="-1"></a><span class="co"># mean</span></span>
+<span id="cb301-3"><a href="summary-statistics.html#cb301-3" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mean</span>(nums)</span>
+<span id="cb301-4"><a href="summary-statistics.html#cb301-4" tabindex="-1"></a>m</span></code></pre></div>
+<pre><code>## [1] 12.4</code></pre>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="summary-statistics.html#cb303-1" tabindex="-1"></a><span class="co"># squared differences</span></span>
+<span id="cb303-2"><a href="summary-statistics.html#cb303-2" tabindex="-1"></a>squared_diff <span class="ot">&lt;-</span> (nums <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb303-3"><a href="summary-statistics.html#cb303-3" tabindex="-1"></a>squared_diff</span></code></pre></div>
+<pre><code>## [1]   0.16  40.96 134.56  88.36  21.16</code></pre>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="summary-statistics.html#cb305-1" tabindex="-1"></a><span class="co"># number of values</span></span>
+<span id="cb305-2"><a href="summary-statistics.html#cb305-2" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(nums)</span>
+<span id="cb305-3"><a href="summary-statistics.html#cb305-3" tabindex="-1"></a>n</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="summary-statistics.html#cb307-1" tabindex="-1"></a><span class="co"># sum of the squared differences</span></span>
+<span id="cb307-2"><a href="summary-statistics.html#cb307-2" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sum</span>(squared_diff)</span>
+<span id="cb307-3"><a href="summary-statistics.html#cb307-3" tabindex="-1"></a>s</span></code></pre></div>
+<pre><code>## [1] 285.2</code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="summary-statistics.html#cb309-1" tabindex="-1"></a><span class="co"># variance</span></span>
+<span id="cb309-2"><a href="summary-statistics.html#cb309-2" tabindex="-1"></a>variance <span class="ot">&lt;-</span> s <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb309-3"><a href="summary-statistics.html#cb309-3" tabindex="-1"></a>variance</span></code></pre></div>
+<pre><code>## [1] 71.3</code></pre>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="summary-statistics.html#cb311-1" tabindex="-1"></a><span class="co"># using the function var():</span></span>
+<span id="cb311-2"><a href="summary-statistics.html#cb311-2" tabindex="-1"></a><span class="fu">var</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 71.3</code></pre>
+<p>To compute the standard deviation from that (which is used far more often in statistics than the variance) we only need to extract the square root of the variance:</p>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="summary-statistics.html#cb313-1" tabindex="-1"></a>std_dev <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(variance)</span>
+<span id="cb313-2"><a href="summary-statistics.html#cb313-2" tabindex="-1"></a>std_dev</span></code></pre></div>
+<pre><code>## [1] 8.444</code></pre>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="summary-statistics.html#cb315-1" tabindex="-1"></a><span class="co"># using the function sd():</span></span>
+<span id="cb315-2"><a href="summary-statistics.html#cb315-2" tabindex="-1"></a><span class="fu">sd</span>(nums)</span></code></pre></div>
+<pre><code>## [1] 8.444</code></pre>
+</div>
+<div id="quantiles" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Quantiles<a href="summary-statistics.html#quantiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A quantile divides data points in such a way that a given part of the data points is below the quantile. Quantile is a hypernym: depending on how many chunks you divide your data points into, you can also use the terms percentile (100 chunks) or quartile (4 chunks). The median is another quantile because 50% of the data are below the median. In R, the function <code>quantile()</code> computes quantiles. The function takes as arguments the data points (i.e. a numeric vector) and then the proportion of data points that should be below the value to be computed. Important quantiles are the first and third quartile, i.e. the thresholds below which a quarter or three quarters of all data points lie.</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="summary-statistics.html#cb317-1" tabindex="-1"></a><span class="fu">quantile</span>(vdata<span class="sc">$</span>F1, <span class="fl">0.25</span>)   <span class="co"># first quartile</span></span></code></pre></div>
+<pre><code>## 25% 
+## 300</code></pre>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="summary-statistics.html#cb319-1" tabindex="-1"></a><span class="fu">quantile</span>(vdata<span class="sc">$</span>F1, <span class="fl">0.75</span>)   <span class="co"># third quartile</span></span></code></pre></div>
+<pre><code>##   75% 
+## 509.8</code></pre>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="summary-statistics.html#cb321-1" tabindex="-1"></a><span class="fu">IQR</span>(vdata<span class="sc">$</span>F1)              <span class="co"># interquartile range</span></span></code></pre></div>
+<pre><code>## [1] 209.8</code></pre>
+<p>The difference between the first and third quartile is called interquartile range and can be computed with the function <code>IQR()</code>.</p>
+</div>
+<div id="example-of-a-boxplot" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Example of a Boxplot<a href="summary-statistics.html#example-of-a-boxplot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A boxplot contains many of the descriptive information that we have learned about so far:</p>
+<ul>
+<li>Median: the horizontal line within the box is the median.</li>
+<li>Box: the box contains the middle 50% of the data points. The lower end of the box is the first quartile (Q1), the upper end is the third quartile (Q3). The box is as big as the interquartile range.</li>
+<li>Whiskers: the vertical lines stretching upwards/downwards from Q1 and Q3 to the highest/lowest data point that lies within <code>1.5 * IQR</code>. The calculation of the whiskers as <code>1.5 * IQR</code> is valid for boxplots created with <code>ggplot2</code>, but some other programs use a different calculation.</li>
+<li>Points: outliers, i.e. all data points that are not contained in the box or whiskers.</li>
+</ul>
+<p>Here you see a boxplot for <code>F1</code> from the data frame <code>vdata</code>:</p>
+<p><img src="img/boxplot.png" /></p>
+<p>Later in this course, you’ll learn how to create this boxplot yourself.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-the-tidyverse.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="manipulating-data-with-dplyr-continuation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
