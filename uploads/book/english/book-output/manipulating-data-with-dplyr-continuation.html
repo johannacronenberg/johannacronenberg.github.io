@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Manipulating Data with dplyr (Continuation) | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Manipulating Data with dplyr (Continuation) | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Manipulating Data with dplyr (Continuation) | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="summary-statistics.html"/>
+<link rel="next" href="plotting-data-with-ggplot2.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/daten-manipulieren-mit-dplyr-fortsetzung.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="manipulating-data-with-dplyr-continuation" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Manipulating Data with <code>dplyr</code> (Continuation)<a href="manipulating-data-with-dplyr-continuation.html#manipulating-data-with-dplyr-continuation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="grouping-summarising" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Grouping &amp; Summarising<a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Please load the following libraries and data frames for this chapter:</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="manipulating-data-with-dplyr-continuation.html#cb323-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb323-2"><a href="manipulating-data-with-dplyr-continuation.html#cb323-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb323-3"><a href="manipulating-data-with-dplyr-continuation.html#cb323-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb323-4"><a href="manipulating-data-with-dplyr-continuation.html#cb323-4" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;intdauer.txt&quot;</span>))</span>
+<span id="cb323-5"><a href="manipulating-data-with-dplyr-continuation.html#cb323-5" tabindex="-1"></a>coronal <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;coronal.txt&quot;</span>))</span>
+<span id="cb323-6"><a href="manipulating-data-with-dplyr-continuation.html#cb323-6" tabindex="-1"></a>vdata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>))</span></code></pre></div>
+<p>Chapter <a href="summary-statistics.html#summary-statistics">5</a> was concerned with summary statistics regarding the F1 values stored in the data frame <code>vdata</code>. Of course we can calculate these values just as well using the <em>tidyverse</em> syntax. This is actually what the function <code>summarise()</code> from the package <code>dplyr</code> was made for. This function changes that data frame completely because the original observations are summarised to new, descriptive values. The columns of the original data are also usually dropped and new columns containing the calculated values are created. The function takes as arguments the new column names and a function with which the values for the new column shall be calculated:</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="manipulating-data-with-dplyr-continuation.html#cb324-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1))</span></code></pre></div>
+<pre><code>##   arith_mean
+## 1      407.3</code></pre>
+<p>The output of this pipe is a data frame of just one column called <code>arith_mean</code> and one observation which contains the arithmetic mean of <code>vdata$F1</code>. We can also compute several summary statistics within one call of <code>summarise()</code>, which results in a data frame with more columns:</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="manipulating-data-with-dplyr-continuation.html#cb326-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1),</span>
+<span id="cb326-2"><a href="manipulating-data-with-dplyr-continuation.html#cb326-2" tabindex="-1"></a>                    <span class="at">std_dev =</span> <span class="fu">sd</span>(F1),</span>
+<span id="cb326-3"><a href="manipulating-data-with-dplyr-continuation.html#cb326-3" tabindex="-1"></a>                    <span class="at">s =</span> <span class="fu">sum</span>(F1),</span>
+<span id="cb326-4"><a href="manipulating-data-with-dplyr-continuation.html#cb326-4" tabindex="-1"></a>                    <span class="at">maximum =</span> <span class="fu">max</span>(F1),</span>
+<span id="cb326-5"><a href="manipulating-data-with-dplyr-continuation.html#cb326-5" tabindex="-1"></a>                    <span class="at">Q1 =</span> <span class="fu">quantile</span>(F1, <span class="fl">0.25</span>))</span></code></pre></div>
+<pre><code>##   arith_mean std_dev       s maximum  Q1
+## 1      407.3   145.8 1214532    1114 300</code></pre>
+<p>The functions <code>mutate()</code> and <code>summarise()</code> have in common that they create new columns from the old ones. However, while <code>mutate()</code> keeps all original columns and observations, <code>summarise()</code> creates a new data frame with usually less columns and observations than before.</p>
+<p>Say, you want to compute the arithmetic mean of F1 for a specific vowel <code>V</code> in the data frame <code>vdata</code> – how would you do that? Using tidyverse, probably like this (for the vowel <code>V == "E"</code>):</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="manipulating-data-with-dplyr-continuation.html#cb328-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb328-2"><a href="manipulating-data-with-dplyr-continuation.html#cb328-2" tabindex="-1"></a>  <span class="fu">filter</span>(V <span class="sc">==</span> <span class="st">&quot;E&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb328-3"><a href="manipulating-data-with-dplyr-continuation.html#cb328-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1))</span></code></pre></div>
+<pre><code>##   arith_mean
+## 1      426.2</code></pre>
+<p>The mean F1 for “E” is approx. 426 Hz. If you’re interested in the vowel-specific mean F1 values, it is very inefficient to rerun the code above for every single vowel category in the data frame. Instead, you can use the function <code>group_by()</code> which takes as arguments the names of all columns by which you want to group the result of the code. <code>summarise()</code> computes the desired summary statistics then <strong>per group</strong>. In our example, let’s compute the mean for each vowel:</p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="manipulating-data-with-dplyr-continuation.html#cb330-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb330-2"><a href="manipulating-data-with-dplyr-continuation.html#cb330-2" tabindex="-1"></a>  <span class="fu">group_by</span>(V) <span class="sc">%&gt;%</span> </span>
+<span id="cb330-3"><a href="manipulating-data-with-dplyr-continuation.html#cb330-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1))</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 2
+##   V     arith_mean
+##   &lt;chr&gt;      &lt;dbl&gt;
+## 1 %           424.
+## 2 A           645.
+## 3 E           426.
+## 4 I           311.
+## 5 O           434.
+## 6 U           304.
+## 7 Y           302.</code></pre>
+<p>This code created two columns: one contains the seven distinct vowel from the original data frame, the second the vowel-specific mean F1 values. Of course you can group the results by more than one column. It is, for instance, probably the case that the mean F1 is not just different for each vowel, but that the tenseness <code>Tense</code> of the vowel also affects F1. That is why we group now by vowel and tenseness and then compute the mean F1:</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="manipulating-data-with-dplyr-continuation.html#cb332-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb332-2"><a href="manipulating-data-with-dplyr-continuation.html#cb332-2" tabindex="-1"></a>  <span class="fu">group_by</span>(V, Tense) <span class="sc">%&gt;%</span> </span>
+<span id="cb332-3"><a href="manipulating-data-with-dplyr-continuation.html#cb332-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;V&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 14 × 3
+## # Groups:   V [7]
+##    V     Tense arith_mean
+##    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
+##  1 %     +           368.
+##  2 %     -           479.
+##  3 A     +           668.
+##  4 A     -           622.
+##  5 E     +           363.
+##  6 E     -           488.
+##  7 I     +           276.
+##  8 I     -           346.
+##  9 O     +           348.
+## 10 O     -           520.
+## 11 U     +           259.
+## 12 U     -           348.
+## 13 Y     +           266.
+## 14 Y     -           338.</code></pre>
+<p>Now we can see the mean F1 for lax “%”, tense “%” (ignore the weird vowel encoding), lax “A”, tense “A” and so on.</p>
+<div class="gray">
+<p><strong>Further Information: <code>summarise()</code> warning</strong></p>
+<p>Above you can see a warning that was thrown by the <code>summarise()</code> command. Warnings try to get your attention – don’t ignore them! This specific warning shows that the result of the pipe is a grouped data frame (object class <code>grouped_df</code>) and that <code>V</code> is the grouping variable:</p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="manipulating-data-with-dplyr-continuation.html#cb335-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb335-2"><a href="manipulating-data-with-dplyr-continuation.html#cb335-2" tabindex="-1"></a>  <span class="fu">group_by</span>(V, Tense) <span class="sc">%&gt;%</span> </span>
+<span id="cb335-3"><a href="manipulating-data-with-dplyr-continuation.html#cb335-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">arith_mean =</span> <span class="fu">mean</span>(F1)) <span class="sc">%&gt;%</span> </span>
+<span id="cb335-4"><a href="manipulating-data-with-dplyr-continuation.html#cb335-4" tabindex="-1"></a>  <span class="fu">class</span>()</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;V&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre><code>## [1] &quot;grouped_df&quot; &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>The warning also tells you that you can the change the grouping of the results by using the function’s argument <code>.groups</code>. This argument can take on different values as you can read on the help page for <code>summarise()</code>.</p>
+<p>In the previous code snippets in which we used <code>group_by()</code> together with <code>summarise()</code> the warning didn’t show up because we grouped by only one variable; thus the grouping is removed automatically in the results.</p>
+</div>
+<p>Importantly, you can only use <code>group_by()</code> on categorical columns, i.e. factors. It makes no sense to use grouping on non-categorical, numeric columns because there are no groups there (rather, every value in a numeric column is unique or at least rare). We, on the other hand, want to calculate summary statistics for categorical groups.</p>
+<p>Lastly we want to introduce the function <code>n()</code> and <code>n_distinct()</code>. <code>n()</code> takes no arguments and is used within <code>summarise()</code> and after <code>group_by()</code> to return the number of observations (rows) per group. <code>n_distinct()</code> takes the name of one column as an argument and finds out how many distinct (unique) values of a variable there are per group.</p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="manipulating-data-with-dplyr-continuation.html#cb338-1" tabindex="-1"></a><span class="co"># number of rows for every combination of V and Tense</span></span>
+<span id="cb338-2"><a href="manipulating-data-with-dplyr-continuation.html#cb338-2" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> </span>
+<span id="cb338-3"><a href="manipulating-data-with-dplyr-continuation.html#cb338-3" tabindex="-1"></a>  <span class="fu">group_by</span>(V, Tense) <span class="sc">%&gt;%</span> </span>
+<span id="cb338-4"><a href="manipulating-data-with-dplyr-continuation.html#cb338-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;V&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 14 × 3
+## # Groups:   V [7]
+##    V     Tense count
+##    &lt;chr&gt; &lt;chr&gt; &lt;int&gt;
+##  1 %     +       212
+##  2 %     -       214
+##  3 A     +       214
+##  4 A     -       218
+##  5 E     +       210
+##  6 E     -       215
+##  7 I     +       210
+##  8 I     -       214
+##  9 O     +       214
+## 10 O     -       214
+## 11 U     +       208
+## 12 U     -       215
+## 13 Y     +       211
+## 14 Y     -       213</code></pre>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="manipulating-data-with-dplyr-continuation.html#cb341-1" tabindex="-1"></a><span class="co"># number of unique participants `Vpn` per region and social class</span></span>
+<span id="cb341-2"><a href="manipulating-data-with-dplyr-continuation.html#cb341-2" tabindex="-1"></a>coronal <span class="sc">%&gt;%</span> </span>
+<span id="cb341-3"><a href="manipulating-data-with-dplyr-continuation.html#cb341-3" tabindex="-1"></a>  <span class="fu">group_by</span>(Region, Socialclass) <span class="sc">%&gt;%</span> </span>
+<span id="cb341-4"><a href="manipulating-data-with-dplyr-continuation.html#cb341-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n_distinct</span>(Vpn))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;Region&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 9 × 3
+## # Groups:   Region [3]
+##   Region Socialclass count
+##   &lt;chr&gt;  &lt;chr&gt;       &lt;int&gt;
+## 1 R1     LM             40
+## 2 R1     UM             30
+## 3 R1     W              11
+## 4 R2     LM             26
+## 5 R2     UM             18
+## 6 R2     W              36
+## 7 R3     LM             22
+## 8 R3     UM             31
+## 9 R3     W              26</code></pre>
+<div class="gray">
+<p><strong>Further Information: Describing functions unambiguously</strong></p>
+<p>Since functions from the <em>tidyverse</em>, especially from <code>dplyr</code>, have pretty common names (<code>filter()</code>, <code>summarise()</code>, <code>rename()</code>), they can be masked easily by functions of the same name from other packages. So if a function returns an error message, try re-loading the package of which the function you used is a part, or use the following notation: <code>dplyr::filter()</code>.</p>
+</div>
+</div>
+<div id="arranging" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Arranging<a href="manipulating-data-with-dplyr-continuation.html#arranging" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In your everyday work with data frames it can be useful to arrange the data frame with regard to rows and/or columns. Use <code>arrange()</code> for sorting rows and <code>relocate()</code> for sorting columns. Here we arrange the data frame <code>int</code> in ascending order by duration <code>Dauer</code>:</p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="manipulating-data-with-dplyr-continuation.html#cb344-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(Dauer)</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer
+## 10  S2 25.60    55
+## 5   S1 23.47    67
+## 7   S2 30.08    81
+## 14  S1 20.88   103
+## 9   S1 21.37   116
+## 2   S2 32.54   120
+## 4   S2 28.38   131
+## 13  S1 26.60   144
+## 1   S1 24.50   162
+## 6   S2 37.82   169
+## 8   S1 24.50   192
+## 15  S2 26.05   212
+## 3   S2 38.02   223
+## 12  S1 44.27   232
+## 11  S1 40.20   252</code></pre>
+<p><code>arrange()</code> can also sort alphabetically and with regard to several columns:</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="manipulating-data-with-dplyr-continuation.html#cb346-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(Vpn, Dauer)</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer
+## 5   S1 23.47    67
+## 14  S1 20.88   103
+## 9   S1 21.37   116
+## 13  S1 26.60   144
+## 1   S1 24.50   162
+## 8   S1 24.50   192
+## 12  S1 44.27   232
+## 11  S1 40.20   252
+## 10  S2 25.60    55
+## 7   S2 30.08    81
+## 2   S2 32.54   120
+## 4   S2 28.38   131
+## 6   S2 37.82   169
+## 15  S2 26.05   212
+## 3   S2 38.02   223</code></pre>
+<p>To put a data frame in descending order, you can use <code>desc()</code> within <code>arrange()</code>:</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="manipulating-data-with-dplyr-continuation.html#cb348-1" tabindex="-1"></a>int <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(Vpn, <span class="fu">desc</span>(Dauer))</span></code></pre></div>
+<pre><code>##    Vpn    dB Dauer
+## 11  S1 40.20   252
+## 12  S1 44.27   232
+## 8   S1 24.50   192
+## 1   S1 24.50   162
+## 13  S1 26.60   144
+## 9   S1 21.37   116
+## 14  S1 20.88   103
+## 5   S1 23.47    67
+## 3   S2 38.02   223
+## 15  S2 26.05   212
+## 6   S2 37.82   169
+## 4   S2 28.38   131
+## 2   S2 32.54   120
+## 7   S2 30.08    81
+## 10  S2 25.60    55</code></pre>
+<p><code>relocate()</code> takes as arguments the names of all columns that are to be relocated. If you submit no further arguments, the columns are put in first place. Otherwise you can use the arguments <code>.before</code> and <code>.after</code> to specify the new location of the columns:</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="manipulating-data-with-dplyr-continuation.html#cb350-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##       X    Y  F1  F2   dur V Tense Cons Rate Subj
+## 1 52.99 4.36 313 966 106.9 %     -    P    a   bk</code></pre>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="manipulating-data-with-dplyr-continuation.html#cb352-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(Subj) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##   Subj     X    Y  F1  F2   dur V Tense Cons Rate
+## 1   bk 52.99 4.36 313 966 106.9 %     -    P    a</code></pre>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="manipulating-data-with-dplyr-continuation.html#cb354-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(Subj, Cons) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##   Subj Cons     X    Y  F1  F2   dur V Tense Rate
+## 1   bk    P 52.99 4.36 313 966 106.9 %     -    a</code></pre>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="manipulating-data-with-dplyr-continuation.html#cb356-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(<span class="fu">where</span>(is.numeric), <span class="at">.after =</span> Subj) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##   V Tense Cons Rate Subj     X    Y  F1  F2   dur
+## 1 %     -    P    a   bk 52.99 4.36 313 966 106.9</code></pre>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="manipulating-data-with-dplyr-continuation.html#cb358-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(<span class="fu">where</span>(is.character), <span class="at">.before =</span> dur) <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##       X    Y  F1  F2 V Tense Cons Rate Subj   dur
+## 1 52.99 4.36 313 966 %     -    P    a   bk 106.9</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="summary-statistics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="plotting-data-with-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
