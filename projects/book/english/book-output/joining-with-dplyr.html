@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Joining with dplyr | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Joining with dplyr | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Joining with dplyr | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tidying-data-with-tidyr.html"/>
+<link rel="next" href="pretty-plots.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/joining-mit-dplyr.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="joining-with-dplyr" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">9</span> Joining with <code>dplyr</code><a href="joining-with-dplyr.html#joining-with-dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Please load the following packages and data frame for this chapter:</p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="joining-with-dplyr.html#cb447-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb447-2"><a href="joining-with-dplyr.html#cb447-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb447-3"><a href="joining-with-dplyr.html#cb447-3" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb447-4"><a href="joining-with-dplyr.html#cb447-4" tabindex="-1"></a>vcv <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vcvC.txt&quot;</span>))</span></code></pre></div>
+<p>Perhaps you are familiar with so called <em>joins</em> from your work with relational data bases and/or SQL. The principle of relational data bases is to store all information and values in themed tables. After an experiment, for instance, you might have a table of measured values (formants, fundamental frequency, etc.) and one table with metadata about the participants (age, origin, education, etc.). Additionally it might make sense to have a table with information about the collected material (words, lexical stress, phonemes, stimuli, etc.) and about the tested conditions (speech rate, which interlocutor, etc.). If necessary, one can (temporarily) join two tables via a <strong>key</strong>, i.e. a column that contains some sort of ID. In <code>dplyr</code> we differentiate between <em>mutating joins</em> and <em>filtering joins</em>.</p>
+<div id="mutating-joins" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Mutating Joins<a href="joining-with-dplyr.html#mutating-joins" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Similarly to <code>mutate()</code>, mutating joins add columns to a data frame <code>x</code>. Contrary to <code>mutate()</code> though, the added columns come from a different data frame <code>y</code>. In both data frames <code>x</code> and <code>y</code> there must be a column that contains the identifier or key which connects the two tables.</p>
+<div id="inner-join" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> Inner Join<a href="joining-with-dplyr.html#inner-join" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The simplest form of a mutating join is the so called inner join. The function <code>inner_join()</code> takes as arguments the two data frames <code>x</code> and <code>y</code> and the identifier <code>by</code>. The result of an inner join contains all columns of both <code>x</code> and <code>y</code> as well as all rows that have matches in both data frames. Missing values (NA) do <strong>not</strong> appear in the result of an inner join, so be careful with that.</p>
+<p>As an example we will be using a table of fundamental frequency values measured in the speech of ten speakers, as well as a table with metadata concerning the speakers:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="joining-with-dplyr.html#cb448-1" tabindex="-1"></a>measures <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">subject =</span> <span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">&quot;s&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="at">each =</span> <span class="dv">10</span>),</span>
+<span id="cb448-2"><a href="joining-with-dplyr.html#cb448-2" tabindex="-1"></a>                   <span class="at">F0 =</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">120</span>, <span class="dv">15</span>))</span>
+<span id="cb448-3"><a href="joining-with-dplyr.html#cb448-3" tabindex="-1"></a>measures</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 2
+##    subject    F0
+##    &lt;chr&gt;   &lt;dbl&gt;
+##  1 s1      103. 
+##  2 s1      115. 
+##  3 s1      129. 
+##  4 s1      146. 
+##  5 s1       95.2
+##  6 s1      114. 
+##  7 s1      114. 
+##  8 s1      147. 
+##  9 s1      104. 
+## 10 s1       88.6
+## # ℹ 90 more rows</code></pre>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="joining-with-dplyr.html#cb450-1" tabindex="-1"></a>meta <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">subject =</span> <span class="fu">paste0</span>(<span class="st">&quot;s&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>),</span>
+<span id="cb450-2"><a href="joining-with-dplyr.html#cb450-2" tabindex="-1"></a>               <span class="at">age =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;old&quot;</span>, <span class="st">&quot;young&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
+<span id="cb450-3"><a href="joining-with-dplyr.html#cb450-3" tabindex="-1"></a>meta</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##    subject age  
+##    &lt;chr&gt;   &lt;chr&gt;
+##  1 s1      old  
+##  2 s2      old  
+##  3 s3      old  
+##  4 s4      old  
+##  5 s5      old  
+##  6 s6      young
+##  7 s7      young
+##  8 s8      young
+##  9 s9      young
+## 10 s10     young</code></pre>
+<p>Both tibbles have a column <code>subject</code> which we will use as key in our inner join:</p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="joining-with-dplyr.html#cb452-1" tabindex="-1"></a><span class="fu">inner_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 3
+##    subject    F0 age  
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;
+##  1 s1      103.  old  
+##  2 s1      115.  old  
+##  3 s1      129.  old  
+##  4 s1      146.  old  
+##  5 s1       95.2 old  
+##  6 s1      114.  old  
+##  7 s1      114.  old  
+##  8 s1      147.  old  
+##  9 s1      104.  old  
+## 10 s1       88.6 old  
+## # ℹ 90 more rows</code></pre>
+<p>It can happen that the column that provides the identifier has different names in <code>x</code> and <code>y</code>. In this case we can tell the join via <code>by = c("a"="b")</code> that the column <code>a</code> from data frame <code>x</code> shall be matched with the column <code>b</code> from data frame <code>y</code>. This works for all joining functions presented in this chapter.</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="joining-with-dplyr.html#cb454-1" tabindex="-1"></a>measures <span class="sc">%&lt;&gt;%</span> <span class="fu">rename</span>(<span class="at">Vpn =</span> subject)</span>
+<span id="cb454-2"><a href="joining-with-dplyr.html#cb454-2" tabindex="-1"></a><span class="fu">inner_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;Vpn&quot;</span><span class="ot">=</span><span class="st">&quot;subject&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 3
+##    Vpn      F0 age  
+##    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;
+##  1 s1    103.  old  
+##  2 s1    115.  old  
+##  3 s1    129.  old  
+##  4 s1    146.  old  
+##  5 s1     95.2 old  
+##  6 s1    114.  old  
+##  7 s1    114.  old  
+##  8 s1    147.  old  
+##  9 s1    104.  old  
+## 10 s1     88.6 old  
+## # ℹ 90 more rows</code></pre>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="joining-with-dplyr.html#cb456-1" tabindex="-1"></a>measures <span class="sc">%&lt;&gt;%</span> <span class="fu">rename</span>(<span class="at">subject =</span> Vpn)</span></code></pre></div>
+<p>This example has so far always returned all observations from <code>measures</code> and all columns of both data frames. This is because <code>measures</code> and <code>meta</code> both contain information on the same ten speakers. If we have less information in one of the two data frames, the result is suddenly missing rows:</p>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="joining-with-dplyr.html#cb457-1" tabindex="-1"></a><span class="co"># measures of 20 instead of 10 speakers:</span></span>
+<span id="cb457-2"><a href="joining-with-dplyr.html#cb457-2" tabindex="-1"></a>measures <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">subject =</span> <span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">&quot;s&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="at">each =</span> <span class="dv">10</span>),</span>
+<span id="cb457-3"><a href="joining-with-dplyr.html#cb457-3" tabindex="-1"></a>                   <span class="at">F0 =</span> <span class="fu">rnorm</span>(<span class="dv">200</span>, <span class="dv">120</span>, <span class="dv">15</span>))</span>
+<span id="cb457-4"><a href="joining-with-dplyr.html#cb457-4" tabindex="-1"></a><span class="fu">inner_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 3
+##    subject    F0 age  
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;
+##  1 s1      154.  old  
+##  2 s1      133.  old  
+##  3 s1      108.  old  
+##  4 s1      127.  old  
+##  5 s1      128.  old  
+##  6 s1      107.  old  
+##  7 s1       93.8 old  
+##  8 s1      115.  old  
+##  9 s1      103.  old  
+## 10 s1      128.  old  
+## # ℹ 90 more rows</code></pre>
+<p>The result of this inner join has no rows for speakers 11 to 20 because there is no information on these speakers in the data frame <code>meta</code>!</p>
+</div>
+<div id="outer-join" class="section level3 hasAnchor" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Outer Join<a href="joining-with-dplyr.html#outer-join" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Contrary to the inner join, the outer join keeps rows with missing values. The missing values are shown as NA. The simplest version of an outer join is the full join which returns all rows and all columns from both data frames. The function to do this is <code>full_join()</code> (we point out an interesting part of the result here using <code>slice()</code>):</p>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="joining-with-dplyr.html#cb459-1" tabindex="-1"></a><span class="fu">full_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb459-2"><a href="joining-with-dplyr.html#cb459-2" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">95</span><span class="sc">:</span><span class="dv">105</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 3
+##    subject    F0 age  
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;
+##  1 s10     131.  young
+##  2 s10     101.  young
+##  3 s10     144.  young
+##  4 s10     111.  young
+##  5 s10     135.  young
+##  6 s10     123.  young
+##  7 s11     133.  &lt;NA&gt; 
+##  8 s11     109.  &lt;NA&gt; 
+##  9 s11      96.3 &lt;NA&gt; 
+## 10 s11     118.  &lt;NA&gt; 
+## 11 s11     110.  &lt;NA&gt;</code></pre>
+<p>This result consists of 200 rows (if we do not use <code>slice()</code>) – when we used the inner join above with the exact same two tibbles, the result only consisted of 100 rows. This is because <code>full_join()</code> kept the 100 rows of values for speakers 11 to 20 while <code>inner_join()</code> removed them because there was no matching metadata for these speakers in <code>meta</code>. Thus, the result of the full join contains NA values in the appended column <code>age</code> for speakers 11 to 20.</p>
+<p>If you don’t want to keep all rows from both data frames, the functions <code>left_join()</code> and <code>right_join()</code> are at your disposal. The <code>left_join()</code> keeps all rows from data frame <code>x</code> while the <code>right_join()</code> keeps all rows from data frame <code>y</code>. In our example we want to keep all rows from <code>measures</code> and just add the information on the speakers’ age from <code>meta</code>:</p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="joining-with-dplyr.html#cb461-1" tabindex="-1"></a><span class="fu">left_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 200 × 3
+##    subject    F0 age  
+##    &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;
+##  1 s1      154.  old  
+##  2 s1      133.  old  
+##  3 s1      108.  old  
+##  4 s1      127.  old  
+##  5 s1      128.  old  
+##  6 s1      107.  old  
+##  7 s1       93.8 old  
+##  8 s1      115.  old  
+##  9 s1      103.  old  
+## 10 s1      128.  old  
+## # ℹ 190 more rows</code></pre>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="joining-with-dplyr.html#cb463-1" tabindex="-1"></a><span class="fu">right_join</span>(<span class="at">x =</span> meta, <span class="at">y =</span> measures, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 200 × 3
+##    subject age      F0
+##    &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
+##  1 s1      old   154. 
+##  2 s1      old   133. 
+##  3 s1      old   108. 
+##  4 s1      old   127. 
+##  5 s1      old   128. 
+##  6 s1      old   107. 
+##  7 s1      old    93.8
+##  8 s1      old   115. 
+##  9 s1      old   103. 
+## 10 s1      old   128. 
+## # ℹ 190 more rows</code></pre>
+</div>
+</div>
+<div id="filtering-joins" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Filtering Joins<a href="joining-with-dplyr.html#filtering-joins" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The second type of joins in R are the so called filtering joins which do not add columns but instead only return selected rows. There are two functions for this in the tidyverse:</p>
+<ul>
+<li><code>semi_join()</code>: returns all observations in data frame <code>x</code> for which there is a match in data frame <code>y</code></li>
+<li><code>anti_join()</code>: returns all observations in data frame <code>x</code> for which there is no match in data frame <code>y</code></li>
+</ul>
+<p>We will demonstrate these functions using the following data frames:</p>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="joining-with-dplyr.html#cb465-1" tabindex="-1"></a>vcv <span class="sc">%&lt;&gt;%</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb465-2"><a href="joining-with-dplyr.html#cb465-2" tabindex="-1"></a>vcv</span></code></pre></div>
+<pre><code>## # A tibble: 810 × 7
+##       RT Subject Vowel Lang  Left  Right Context
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+##  1  648. S209    a     AE    f     h     f.h    
+##  2  617  S209    a     AE    f     sh    f.sh   
+##  3  728. S209    a     AE    f     sh    f.sh   
+##  4  629  S209    a     AE    f     th    f.th   
+##  5  688. S209    a     AE    f     th    f.th   
+##  6  602. S209    a     AE    s     h     s.h    
+##  7  632. S209    a     AE    s     sh    s.sh   
+##  8  574  S209    a     AE    s     th    s.th   
+##  9  719  S209    a     AE    s     h     s.h    
+## 10  569  S209    a     AE    s     th    s.th   
+## # ℹ 800 more rows</code></pre>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="joining-with-dplyr.html#cb467-1" tabindex="-1"></a>vcv_summary <span class="ot">&lt;-</span> vcv <span class="sc">%&gt;%</span> </span>
+<span id="cb467-2"><a href="joining-with-dplyr.html#cb467-2" tabindex="-1"></a>  <span class="fu">group_by</span>(Subject, Vowel) <span class="sc">%&gt;%</span> </span>
+<span id="cb467-3"><a href="joining-with-dplyr.html#cb467-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_rt =</span> <span class="fu">mean</span>(RT)) <span class="sc">%&gt;%</span> </span>
+<span id="cb467-4"><a href="joining-with-dplyr.html#cb467-4" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb467-5"><a href="joining-with-dplyr.html#cb467-5" tabindex="-1"></a>  <span class="fu">slice_max</span>(mean_rt, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;Subject&#39;. You can
+## override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="joining-with-dplyr.html#cb469-1" tabindex="-1"></a>vcv_summary</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##   Subject Vowel mean_rt
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;
+## 1 S502    i       1173.
+## 2 S502    u       1076.
+## 3 S502    a       1000.
+## 4 S508    u        816.
+## 5 S508    i        780.</code></pre>
+<p>The data frame <code>vcv_summary</code> contains the five highest mean reaction times and the corresponding speaker and vowel. If we want to find out from which observations in <code>vcv</code> these mean values were calculated, we can use the semi join. More precisely, we want all rows from <code>vcv</code> returned for which there is a match in <code>vcv_summary</code> with respect to the columns <code>Subject</code> and <code>Vowel</code>.</p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="joining-with-dplyr.html#cb471-1" tabindex="-1"></a><span class="fu">semi_join</span>(<span class="at">x =</span> vcv, <span class="at">y =</span> vcv_summary, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;Subject&quot;</span>, <span class="st">&quot;Vowel&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 75 × 7
+##       RT Subject Vowel Lang  Left  Right Context
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+##  1 1120. S502    a     D     f     h     f.h    
+##  2 1066. S502    a     D     f     sh    f.sh   
+##  3  848  S502    a     D     f     sh    f.sh   
+##  4 1148. S502    a     D     f     th    f.th   
+##  5 1130  S502    a     D     f     th    f.th   
+##  6  938  S502    a     D     s     h     s.h    
+##  7 1124. S502    a     D     s     sh    s.sh   
+##  8  981  S502    a     D     s     th    s.th   
+##  9  774  S502    a     D     s     h     s.h    
+## 10 1104  S502    a     D     s     th    s.th   
+## # ℹ 65 more rows</code></pre>
+<p>This result contains all observations from which the average reaction times in <code>vcv_summary</code> were computed. We can underline this by looking at the unique combinations of <code>Subject</code> and <code>Vowel</code> in the result of the semi join – they are the same five combinations as in <code>vcv_summary</code>.</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="joining-with-dplyr.html#cb473-1" tabindex="-1"></a><span class="fu">semi_join</span>(<span class="at">x =</span> vcv, <span class="at">y =</span> vcv_summary, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;Subject&quot;</span>, <span class="st">&quot;Vowel&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb473-2"><a href="joining-with-dplyr.html#cb473-2" tabindex="-1"></a>  <span class="fu">select</span>(Subject, Vowel) <span class="sc">%&gt;%</span> </span>
+<span id="cb473-3"><a href="joining-with-dplyr.html#cb473-3" tabindex="-1"></a>  <span class="fu">unique</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   Subject Vowel
+##   &lt;chr&gt;   &lt;chr&gt;
+## 1 S502    a    
+## 2 S502    i    
+## 3 S502    u    
+## 4 S508    i    
+## 5 S508    u</code></pre>
+<p>With the anti join, on the other hand, we get all observations from which the mean reaction times were <em>not</em> computed, or in other words: all observations from <code>vcv</code> for which there is no match in <code>vcv_summary</code> with regard to <code>Subject</code> and <code>Vowel</code>.</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="joining-with-dplyr.html#cb475-1" tabindex="-1"></a><span class="fu">anti_join</span>(<span class="at">x =</span> vcv, <span class="at">y =</span> vcv_summary, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;Subject&quot;</span>, <span class="st">&quot;Vowel&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 735 × 7
+##       RT Subject Vowel Lang  Left  Right Context
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
+##  1  648. S209    a     AE    f     h     f.h    
+##  2  617  S209    a     AE    f     sh    f.sh   
+##  3  728. S209    a     AE    f     sh    f.sh   
+##  4  629  S209    a     AE    f     th    f.th   
+##  5  688. S209    a     AE    f     th    f.th   
+##  6  602. S209    a     AE    s     h     s.h    
+##  7  632. S209    a     AE    s     sh    s.sh   
+##  8  574  S209    a     AE    s     th    s.th   
+##  9  719  S209    a     AE    s     h     s.h    
+## 10  569  S209    a     AE    s     th    s.th   
+## # ℹ 725 more rows</code></pre>
+<p>Anti joins can be helpful in searching for errors in your own data. Let’s reuse the example from above, <code>measures</code> with values for 20 speakers and <code>meta</code> with metadata for these speakers. If we apply the anti join here, we will immediately see for which rows in <code>measures</code> there is no match in <code>meta</code>, i.e. for which speakers we are missing metadata.</p>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="joining-with-dplyr.html#cb477-1" tabindex="-1"></a><span class="fu">anti_join</span>(<span class="at">x =</span> measures, <span class="at">y =</span> meta, <span class="at">by =</span> <span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 100 × 2
+##    subject    F0
+##    &lt;chr&gt;   &lt;dbl&gt;
+##  1 s11     133. 
+##  2 s11     109. 
+##  3 s11      96.3
+##  4 s11     118. 
+##  5 s11     110. 
+##  6 s11     127. 
+##  7 s11     120. 
+##  8 s11      97.4
+##  9 s11     119. 
+## 10 s11     101. 
+## # ℹ 90 more rows</code></pre>
+<p>The result is the opposite of the inner join: Here we receive the 100 observations from speakers 11 to 20 for whom there is no metadata.</p>
+<div class="gray">
+<p><strong>Further Information: <code>dplyr</code></strong></p>
+<p>The joins were the last functions from the tidyverse which we introduce in this module. An overview of all functions presented here and many more can be found in this <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-transformation.pdf">Cheatsheet</a>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tidying-data-with-tidyr.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pretty-plots.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

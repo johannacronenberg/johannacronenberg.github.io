@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 First Calculations in R | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 First Calculations in R | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 First Calculations in R | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="data-frames.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/erste-berechnungen-in-r.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="first-calculations-in-r" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> First Calculations in R<a href="first-calculations-in-r.html#first-calculations-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>On the bottom left of RStudio you can find the <code>Console</code>. This is where code is executed, i.e. the console is the direct connection between R and the computer. For instance, enter the following code line by line into the console and hit enter after every line:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="first-calculations-in-r.html#cb7-1" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="first-calculations-in-r.html#cb9-1" tabindex="-1"></a><span class="dv">10</span> <span class="sc">-</span> <span class="dv">5</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="first-calculations-in-r.html#cb11-1" tabindex="-1"></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span></code></pre></div>
+<pre><code>## [1] 12</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="first-calculations-in-r.html#cb13-1" tabindex="-1"></a><span class="dv">12</span> <span class="sc">/</span> <span class="dv">6</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="first-calculations-in-r.html#cb15-1" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">4</span></span></code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<p>The answers to the entered calculations is returned in the console.</p>
+<div id="variables-functions" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Variables &amp; Functions<a href="first-calculations-in-r.html#variables-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Of course we won’t just use the console as a calculator. Often we want to use certain values repeatedly without having to re-enter the calculation every time. That is why we save values as so called <strong>variables</strong>. These variables can be found in the <em>environment</em>, i.e. the panel on the top right.</p>
+<p>In order to create a new variable, you have to enter the desired variable name followed by the arrow <code>&lt;-</code> followed by the value. Here we create a variable called <code>sum</code> which contains the value <code>1 + 1</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="first-calculations-in-r.html#cb17-1" tabindex="-1"></a>sum <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<p>To see the contents of the variable, simply enter the variable’s name in the console and hit enter again:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="first-calculations-in-r.html#cb18-1" tabindex="-1"></a>sum</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>You can see, that the variable doesn’t return <code>1 + 1</code>, but <code>2</code>. Whenever we want to use the value of the calculation <code>1 + 1</code>, we can use <code>sum</code> instead:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="first-calculations-in-r.html#cb20-1" tabindex="-1"></a>sum <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>Caution! Variables are overwritten in R <strong>without any warning</strong>:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="first-calculations-in-r.html#cb22-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb22-2"><a href="first-calculations-in-r.html#cb22-2" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="first-calculations-in-r.html#cb24-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb24-2"><a href="first-calculations-in-r.html#cb24-2" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>In your R environment are two variables now: <code>sum</code> has the value 2, <code>x</code> has the value 3. You can find out which variables are in your environment by using a so called <strong>function</strong>. Functions (also: commands) execute actions. These actions were defined as code which was written by someone and made available for all users of R (you can also write functions yourself, but that won’t be covered in this course). Enter the following command into your console and hit the enter:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="first-calculations-in-r.html#cb26-1" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;githubs&quot; &quot;sum&quot;     &quot;x&quot;</code></pre>
+<p>The function is called <code>ls()</code>, which stands for <em>list</em>, and returns the names of all variables in your environment. You can recognise functions because they are followed by brackets. The <strong>arguments</strong> of the function, i.e. any information or values needed by the function to do its job, are given within these brackets. <code>ls()</code> is one of the few functions in R which do not need any arguments.</p>
+<p>Another useful function is <code>rm()</code> (<em>remove</em>), which removes variables from the environment (careful: this decision is permanent!). This function takes as arguments the names of the variables which shall be deleted. Here we are deleting the variable <code>x</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="first-calculations-in-r.html#cb28-1" tabindex="-1"></a><span class="fu">rm</span>(x)</span>
+<span id="cb28-2"><a href="first-calculations-in-r.html#cb28-2" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;githubs&quot; &quot;sum&quot;</code></pre>
+</div>
+<div id="object-classes" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Object Classes<a href="first-calculations-in-r.html#object-classes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So far we have only handled numbers (so called <em>numerics</em>). There are quite a few more types of objects in R. For starters, the numeric objects can be <em>doubles</em> or <em>integers</em>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="first-calculations-in-r.html#cb30-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fl">3.2</span>   <span class="co"># double</span></span>
+<span id="cb30-2"><a href="first-calculations-in-r.html#cb30-2" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## [1] 3.2</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="first-calculations-in-r.html#cb32-1" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">4</span>     <span class="co"># integer</span></span>
+<span id="cb32-2"><a href="first-calculations-in-r.html#cb32-2" tabindex="-1"></a>y</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>Additionally, there are <em>strings</em> or <em>characters</em> which must always be enclosed by quotes:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="first-calculations-in-r.html#cb34-1" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="st">&quot;hello world!&quot;</span></span>
+<span id="cb34-2"><a href="first-calculations-in-r.html#cb34-2" tabindex="-1"></a>z</span></code></pre></div>
+<pre><code>## [1] &quot;hello world!&quot;</code></pre>
+<p>… as well as the two <em>boolean</em> values (aka <em>logicals</em>) which are written in caps:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="first-calculations-in-r.html#cb36-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="cn">TRUE</span>    <span class="co"># Shorthand: T</span></span>
+<span id="cb36-2"><a href="first-calculations-in-r.html#cb36-2" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="first-calculations-in-r.html#cb38-1" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="cn">FALSE</span>   <span class="co"># Shorthand: F</span></span>
+<span id="cb38-2"><a href="first-calculations-in-r.html#cb38-2" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Furthermore, there is another important class of objects called <em>factor</em> which is used for categorical data. This type of data, together with a few more object classes, will be introduced in more detail later.</p>
+<p>In order to find out the class of a variable, use the function <code>class()</code>. This function only has one argument – the name of the variable:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="first-calculations-in-r.html#cb40-1" tabindex="-1"></a><span class="fu">class</span>(a)</span></code></pre></div>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="first-calculations-in-r.html#cb42-1" tabindex="-1"></a><span class="fu">class</span>(y)</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="first-calculations-in-r.html#cb44-1" tabindex="-1"></a><span class="fu">class</span>(z)</span></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+</div>
+<div id="vectors" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Vectors<a href="first-calculations-in-r.html#vectors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The function <code>c()</code> (<em>concatenate</em>) creates a vector, i.e. a data structure that contains elements of the same class.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="first-calculations-in-r.html#cb46-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>) <span class="co"># all elements are strings</span></span>
+<span id="cb46-2"><a href="first-calculations-in-r.html#cb46-2" tabindex="-1"></a>vec</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="first-calculations-in-r.html#cb48-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="fl">89.3</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">10</span>)  <span class="co"># all elements are numerics (more precisely: doubles)</span></span>
+<span id="cb48-2"><a href="first-calculations-in-r.html#cb48-2" tabindex="-1"></a>vec</span></code></pre></div>
+<pre><code>## [1]   3.0   6.0  89.3   0.0 -10.0</code></pre>
+<p>If the elements are of different classes (<em>strings</em>, <em>booleans</em>, <em>numerics</em>), the elements are silently (i.e. without warning) converted into the same type.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="first-calculations-in-r.html#cb50-1" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="st">&quot;string&quot;</span>, T)  <span class="co"># all elements are converted into strings</span></span></code></pre></div>
+<pre><code>## [1] &quot;3&quot;      &quot;4&quot;      &quot;string&quot; &quot;TRUE&quot;</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="first-calculations-in-r.html#cb52-1" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, T, F)         <span class="co"># all elements are converted into numerics; TRUE = 1, FALSE = 0</span></span></code></pre></div>
+<pre><code>## [1] 2 5 1 0</code></pre>
+</div>
+<div id="arithmetic-and-logical-operators" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Arithmetic and Logical Operators<a href="first-calculations-in-r.html#arithmetic-and-logical-operators" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You have already experienced that the console works as a calculator. The basic arithmetic operations as well as arithmetic functions can be applied to all numeric objects as well as to numeric vectors:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="first-calculations-in-r.html#cb54-1" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">20</span>)</span>
+<span id="cb54-2"><a href="first-calculations-in-r.html#cb54-2" tabindex="-1"></a>a <span class="sc">*</span> <span class="dv">10</span></span></code></pre></div>
+<pre><code>## [1] 100  40 200</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="first-calculations-in-r.html#cb56-1" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">7</span>)</span>
+<span id="cb56-2"><a href="first-calculations-in-r.html#cb56-2" tabindex="-1"></a>a <span class="sc">+</span> b</span></code></pre></div>
+<pre><code>## [1] 15  6 27</code></pre>
+<p>R provides many arithmetic functions which only receive a numeric variable as argument:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="first-calculations-in-r.html#cb58-1" tabindex="-1"></a><span class="fu">sum</span>(a)        <span class="co"># sum of all elements</span></span></code></pre></div>
+<pre><code>## [1] 34</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="first-calculations-in-r.html#cb60-1" tabindex="-1"></a><span class="fu">sqrt</span>(a)       <span class="co"># square root of each element</span></span></code></pre></div>
+<pre><code>## [1] 3.162 2.000 4.472</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="first-calculations-in-r.html#cb62-1" tabindex="-1"></a><span class="fu">log</span>(a)        <span class="co"># logarithm of each element</span></span></code></pre></div>
+<pre><code>## [1] 2.303 1.386 2.996</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="first-calculations-in-r.html#cb64-1" tabindex="-1"></a><span class="fu">exp</span>(a)        <span class="co"># exponential of each element</span></span></code></pre></div>
+<pre><code>## [1] 2.203e+04 5.460e+01 4.852e+08</code></pre>
+<p>Logical operators compare two variables of the same class. The following logical operators exist in R:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="first-calculations-in-r.html#cb66-1" tabindex="-1"></a>x <span class="sc">&lt;</span> y       <span class="co"># less than</span></span>
+<span id="cb66-2"><a href="first-calculations-in-r.html#cb66-2" tabindex="-1"></a>x <span class="sc">&gt;</span> y       <span class="co"># more than</span></span>
+<span id="cb66-3"><a href="first-calculations-in-r.html#cb66-3" tabindex="-1"></a>x <span class="sc">&lt;=</span> y      <span class="co"># less than or equal</span></span>
+<span id="cb66-4"><a href="first-calculations-in-r.html#cb66-4" tabindex="-1"></a>x <span class="sc">&gt;=</span> y      <span class="co"># more than or equal</span></span>
+<span id="cb66-5"><a href="first-calculations-in-r.html#cb66-5" tabindex="-1"></a>x <span class="sc">==</span> y      <span class="co"># exactly equal</span></span>
+<span id="cb66-6"><a href="first-calculations-in-r.html#cb66-6" tabindex="-1"></a>x <span class="sc">!=</span> y      <span class="co"># unequal</span></span>
+<span id="cb66-7"><a href="first-calculations-in-r.html#cb66-7" tabindex="-1"></a><span class="sc">!</span>x          <span class="co"># not x</span></span>
+<span id="cb66-8"><a href="first-calculations-in-r.html#cb66-8" tabindex="-1"></a>x <span class="sc">|</span> y       <span class="co"># x OR y</span></span>
+<span id="cb66-9"><a href="first-calculations-in-r.html#cb66-9" tabindex="-1"></a>x <span class="sc">&amp;</span> y       <span class="co"># x AND y</span></span>
+<span id="cb66-10"><a href="first-calculations-in-r.html#cb66-10" tabindex="-1"></a><span class="fu">isTRUE</span>(x)   <span class="co"># test if x is TRUE</span></span>
+<span id="cb66-11"><a href="first-calculations-in-r.html#cb66-11" tabindex="-1"></a>x <span class="sc">%in%</span> y    <span class="co"># test if a value x is contained in a vector y</span></span></code></pre></div>
+<p>Expressions which use these operators return the boolean values, either <code>TRUE</code> or <code>FALSE</code>, as you can see in the following examples:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="first-calculations-in-r.html#cb67-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb67-2"><a href="first-calculations-in-r.html#cb67-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb67-3"><a href="first-calculations-in-r.html#cb67-3" tabindex="-1"></a>x <span class="sc">==</span> y</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="first-calculations-in-r.html#cb69-1" tabindex="-1"></a>x <span class="sc">!=</span> y</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="first-calculations-in-r.html#cb71-1" tabindex="-1"></a>x <span class="sc">&gt;</span> y</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="first-calculations-in-r.html#cb73-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb73-2"><a href="first-calculations-in-r.html#cb73-2" tabindex="-1"></a>x <span class="sc">==</span> <span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="first-calculations-in-r.html#cb75-1" tabindex="-1"></a><span class="st">&quot;a&quot;</span> <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>The logical operators will become very important in later chapters.</p>
+</div>
+<div id="manipulate-vectors" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Manipulate Vectors<a href="first-calculations-in-r.html#manipulate-vectors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We want to introduce a few more functions that can be helpful in working with vectors.</p>
+<p>Besides <code>c()</code> there are other functions that create vectors. First of all, there is a shorthand for vectors of sequential integers, by using the colon:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="first-calculations-in-r.html#cb77-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="first-calculations-in-r.html#cb79-1" tabindex="-1"></a><span class="dv">10</span><span class="sc">:</span><span class="dv">1</span></span></code></pre></div>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+<p>The function <code>seq()</code> creates a vector of numeric intervals, i.e. sequences of numbers which are equally spaced. The function has three arguments: the first (<code>from</code>) and the maximal (not necessarily last) value of the interval (<code>to</code>), and then either the desired length of the vector (<code>length.out</code>) or the steps of the interval (<code>by</code>).</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="first-calculations-in-r.html#cb81-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">5</span>)   <span class="co"># 5 intervals between 10 and 20</span></span></code></pre></div>
+<pre><code>## [1] 10.0 12.5 15.0 17.5 20.0</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="first-calculations-in-r.html#cb83-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">10</span>, <span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="fl">1.5</span>)           <span class="co"># in intervals of 1.5</span></span></code></pre></div>
+<pre><code>## [1] 10.0 11.5 13.0 14.5 16.0 17.5 19.0</code></pre>
+<div class="gray">
+<p><strong>Further Information: arguments in functions</strong></p>
+<p>Above you are shown for the first time, that arguments in functions have names (e.g. <code>from</code>, <code>to</code>, <code>length.out</code> and <code>by</code>). When arguments have names (which is almost always the case), you can either use the names as shown above or leave them out.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="first-calculations-in-r.html#cb85-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="at">length.out =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] 10.0 12.5 15.0 17.5 20.0</code></pre>
+<p>If you do not use the arguments’ names, you have to submit the necessary values to the function in the right order. The order of the function’s arguments can be found on the help pages. Navigate to the tab <code>Help</code> on the bottom right and enter the function name <code>seq</code> in the search bar. When you hit enter you should see the help page of that function. As you can see, the order of the arguments is <code>from</code>, <code>to</code>, and then either <code>by</code> or <code>length.out</code>. We can omit the argument names <code>from</code> and <code>to</code> as long as we use the right values in the right order, i.e. first the value intended as <code>from</code>, then the one for <code>to</code>. However, the function does not know whether the third argument is supposed to be <code>by</code> or <code>length.out</code>, hence we write the argument as <code>length.out = 5</code>. If we did not mention the argument’s name here, the function would interpret the number 5 as the argument <code>by</code>:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="first-calculations-in-r.html#cb87-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] 10 15 20</code></pre>
+<p>If we use the arguments’ names, the order does not matter:</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="first-calculations-in-r.html#cb89-1" tabindex="-1"></a><span class="fu">seq</span>(<span class="at">to =</span> <span class="dv">20</span>, <span class="at">by =</span> <span class="fl">1.5</span>, <span class="at">from =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 10.0 11.5 13.0 14.5 16.0 17.5 19.0</code></pre>
+</div>
+<p>The function <code>rep()</code> repeats values (no matter if numeric, logical, or strings). Besides the values that are to be repeated, the function has the arguments <code>times</code> and/or <code>each</code> (or the argument <code>length.out</code> which we ignore for now). Here we demonstrate what these arguments do (also consult the help page of that function!):</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="first-calculations-in-r.html#cb91-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 1 1 1</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="first-calculations-in-r.html#cb93-1" tabindex="-1"></a><span class="fu">rep</span>(<span class="st">&quot;a&quot;</span>, <span class="at">times =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot;</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="first-calculations-in-r.html#cb95-1" tabindex="-1"></a>vek <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</span>
+<span id="cb95-2"><a href="first-calculations-in-r.html#cb95-2" tabindex="-1"></a><span class="fu">rep</span>(vek, <span class="at">times =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;a&quot; &quot;b&quot; &quot;a&quot; &quot;b&quot; &quot;a&quot; &quot;b&quot;</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="first-calculations-in-r.html#cb97-1" tabindex="-1"></a><span class="fu">rep</span>(vek, <span class="at">each =</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;b&quot; &quot;b&quot;</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="first-calculations-in-r.html#cb99-1" tabindex="-1"></a><span class="fu">rep</span>(vek, <span class="at">times =</span> <span class="dv">3</span>, <span class="at">each =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;b&quot;
+## [13] &quot;a&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;b&quot;</code></pre>
+<p>Lastly, there are two related functions that generate vectors of strings: <code>paste()</code> and <code>paste0()</code>. The function <code>paste()</code> takes all elements that are to be connected, and optionally the argument <code>sep</code> (<em>separator</em>) that determines which symbol connects the elements. <code>paste0()</code> only takes the elements. When the elements are all simple strings, <code>paste()</code> and <code>paste0()</code> generate a string, whereas when one element is a vector, the result is a vector of strings.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="first-calculations-in-r.html#cb101-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a b c&quot;</code></pre>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="first-calculations-in-r.html#cb103-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;abc&quot;</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="first-calculations-in-r.html#cb105-1" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;abc&quot;</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="first-calculations-in-r.html#cb107-1" tabindex="-1"></a><span class="fu">paste</span>(<span class="st">&quot;subject&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">sep =</span> <span class="st">&quot;_&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;subject_1&quot; &quot;subject_2&quot; &quot;subject_3&quot; &quot;subject_4&quot;
+## [5] &quot;subject_5&quot;</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="first-calculations-in-r.html#cb109-1" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;subject&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;subject1&quot; &quot;subject2&quot; &quot;subject3&quot; &quot;subject4&quot;
+## [5] &quot;subject5&quot;</code></pre>
+<p>There are a few more useful functions that manipulate vectors or give you information about the contents of vectors. Look at your R environment. There are three simple variables now: <code>sum</code>, <code>y</code>, and <code>z</code>. All other variables are vectors. For instance, you can see that the variable <code>a</code> is a numeric vector of length 3 (i.e. it contains 3 elements): it says <code>num [1:3]</code>. <code>num</code> means <em>numeric</em>, the notation <code>[1:3]</code> indicates that the vector is a one-dimensional object of length 3. To query the length of a vector without having to look at the environment, use the function <code>length()</code>:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="first-calculations-in-r.html#cb111-1" tabindex="-1"></a><span class="fu">length</span>(a)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="first-calculations-in-r.html#cb113-1" tabindex="-1"></a><span class="fu">length</span>(vec)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>If you want to know which unique elements are in a vector, use <code>unique()</code>:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="first-calculations-in-r.html#cb115-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">5</span>)</span>
+<span id="cb115-2"><a href="first-calculations-in-r.html#cb115-2" tabindex="-1"></a><span class="fu">unique</span>(vec)</span></code></pre></div>
+<pre><code>## [1] 1 5 2 7 6 3</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="first-calculations-in-r.html#cb117-1" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;i&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;E&quot;</span>, <span class="st">&quot;U&quot;</span>)</span>
+<span id="cb117-2"><a href="first-calculations-in-r.html#cb117-2" tabindex="-1"></a><span class="fu">unique</span>(vec) </span></code></pre></div>
+<pre><code>## [1] &quot;i&quot; &quot;a&quot; &quot;E&quot; &quot;U&quot;</code></pre>
+<p>Finally we want to introduce a very versatile function called <code>table()</code>. When this function is applied to a vector, it returns the unique elements of the vector including how often they appear in the vector:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="first-calculations-in-r.html#cb119-1" tabindex="-1"></a><span class="fu">table</span>(vec)</span></code></pre></div>
+<pre><code>## vec
+## a E i U 
+## 2 4 2 1</code></pre>
+<p>So in <code>vec</code>, there are two occurrences of the element “a”, four of the element “E”, etc. We will see later what else <code>table()</code> can be used for.</p>
+</div>
+<div id="factors" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Factors<a href="first-calculations-in-r.html#factors" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that you know about vectors, we’ll introduce the object class called <em>factor</em>. Factors are used for categorical data, i.e. for those that can take a limited amount of diverse values. A factor can be created using the function <code>factor()</code>. Here we generate a factor of different age categories:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="first-calculations-in-r.html#cb121-1" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;young&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;mid&quot;</span>, <span class="st">&quot;young&quot;</span>, <span class="st">&quot;young&quot;</span>))</span>
+<span id="cb121-2"><a href="first-calculations-in-r.html#cb121-2" tabindex="-1"></a><span class="fu">class</span>(age)</span></code></pre></div>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="first-calculations-in-r.html#cb123-1" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>## [1] young old   old   mid   young young
+## Levels: mid old young</code></pre>
+<p>When the factor <code>age</code> is returned in the console, you first get the values in the entered order. Even though the values were strings, they are not returned as such (i.e. in quotes). This is because they are not just strings anymore, but categories. These categories are also called levels, which are also shown in the console. The levels can be queried with the function <code>levels()</code>:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="first-calculations-in-r.html#cb125-1" tabindex="-1"></a><span class="fu">levels</span>(age)</span></code></pre></div>
+<pre><code>## [1] &quot;mid&quot;   &quot;old&quot;   &quot;young&quot;</code></pre>
+<p>The function <code>factor()</code> can take an argument called <code>levels</code> with which you can determine the levels and their order yourself (otherwise, R puts the levels in alpha-numerical order).</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="first-calculations-in-r.html#cb127-1" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;young&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;mid&quot;</span>, <span class="st">&quot;young&quot;</span>, <span class="st">&quot;young&quot;</span>), </span>
+<span id="cb127-2"><a href="first-calculations-in-r.html#cb127-2" tabindex="-1"></a>              <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;young&quot;</span>, <span class="st">&quot;mid&quot;</span>, <span class="st">&quot;old&quot;</span>))</span>
+<span id="cb127-3"><a href="first-calculations-in-r.html#cb127-3" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>## [1] young old   old   mid   young young
+## Levels: young mid old</code></pre>
+<p>Numeric values are rarely categorical. But if, say, you asked five classmates what their age was and saved the values in a vector:</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="first-calculations-in-r.html#cb129-1" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">23</span>)</span></code></pre></div>
+<p>… and you considered the age in years as categorical, you could transform the vector into a factor.</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="first-calculations-in-r.html#cb130-1" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">23</span>, <span class="dv">22</span>, <span class="dv">23</span>))</span>
+<span id="cb130-2"><a href="first-calculations-in-r.html#cb130-2" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>## [1] 22 25 23 22 23
+## Levels: 22 23 25</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-frames.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

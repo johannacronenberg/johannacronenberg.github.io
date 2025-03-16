@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>8 Tidying Data with tidyr | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="8 Tidying Data with tidyr | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="8 Tidying Data with tidyr | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="plotting-data-with-ggplot2.html"/>
+<link rel="next" href="joining-with-dplyr.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/daten-aufräumen-mit-tidyr.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tidying-data-with-tidyr" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">8</span> Tidying Data with <code>tidyr</code><a href="tidying-data-with-tidyr.html#tidying-data-with-tidyr" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Please load the following packages and data frames for this chapter:</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="tidying-data-with-tidyr.html#cb396-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb396-2"><a href="tidying-data-with-tidyr.html#cb396-2" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb396-3"><a href="tidying-data-with-tidyr.html#cb396-3" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine</code></pre>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="tidying-data-with-tidyr.html#cb399-1" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb399-2"><a href="tidying-data-with-tidyr.html#cb399-2" tabindex="-1"></a>asp <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;asp.txt&quot;</span>))</span>
+<span id="cb399-3"><a href="tidying-data-with-tidyr.html#cb399-3" tabindex="-1"></a>avokal <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;avokal.txt&quot;</span>))</span>
+<span id="cb399-4"><a href="tidying-data-with-tidyr.html#cb399-4" tabindex="-1"></a>vcv <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vcvC.txt&quot;</span>))</span></code></pre></div>
+<p>“<em>tidy datasets are all alike but every messy dataset is messy in its own way</em>” – Hadley Wickham</p>
+<p>Hadley Wickham is the chief developer of the <em>tidyverse</em>. The functions of the tidyverse can not only be used to manipulate and process data, but also to clean them.</p>
+<p>A clean dataset follows these three principles:</p>
+<ul>
+<li>Every column contains one variable</li>
+<li>Every row contains one observation</li>
+<li>Every cell contains one value</li>
+</ul>
+<p>These principles may seem obvious and trivial, but they will be helpful in your everyday work with data in R. You should follow the tidy-data-principles for two main reasons: First, every dataset will be structured in the same consistent way which will facilitate every analysis. Second, the functions of the tidyverse were made to work on columns so it is very reasonable to have one variable per column. In order to demonstrate this we’ll show you examples of the two most common types of messy data.</p>
+<ul>
+<li><em>Column names are not variables, but values</em>: The columns <code>schnell</code> (engl. fast) and <code>langsam</code> (engl. slow) in the data frame <code>avokal</code> are actually values of the variable <code>velocity</code>.</li>
+</ul>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="tidying-data-with-tidyr.html#cb400-1" tabindex="-1"></a>avokal</span></code></pre></div>
+<pre><code>##    schnell langsam Vpn
+## 1      430     415  S1
+## 2      266     238  S2
+## 3      567     390  S3
+## 4      531     410  S4
+## 5      707     605  S5
+## 6      716     609  S6
+## 7      651     632  S7
+## 8      589     523  S8
+## 9      469     411  S9
+## 10     723     612 S10</code></pre>
+<ul>
+<li><em>Several variables are stored in one column</em>: The column <code>Context</code> in the data frame <code>vcv</code> contains two kinds of information: the left and right phonetic context of a sound. It would be better to separate these into two columns which actually already exist in the data frame (<code>Left</code> and <code>Right</code>).</li>
+</ul>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="tidying-data-with-tidyr.html#cb402-1" tabindex="-1"></a>vcv <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##        RT Subject Vowel Lang Left Right Context
+## 361 647.5    S209     a   AE    f     h     f.h
+## 362 617.0    S209     a   AE    f    sh    f.sh
+## 363 728.5    S209     a   AE    f    sh    f.sh
+## 364 629.0    S209     a   AE    f    th    f.th
+## 365 688.5    S209     a   AE    f    th    f.th
+## 366 602.5    S209     a   AE    s     h     s.h</code></pre>
+<p>It is not trivial to structure a data frame cleanly. Just one example: You have measured the first four formants in vowels. Does it make more sense to have the elicited data in four columns <code>F1</code>, <code>F2</code>, <code>F3</code>, <code>F4</code>? Or rather in two columns <code>Hz</code> (with the formant values in Hertz) and <code>formant</code> (with the values 1, 2, 3, or 4)?</p>
+<p>Before we show you how to restructure the datasets above such that they follow the three principles, we want to introduce the <strong>tibble</strong>.</p>
+<div id="tibbles" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Tibbles<a href="tidying-data-with-tidyr.html#tibbles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The *tibble is a simpler version of a data frame which is often used in the tidyverse. Let’s load another data frame and transform it into a tibble using <code>as_tibble()</code>:</p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="tidying-data-with-tidyr.html#cb404-1" tabindex="-1"></a>vdata <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;vdata.txt&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb404-2"><a href="tidying-data-with-tidyr.html#cb404-2" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div>
+<p>When we now enter the name of that tibble, <code>vdata</code>, in the console, we don’t see the full dataset as usual, but instead only the first ten observations. In addition, we can see how many rows and columns the tibble consists of and which object classes the columns have:</p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="tidying-data-with-tidyr.html#cb405-1" tabindex="-1"></a>vdata</span></code></pre></div>
+<pre><code>## # A tibble: 2,982 × 10
+##        X     Y    F1    F2   dur V     Tense Cons 
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  53.0  4.36   313   966 107.  %     -     P    
+##  2  53.6  3.65   322  2058  86.0 I     -     T    
+##  3  55.1 10.4    336  1186 123.  Y     -     K    
+##  4  53.1  4.75   693  2149 119.  E     -     T    
+##  5  52.7  6.46   269  2008 196.  Y     +     K    
+##  6  53.3  4.7    347   931  77.5 Y     -     P    
+##  7  54.4  3.6    705  1119 224.  A     +     P    
+##  8  51.2  7.38   248  2377 145.  I     +     P    
+##  9  54.6  2.4    385  1935 103   Y     -     T    
+## 10  58.4  9.17   288   595 244.  O     +     T    
+## # ℹ 2,972 more rows
+## # ℹ 2 more variables: Rate &lt;chr&gt;, Subj &lt;chr&gt;</code></pre>
+<p>The tibble has the primary object class <code>tbl_df</code>, but additionally also <code>tbl</code> and <code>data.frame</code>. That is why we can still speak of data frames when we refer to a tibble.</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="tidying-data-with-tidyr.html#cb407-1" tabindex="-1"></a>vdata <span class="sc">%&gt;%</span> <span class="fu">class</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<p>Of course you can also create a tibble yourself, by using the function <code>tibble()</code> instead of <code>data.frame()</code>, e.g.:</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="tidying-data-with-tidyr.html#cb409-1" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">y =</span> <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##       x     y
+##   &lt;int&gt; &lt;int&gt;
+## 1     1     6
+## 2     2     7
+## 3     3     8
+## 4     4     9
+## 5     5    10</code></pre>
+<p>If you use the import function <code>read_delim()</code> from the tidyverse package <code>readr</code> instead of the <code>read.table()</code> function, the dataset is imported as a tibble automatically.</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="tidying-data-with-tidyr.html#cb411-1" tabindex="-1"></a>int <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;intdauer.txt&quot;</span>), </span>
+<span id="cb411-2"><a href="tidying-data-with-tidyr.html#cb411-2" tabindex="-1"></a>                  <span class="at">delim =</span> <span class="st">&quot; &quot;</span>, </span>
+<span id="cb411-3"><a href="tidying-data-with-tidyr.html#cb411-3" tabindex="-1"></a>                  <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;idx&quot;</span>, <span class="st">&quot;Vpn&quot;</span>, <span class="st">&quot;dB&quot;</span>, <span class="st">&quot;Dauer&quot;</span>), </span>
+<span id="cb411-4"><a href="tidying-data-with-tidyr.html#cb411-4" tabindex="-1"></a>                  <span class="at">skip =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## Rows: 15 Columns: 4
+## ── Column specification ───────────────────────────────
+## Delimiter: &quot; &quot;
+## chr (1): Vpn
+## dbl (3): idx, dB, Dauer
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="tidying-data-with-tidyr.html#cb413-1" tabindex="-1"></a>int</span></code></pre></div>
+<pre><code>## # A tibble: 15 × 4
+##      idx Vpn      dB Dauer
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 S1     24.5   162
+##  2     2 S2     32.5   120
+##  3     3 S2     38.0   223
+##  4     4 S2     28.4   131
+##  5     5 S1     23.5    67
+##  6     6 S2     37.8   169
+##  7     7 S2     30.1    81
+##  8     8 S1     24.5   192
+##  9     9 S1     21.4   116
+## 10    10 S2     25.6    55
+## 11    11 S1     40.2   252
+## 12    12 S1     44.3   232
+## 13    13 S1     26.6   144
+## 14    14 S1     20.9   103
+## 15    15 S2     26.0   212</code></pre>
+<p><code>read_delim()</code> also returns the object class for every column in the so called <em>Column specification</em>. The import functions from <code>readr</code> are somewhat more sensitive than the standard R functions. Hier, for instance, we had to specify a few arguments (<code>delim</code>, <code>col_names</code>, and <code>skip</code>) in order to handle the fact that the data frame contained row indices. The standard function <code>read.table()</code> usually works if you just submit the path to the dataset.</p>
+<div class="gray">
+<p><strong>Further Information: Tibbles and <code>readr</code></strong></p>
+<p>If you’d like to learn more about the tibble, we recommend <a href="https://r4ds.had.co.nz/tibbles.html">chapter 10 from <em>R for Data Science</em></a>.</p>
+<p>The package <code>readr</code> offers further functions to load and save datasets, depending on how columns are separated in the file:</p>
+<ul>
+<li><code>read_csv()</code>: <strong>c</strong>omma <strong>s</strong>eparated <strong>v</strong>alues</li>
+<li><code>read_csv2()</code>: columns separated by semicolon</li>
+<li><code>read_tsv()</code>: columns separated by tab</li>
+<li><code>read_delim()</code>: works for all kinds of separators</li>
+</ul>
+<p>This and much more can also be found in <a href="https://r4ds.had.co.nz/data-import.html">chapter 11 from <em>R for Data Science</em></a>.</p>
+</div>
+</div>
+<div id="pivoting" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Pivoting<a href="tidying-data-with-tidyr.html#pivoting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><img src="img/ross-pivot-friends.gif" /></p>
+<p>Once we have loaded our data, we can start cleaning them. We can pursue two aims with this: either to structure the data in such a way that every row contains one observation and every column contains one variable, or to structure the data such that it serves a specific purpose, e.g. plotting. <code>tidyr</code> calls this process <strong>pivoting</strong> and there is a great vignette about the topic:</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="tidying-data-with-tidyr.html#cb415-1" tabindex="-1"></a><span class="fu">vignette</span>(<span class="st">&quot;pivot&quot;</span>)</span></code></pre></div>
+<p>Above we loaded the data frame <code>avokal</code> and observed that the columns <code>schnell</code> (fast) and <code>langsam</code> (slow) are actually two values of the variable <code>velocity</code>. That is, it would be better to have a column <code>velocity</code> (values: “schnell”, “langsam”) and one called <code>duration</code> (values from <code>schnell</code> and <code>langsam</code> in milliseconds):</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="tidying-data-with-tidyr.html#cb416-1" tabindex="-1"></a>avokal <span class="sc">%&gt;%</span> </span>
+<span id="cb416-2"><a href="tidying-data-with-tidyr.html#cb416-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(schnell, langsam), </span>
+<span id="cb416-3"><a href="tidying-data-with-tidyr.html#cb416-3" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;velocity&quot;</span>, </span>
+<span id="cb416-4"><a href="tidying-data-with-tidyr.html#cb416-4" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;duration&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 20 × 3
+##    Vpn   velocity duration
+##    &lt;chr&gt; &lt;chr&gt;       &lt;int&gt;
+##  1 S1    schnell       430
+##  2 S1    langsam       415
+##  3 S2    schnell       266
+##  4 S2    langsam       238
+##  5 S3    schnell       567
+##  6 S3    langsam       390
+##  7 S4    schnell       531
+##  8 S4    langsam       410
+##  9 S5    schnell       707
+## 10 S5    langsam       605
+## 11 S6    schnell       716
+## 12 S6    langsam       609
+## 13 S7    schnell       651
+## 14 S7    langsam       632
+## 15 S8    schnell       589
+## 16 S8    langsam       523
+## 17 S9    schnell       469
+## 18 S9    langsam       411
+## 19 S10   schnell       723
+## 20 S10   langsam       612</code></pre>
+<p>The command <strong><code>pivot_longer()</code></strong> transforms the data into the so called “long format”. The three most important arguments are:</p>
+<ul>
+<li><code>cols</code>: all columns that shall be transformed</li>
+<li><code>values_to</code>: the name of the new column with the values</li>
+<li><code>names_to</code>: the name of the new column that will contain the original column names</li>
+</ul>
+<p>The pivoting functions from <code>tidyr</code> are very powerful and you can do really complicated operations with them. Let’s take the <a href="https://tidyr.tidyverse.org/reference/billboard.html">data frame <code>billboard</code></a> which is loaded together with the <code>tidyverse</code> and contains the Billboard Chart rankings from the year 2000:</p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="tidying-data-with-tidyr.html#cb418-1" tabindex="-1"></a>billboard</span></code></pre></div>
+<pre><code>## # A tibble: 317 × 79
+##    artist    track date.entered   wk1   wk2   wk3   wk4
+##    &lt;chr&gt;     &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2 Pac     Baby… 2000-02-26      87    82    72    77
+##  2 2Ge+her   The … 2000-09-02      91    87    92    NA
+##  3 3 Doors … Kryp… 2000-04-08      81    70    68    67
+##  4 3 Doors … Loser 2000-10-21      76    76    72    69
+##  5 504 Boyz  Wobb… 2000-04-15      57    34    25    17
+##  6 98^0      Give… 2000-08-19      51    39    34    26
+##  7 A*Teens   Danc… 2000-07-08      97    97    96    95
+##  8 Aaliyah   I Do… 2000-01-29      84    62    51    41
+##  9 Aaliyah   Try … 2000-03-18      59    53    38    28
+## 10 Adams, Y… Open… 2000-08-26      76    76    74    69
+## # ℹ 307 more rows
+## # ℹ 72 more variables: wk5 &lt;dbl&gt;, wk6 &lt;dbl&gt;,
+## #   wk7 &lt;dbl&gt;, wk8 &lt;dbl&gt;, wk9 &lt;dbl&gt;, wk10 &lt;dbl&gt;,
+## #   wk11 &lt;dbl&gt;, wk12 &lt;dbl&gt;, wk13 &lt;dbl&gt;, wk14 &lt;dbl&gt;,
+## #   wk15 &lt;dbl&gt;, wk16 &lt;dbl&gt;, wk17 &lt;dbl&gt;, wk18 &lt;dbl&gt;,
+## #   wk19 &lt;dbl&gt;, wk20 &lt;dbl&gt;, wk21 &lt;dbl&gt;, wk22 &lt;dbl&gt;,
+## #   wk23 &lt;dbl&gt;, wk24 &lt;dbl&gt;, wk25 &lt;dbl&gt;, wk26 &lt;dbl&gt;, …</code></pre>
+<p>Similarly to <code>avokal</code>, <code>billboard</code> presents another case in which some columns (<code>wk1</code>, <code>wk2</code>, <code>wk3</code>, etc.) are actually values of one variable (<code>week</code>). So we’d like to create one column which contains the week (1, 2, 3, etc.) and one column that contains the Billboard rank. To achieve this, we take all colums whose names start with “wk”, put these names in a new column called <code>week</code>, and the values from the original columns into a new column called <code>rank</code>. The prefex “wk” from the old column names can be dropped by means of the argument <code>names_prefix</code>. Lastly, we remove all NA (<em>not available</em>) values – for instance, there is no row for week 8 of 2Pac’s “Baby Don’t Cry” because the song didn’t rank in the top 100 that week.</p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="tidying-data-with-tidyr.html#cb420-1" tabindex="-1"></a>billboard <span class="sc">%&gt;%</span> </span>
+<span id="cb420-2"><a href="tidying-data-with-tidyr.html#cb420-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">&quot;wk&quot;</span>), </span>
+<span id="cb420-3"><a href="tidying-data-with-tidyr.html#cb420-3" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;week&quot;</span>, </span>
+<span id="cb420-4"><a href="tidying-data-with-tidyr.html#cb420-4" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;rank&quot;</span>,</span>
+<span id="cb420-5"><a href="tidying-data-with-tidyr.html#cb420-5" tabindex="-1"></a>               <span class="at">names_prefix =</span> <span class="st">&quot;wk&quot;</span>,</span>
+<span id="cb420-6"><a href="tidying-data-with-tidyr.html#cb420-6" tabindex="-1"></a>               <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5,307 × 5
+##    artist  track               date.entered week   rank
+##    &lt;chr&gt;   &lt;chr&gt;               &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+##  1 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   1        87
+##  2 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   2        82
+##  3 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   3        72
+##  4 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   4        77
+##  5 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   5        87
+##  6 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   6        94
+##  7 2 Pac   Baby Don&#39;t Cry (Ke… 2000-02-26   7        99
+##  8 2Ge+her The Hardest Part O… 2000-09-02   1        91
+##  9 2Ge+her The Hardest Part O… 2000-09-02   2        87
+## 10 2Ge+her The Hardest Part O… 2000-09-02   3        92
+## # ℹ 5,297 more rows</code></pre>
+<p>The counterpart to <code>pivot_longer()</code> is <strong><code>pivot_wider()</code></strong>. This function is used much less frequently and takes as main arguments:</p>
+<ul>
+<li><code>names_from</code>: the column containing the unique values that shall be used as new column names</li>
+<li><code>values_from</code>: the column containing the values to fill the new columns</li>
+</ul>
+<p>A use case for <code>pivot_wider()</code> is given by the <a href="https://tidyr.tidyverse.org/reference/us_rent_income.html">data frame <code>us_rent_income</code></a> which is loaded withe the tidyverse (much like <code>billboard</code> and a few others):</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="tidying-data-with-tidyr.html#cb422-1" tabindex="-1"></a>us_rent_income</span></code></pre></div>
+<pre><code>## # A tibble: 104 × 5
+##    GEOID NAME       variable estimate   moe
+##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+##  1 01    Alabama    income      24476   136
+##  2 01    Alabama    rent          747     3
+##  3 02    Alaska     income      32940   508
+##  4 02    Alaska     rent         1200    13
+##  5 04    Arizona    income      27517   148
+##  6 04    Arizona    rent          972     4
+##  7 05    Arkansas   income      23789   165
+##  8 05    Arkansas   rent          709     5
+##  9 06    California income      29454   109
+## 10 06    California rent         1358     3
+## # ℹ 94 more rows</code></pre>
+<p>We want to create a column <code>income</code> and a column <code>rent</code> from the levels of the column <code>variable</code> and fill the two new columns with the values from <code>estimate</code>.</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="tidying-data-with-tidyr.html#cb424-1" tabindex="-1"></a>us_rent_income <span class="sc">%&gt;%</span> </span>
+<span id="cb424-2"><a href="tidying-data-with-tidyr.html#cb424-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable,</span>
+<span id="cb424-3"><a href="tidying-data-with-tidyr.html#cb424-3" tabindex="-1"></a>              <span class="at">values_from =</span> estimate)</span></code></pre></div>
+<pre><code>## # A tibble: 104 × 5
+##    GEOID NAME         moe income  rent
+##    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 01    Alabama      136  24476    NA
+##  2 01    Alabama        3     NA   747
+##  3 02    Alaska       508  32940    NA
+##  4 02    Alaska        13     NA  1200
+##  5 04    Arizona      148  27517    NA
+##  6 04    Arizona        4     NA   972
+##  7 05    Arkansas     165  23789    NA
+##  8 05    Arkansas       5     NA   709
+##  9 06    California   109  29454    NA
+## 10 06    California     3     NA  1358
+## # ℹ 94 more rows</code></pre>
+<p>The results contains a few NA values. These can be replaced by zeros by means of the argument <code>values_fill</code>.</p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="tidying-data-with-tidyr.html#cb426-1" tabindex="-1"></a>us_rent_income <span class="sc">%&gt;%</span> </span>
+<span id="cb426-2"><a href="tidying-data-with-tidyr.html#cb426-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable,</span>
+<span id="cb426-3"><a href="tidying-data-with-tidyr.html#cb426-3" tabindex="-1"></a>              <span class="at">values_from =</span> estimate,</span>
+<span id="cb426-4"><a href="tidying-data-with-tidyr.html#cb426-4" tabindex="-1"></a>              <span class="at">values_fill =</span> <span class="dv">0</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 104 × 5
+##    GEOID NAME         moe income  rent
+##    &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 01    Alabama      136  24476     0
+##  2 01    Alabama        3      0   747
+##  3 02    Alaska       508  32940     0
+##  4 02    Alaska        13      0  1200
+##  5 04    Arizona      148  27517     0
+##  6 04    Arizona        4      0   972
+##  7 05    Arkansas     165  23789     0
+##  8 05    Arkansas       5      0   709
+##  9 06    California   109  29454     0
+## 10 06    California     3      0  1358
+## # ℹ 94 more rows</code></pre>
+<p>Again, <code>pivot_wider()</code> can conduct some very complex operations. The main arguments <code>names_from</code> and <code>values_from</code> can actually take more than one column. <code>pivot_wider()</code> then creates as many new columns as there are combinations of levels from the original columns. Here we put in the columns <code>estimate</code> and <code>moe</code> for <code>values_from</code>. Thus, we receive four new columns:</p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="tidying-data-with-tidyr.html#cb428-1" tabindex="-1"></a>us_rent_income <span class="sc">%&gt;%</span> </span>
+<span id="cb428-2"><a href="tidying-data-with-tidyr.html#cb428-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> variable,</span>
+<span id="cb428-3"><a href="tidying-data-with-tidyr.html#cb428-3" tabindex="-1"></a>              <span class="at">values_from =</span> <span class="fu">c</span>(estimate, moe))</span></code></pre></div>
+<pre><code>## # A tibble: 52 × 6
+##    GEOID NAME  estimate_income estimate_rent moe_income
+##    &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+##  1 01    Alab…           24476           747        136
+##  2 02    Alas…           32940          1200        508
+##  3 04    Ariz…           27517           972        148
+##  4 05    Arka…           23789           709        165
+##  5 06    Cali…           29454          1358        109
+##  6 08    Colo…           32401          1125        109
+##  7 09    Conn…           35326          1123        195
+##  8 10    Dela…           31560          1076        247
+##  9 11    Dist…           43198          1424        681
+## 10 12    Flor…           25952          1077         70
+## # ℹ 42 more rows
+## # ℹ 1 more variable: moe_rent &lt;dbl&gt;</code></pre>
+<p>Last but not least a phonetic example. We want to create new columns from the levels of the column <code>Bet</code> (lexical stress) in the data frame <code>asp</code> and fill them with the duration values in column <code>d</code>. The code throws a warning because there are several values per cell in the new columns as you can also tell from the weird output:</p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="tidying-data-with-tidyr.html#cb430-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span></span>
+<span id="cb430-2"><a href="tidying-data-with-tidyr.html#cb430-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Bet,</span>
+<span id="cb430-3"><a href="tidying-data-with-tidyr.html#cb430-3" tabindex="-1"></a>              <span class="at">values_from =</span> d)</span></code></pre></div>
+<pre><code>## Warning: Values from `d` are not uniquely identified; output
+## will contain list-cols.
+## • Use `values_fn = list` to suppress this warning.
+## • Use `values_fn = {summary_fun}` to summarise
+##   duplicates.
+## • Use the following dplyr code to identify duplicates.
+##   {data} |&gt;
+##   dplyr::summarise(n = dplyr::n(), .by = c(Wort, Vpn,
+##   Kons, Bet)) |&gt;
+##   dplyr::filter(n &gt; 1L)</code></pre>
+<pre><code>## # A tibble: 1,723 × 5
+##    Wort             Vpn   Kons  un        be       
+##    &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt; &lt;list&gt;    &lt;list&gt;   
+##  1 Fruehlingswetter k01   t     &lt;dbl [2]&gt; &lt;NULL&gt;   
+##  2 Gestern          k01   t     &lt;dbl [2]&gt; &lt;NULL&gt;   
+##  3 Montag           k01   t     &lt;dbl [2]&gt; &lt;NULL&gt;   
+##  4 Vater            k01   t     &lt;dbl [4]&gt; &lt;NULL&gt;   
+##  5 Tisch            k01   t     &lt;NULL&gt;    &lt;dbl [3]&gt;
+##  6 Mutter           k01   t     &lt;dbl [2]&gt; &lt;NULL&gt;   
+##  7 konnte           k01   k     &lt;dbl [2]&gt; &lt;NULL&gt;   
+##  8 Kaffee           k01   k     &lt;NULL&gt;    &lt;dbl [3]&gt;
+##  9 Tassen           k01   t     &lt;NULL&gt;    &lt;dbl [2]&gt;
+## 10 Teller           k01   t     &lt;NULL&gt;    &lt;dbl [2]&gt;
+## # ℹ 1,713 more rows</code></pre>
+<p>The warning also kindly offers three solutions to this problem: We can use the argument <code>values_fn</code> to suppress the warning, show how many values per cell there are, or summarise the values using one of the summarising functions. The last solution seems to make sense here: wherever there are several values per cell, we compute their mean with <code>mean()</code>:</p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="tidying-data-with-tidyr.html#cb433-1" tabindex="-1"></a>asp <span class="sc">%&gt;%</span></span>
+<span id="cb433-2"><a href="tidying-data-with-tidyr.html#cb433-2" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Bet,</span>
+<span id="cb433-3"><a href="tidying-data-with-tidyr.html#cb433-3" tabindex="-1"></a>              <span class="at">values_from =</span> d,</span>
+<span id="cb433-4"><a href="tidying-data-with-tidyr.html#cb433-4" tabindex="-1"></a>              <span class="at">values_fn =</span> mean)</span></code></pre></div>
+<pre><code>## # A tibble: 1,723 × 5
+##    Wort             Vpn   Kons     un    be
+##    &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 Fruehlingswetter k01   t      19.1  NA  
+##  2 Gestern          k01   t      22.4  NA  
+##  3 Montag           k01   t      22.3  NA  
+##  4 Vater            k01   t      25.4  NA  
+##  5 Tisch            k01   t      NA    55.8
+##  6 Mutter           k01   t      19.3  NA  
+##  7 konnte           k01   k      43.9  NA  
+##  8 Kaffee           k01   k      NA    56.1
+##  9 Tassen           k01   t      NA    49.4
+## 10 Teller           k01   t      NA    59.4
+## # ℹ 1,713 more rows</code></pre>
+<p>In none of the pivoting examples we overwrote the data frames with their pivoted form (e.g. with a double pipe). The functions <code>pivot_longer()</code> and <code>pivot_wider()</code> are often useful for temporary changes, e.g. because you need the data frame in a certain format for a plot:</p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="tidying-data-with-tidyr.html#cb435-1" tabindex="-1"></a>avokal <span class="sc">%&gt;%</span> </span>
+<span id="cb435-2"><a href="tidying-data-with-tidyr.html#cb435-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(schnell, langsam), <span class="at">names_to =</span> <span class="st">&quot;velocity&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;duration&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb435-3"><a href="tidying-data-with-tidyr.html#cb435-3" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb435-4"><a href="tidying-data-with-tidyr.html#cb435-4" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> velocity, <span class="at">y =</span> duration) <span class="sc">+</span> </span>
+<span id="cb435-5"><a href="tidying-data-with-tidyr.html#cb435-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="programmieren_statistik_r_files/figure-html/unnamed-chunk-143-1.svg" width="672" /></p>
+</div>
+<div id="separating" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Separating<a href="tidying-data-with-tidyr.html#separating" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our second example for messy data was the data frame <code>vcv</code> which contains two types of information in the column <code>Context</code>:</p>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="tidying-data-with-tidyr.html#cb436-1" tabindex="-1"></a>vcv <span class="sc">%&gt;%</span> head</span></code></pre></div>
+<pre><code>##        RT Subject Vowel Lang Left Right Context
+## 361 647.5    S209     a   AE    f     h     f.h
+## 362 617.0    S209     a   AE    f    sh    f.sh
+## 363 728.5    S209     a   AE    f    sh    f.sh
+## 364 629.0    S209     a   AE    f    th    f.th
+## 365 688.5    S209     a   AE    f    th    f.th
+## 366 602.5    S209     a   AE    s     h     s.h</code></pre>
+<p>We want to have the left and right phonetic context, which are separated here by a dot, in separate columns. (For the purpose of this demonstration we remove the columns <code>Left</code> and <code>Right</code> from the data frame because the are the desired solution.)</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="tidying-data-with-tidyr.html#cb438-1" tabindex="-1"></a>vcv <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb438-2"><a href="tidying-data-with-tidyr.html#cb438-2" tabindex="-1"></a>  <span class="fu">select</span>(RT<span class="sc">:</span>Lang, Context) <span class="sc">%&gt;%</span> </span>
+<span id="cb438-3"><a href="tidying-data-with-tidyr.html#cb438-3" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div>
+<p>To achieve our aim we use the function <strong><code>separate()</code></strong> with the following obligatory arguments:</p>
+<ul>
+<li><code>col</code>: the column whose contents are to be separated</li>
+<li><code>into</code>: the new column names</li>
+<li><code>sep</code>: how to separate the strings in column <code>col</code></li>
+</ul>
+<p>The first two arguments are pretty clear in our case: <code>col</code> is the column <code>Context</code> and <code>into</code> takes our desired column names <code>Left</code> and <code>Right</code>. For the third argument <code>sep</code>, on the other hand, there are two options. The first is to indicate the index at which to separate the string, e.g. put the first two letters in one and the rest of the letters in the second new column. To do this, we can use <code>sep = 2</code>. However, when we look at the distinct values in <code>Context</code>, this wouldn’t be our desired result:</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="tidying-data-with-tidyr.html#cb439-1" tabindex="-1"></a><span class="fu">levels</span>(vcv<span class="sc">$</span>Context)</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>This is because the left context can consist of one or two letters; and also, there is a dot which would then be inherited by the left or right context, as you can see here:</p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="tidying-data-with-tidyr.html#cb441-1" tabindex="-1"></a>vcv <span class="sc">%&gt;%</span> </span>
+<span id="cb441-2"><a href="tidying-data-with-tidyr.html#cb441-2" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Context, </span>
+<span id="cb441-3"><a href="tidying-data-with-tidyr.html#cb441-3" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;Left&quot;</span>, <span class="st">&quot;Right&quot;</span>), </span>
+<span id="cb441-4"><a href="tidying-data-with-tidyr.html#cb441-4" tabindex="-1"></a>           <span class="at">sep =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 810 × 6
+##       RT Subject Vowel Lang  Left  Right
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  648. S209    a     AE    f     .h   
+##  2  617  S209    a     AE    f     .sh  
+##  3  728. S209    a     AE    f     .sh  
+##  4  629  S209    a     AE    f     .th  
+##  5  688. S209    a     AE    f     .th  
+##  6  602. S209    a     AE    s     .h   
+##  7  632. S209    a     AE    s     .sh  
+##  8  574  S209    a     AE    s     .th  
+##  9  719  S209    a     AE    s     .h   
+## 10  569  S209    a     AE    s     .th  
+## # ℹ 800 more rows</code></pre>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="tidying-data-with-tidyr.html#cb443-1" tabindex="-1"></a>vcv <span class="sc">%&gt;%</span> </span>
+<span id="cb443-2"><a href="tidying-data-with-tidyr.html#cb443-2" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Context, </span>
+<span id="cb443-3"><a href="tidying-data-with-tidyr.html#cb443-3" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;Left&quot;</span>, <span class="st">&quot;Right&quot;</span>), </span>
+<span id="cb443-4"><a href="tidying-data-with-tidyr.html#cb443-4" tabindex="-1"></a>           <span class="at">sep =</span> <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 810 × 6
+##       RT Subject Vowel Lang  Left  Right
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  648. S209    a     AE    f.    h    
+##  2  617  S209    a     AE    f.    sh   
+##  3  728. S209    a     AE    f.    sh   
+##  4  629  S209    a     AE    f.    th   
+##  5  688. S209    a     AE    f.    th   
+##  6  602. S209    a     AE    s.    h    
+##  7  632. S209    a     AE    s.    sh   
+##  8  574  S209    a     AE    s.    th   
+##  9  719  S209    a     AE    s.    h    
+## 10  569  S209    a     AE    s.    th   
+## # ℹ 800 more rows</code></pre>
+<p>The second option is a <strong>regular expression</strong> (also called regex). That means that we give the function a pattern that tells it how to separate the contents of <code>Context</code>. This would work well here because we would like to separate the contexts at the dot. Unfortunately, the dot is a marker for one (random) character in regular expressions. So if we want to indicate in our pattern that we actually mean a dot (and not any random character), we need to protect the dot by means of the escape sign, a double backslash.</p>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="tidying-data-with-tidyr.html#cb445-1" tabindex="-1"></a>vcv <span class="sc">%&gt;%</span> </span>
+<span id="cb445-2"><a href="tidying-data-with-tidyr.html#cb445-2" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="at">col =</span> Context, </span>
+<span id="cb445-3"><a href="tidying-data-with-tidyr.html#cb445-3" tabindex="-1"></a>           <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;Left&quot;</span>, <span class="st">&quot;Right&quot;</span>), </span>
+<span id="cb445-4"><a href="tidying-data-with-tidyr.html#cb445-4" tabindex="-1"></a>           <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 810 × 6
+##       RT Subject Vowel Lang  Left  Right
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##  1  648. S209    a     AE    f     h    
+##  2  617  S209    a     AE    f     sh   
+##  3  728. S209    a     AE    f     sh   
+##  4  629  S209    a     AE    f     th   
+##  5  688. S209    a     AE    f     th   
+##  6  602. S209    a     AE    s     h    
+##  7  632. S209    a     AE    s     sh   
+##  8  574  S209    a     AE    s     th   
+##  9  719  S209    a     AE    s     h    
+## 10  569  S209    a     AE    s     th   
+## # ℹ 800 more rows</code></pre>
+<p>So this is the result we aimed for: every column contains only one variable!</p>
+<div class="gray">
+<p><strong>Further Information: regular expressions</strong></p>
+<p>Regexs are a complex topic which we cannot get into in this module. If you want to learn more about them – they are very useful in any programming language after all – we recommend <a href="https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions">chapter 14 from <em>R for Data Science</em></a>.</p>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="plotting-data-with-ggplot2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="joining-with-dplyr.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

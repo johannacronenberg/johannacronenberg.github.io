@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Data Frames | Programming in R: An Introduction for Phoneticians</title>
+  <meta name="description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Data Frames | Programming in R: An Introduction for Phoneticians" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Data Frames | Programming in R: An Introduction for Phoneticians" />
+  
+  <meta name="twitter:description" content="An introduction to data processing in R focussing on tidyverse. This introduction was written as study material for the students of the Institute of Phonetics and Speech Processing at the University of Munich." />
+  
+
+<meta name="author" content="Johanna Cronenberg" />
+
+
+<meta name="date" content="2024-03-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="first-calculations-in-r.html"/>
+<link rel="next" href="introduction-to-the-tidyverse.html"/>
+<script src="libs/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./index.html">Programming in R: An Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Setup</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.1</b> Installation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#r-projects"><i class="fa fa-check"></i><b>1.2</b> R Projects</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#packages-and-r-version"><i class="fa fa-check"></i><b>1.3</b> Packages and R Version</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#sessions"><i class="fa fa-check"></i><b>1.4</b> Sessions</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#types-of-documents"><i class="fa fa-check"></i><b>1.5</b> Types of Documents</a>
+<ul>
+<li class="chapter" data-level="1.5.1" data-path="index.html"><a href="index.html#r-scripts"><i class="fa fa-check"></i><b>1.5.1</b> R Scripts</a></li>
+<li class="chapter" data-level="1.5.2" data-path="index.html"><a href="index.html#r-markdown"><i class="fa fa-check"></i><b>1.5.2</b> R Markdown</a></li>
+</ul></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#help"><i class="fa fa-check"></i><b>1.6</b> Help</a>
+<ul>
+<li class="chapter" data-level="1.6.1" data-path="index.html"><a href="index.html#recognising-errors"><i class="fa fa-check"></i><b>1.6.1</b> Recognising Errors</a></li>
+<li class="chapter" data-level="1.6.2" data-path="index.html"><a href="index.html#ask-the-community"><i class="fa fa-check"></i><b>1.6.2</b> Ask the Community</a></li>
+<li class="chapter" data-level="1.6.3" data-path="index.html"><a href="index.html#help-with-ggplot2"><i class="fa fa-check"></i><b>1.6.3</b> Help with <code>ggplot2</code></a></li>
+<li class="chapter" data-level="1.6.4" data-path="index.html"><a href="index.html#statistics-in-r-literature"><i class="fa fa-check"></i><b>1.6.4</b> Statistics in R: Literature</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html"><i class="fa fa-check"></i><b>2</b> First Calculations in R</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#variables-functions"><i class="fa fa-check"></i><b>2.1</b> Variables &amp; Functions</a></li>
+<li class="chapter" data-level="2.2" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#object-classes"><i class="fa fa-check"></i><b>2.2</b> Object Classes</a></li>
+<li class="chapter" data-level="2.3" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors</a></li>
+<li class="chapter" data-level="2.4" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#arithmetic-and-logical-operators"><i class="fa fa-check"></i><b>2.4</b> Arithmetic and Logical Operators</a></li>
+<li class="chapter" data-level="2.5" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#manipulate-vectors"><i class="fa fa-check"></i><b>2.5</b> Manipulate Vectors</a></li>
+<li class="chapter" data-level="2.6" data-path="first-calculations-in-r.html"><a href="first-calculations-in-r.html#factors"><i class="fa fa-check"></i><b>2.6</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-frames.html"><a href="data-frames.html"><i class="fa fa-check"></i><b>3</b> Data Frames</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-frames.html"><a href="data-frames.html#import-export"><i class="fa fa-check"></i><b>3.1</b> Import &amp; Export</a></li>
+<li class="chapter" data-level="3.2" data-path="data-frames.html"><a href="data-frames.html#characteristics"><i class="fa fa-check"></i><b>3.2</b> Characteristics</a></li>
+<li class="chapter" data-level="3.3" data-path="data-frames.html"><a href="data-frames.html#accessing-columns"><i class="fa fa-check"></i><b>3.3</b> Accessing Columns</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html"><i class="fa fa-check"></i><b>4</b> Introduction to the tidyverse</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#pipes"><i class="fa fa-check"></i><b>4.1</b> Pipes</a></li>
+<li class="chapter" data-level="4.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#manipulating-data-with-dplyr"><i class="fa fa-check"></i><b>4.2</b> Manipulating Data with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#filtering"><i class="fa fa-check"></i><b>4.2.1</b> Filtering</a></li>
+<li class="chapter" data-level="4.2.2" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#selecting"><i class="fa fa-check"></i><b>4.2.2</b> Selecting</a></li>
+<li class="chapter" data-level="4.2.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#mutating"><i class="fa fa-check"></i><b>4.2.3</b> Mutating</a></li>
+<li class="chapter" data-level="4.2.4" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#renaming"><i class="fa fa-check"></i><b>4.2.4</b> Renaming</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="introduction-to-the-tidyverse.html"><a href="introduction-to-the-tidyverse.html#more-examples-of-complex-pipes"><i class="fa fa-check"></i><b>4.3</b> More Examples of Complex Pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="summary-statistics.html"><a href="summary-statistics.html#mean-median"><i class="fa fa-check"></i><b>5.1</b> Mean &amp; Median</a></li>
+<li class="chapter" data-level="5.2" data-path="summary-statistics.html"><a href="summary-statistics.html#variance-standard-deviation"><i class="fa fa-check"></i><b>5.2</b> Variance &amp; Standard Deviation</a></li>
+<li class="chapter" data-level="5.3" data-path="summary-statistics.html"><a href="summary-statistics.html#quantiles"><i class="fa fa-check"></i><b>5.3</b> Quantiles</a></li>
+<li class="chapter" data-level="5.4" data-path="summary-statistics.html"><a href="summary-statistics.html#example-of-a-boxplot"><i class="fa fa-check"></i><b>5.4</b> Example of a Boxplot</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html"><i class="fa fa-check"></i><b>6</b> Manipulating Data with <code>dplyr</code> (Continuation)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#grouping-summarising"><i class="fa fa-check"></i><b>6.1</b> Grouping &amp; Summarising</a></li>
+<li class="chapter" data-level="6.2" data-path="manipulating-data-with-dplyr-continuation.html"><a href="manipulating-data-with-dplyr-continuation.html#arranging"><i class="fa fa-check"></i><b>6.2</b> Arranging</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Plotting Data with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#boxplots"><i class="fa fa-check"></i><b>7.1</b> Boxplots</a></li>
+<li class="chapter" data-level="7.2" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#scatter--lineplots"><i class="fa fa-check"></i><b>7.2</b> Scatter- &amp; Lineplots</a></li>
+<li class="chapter" data-level="7.3" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#barplots"><i class="fa fa-check"></i><b>7.3</b> Barplots</a></li>
+<li class="chapter" data-level="7.4" data-path="plotting-data-with-ggplot2.html"><a href="plotting-data-with-ggplot2.html#histograms-probability-density"><i class="fa fa-check"></i><b>7.4</b> Histograms &amp; Probability Density</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html"><i class="fa fa-check"></i><b>8</b> Tidying Data with <code>tidyr</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#tibbles"><i class="fa fa-check"></i><b>8.1</b> Tibbles</a></li>
+<li class="chapter" data-level="8.2" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#pivoting"><i class="fa fa-check"></i><b>8.2</b> Pivoting</a></li>
+<li class="chapter" data-level="8.3" data-path="tidying-data-with-tidyr.html"><a href="tidying-data-with-tidyr.html#separating"><i class="fa fa-check"></i><b>8.3</b> Separating</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html"><i class="fa fa-check"></i><b>9</b> Joining with <code>dplyr</code></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#mutating-joins"><i class="fa fa-check"></i><b>9.1</b> Mutating Joins</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#inner-join"><i class="fa fa-check"></i><b>9.1.1</b> Inner Join</a></li>
+<li class="chapter" data-level="9.1.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#outer-join"><i class="fa fa-check"></i><b>9.1.2</b> Outer Join</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="joining-with-dplyr.html"><a href="joining-with-dplyr.html#filtering-joins"><i class="fa fa-check"></i><b>9.2</b> Filtering Joins</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="pretty-plots.html"><a href="pretty-plots.html"><i class="fa fa-check"></i><b>10</b> Pretty Plots</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="pretty-plots.html"><a href="pretty-plots.html#axis-labels"><i class="fa fa-check"></i><b>10.1</b> Axis Labels</a></li>
+<li class="chapter" data-level="10.2" data-path="pretty-plots.html"><a href="pretty-plots.html#limit-the-coordinate-system"><i class="fa fa-check"></i><b>10.2</b> Limit the Coordinate System</a></li>
+<li class="chapter" data-level="10.3" data-path="pretty-plots.html"><a href="pretty-plots.html#colours"><i class="fa fa-check"></i><b>10.3</b> Colours</a></li>
+<li class="chapter" data-level="10.4" data-path="pretty-plots.html"><a href="pretty-plots.html#further-specifications"><i class="fa fa-check"></i><b>10.4</b> Further Specifications</a></li>
+<li class="chapter" data-level="10.5" data-path="pretty-plots.html"><a href="pretty-plots.html#font-size"><i class="fa fa-check"></i><b>10.5</b> Font Size</a></li>
+<li class="chapter" data-level="10.6" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-and-arranging-plots"><i class="fa fa-check"></i><b>10.6</b> Dividing and Arranging Plots</a>
+<ul>
+<li class="chapter" data-level="10.6.1" data-path="pretty-plots.html"><a href="pretty-plots.html#dividing-plots"><i class="fa fa-check"></i><b>10.6.1</b> Dividing Plots</a></li>
+<li class="chapter" data-level="10.6.2" data-path="pretty-plots.html"><a href="pretty-plots.html#arrange-plots"><i class="fa fa-check"></i><b>10.6.2</b> Arrange Plots</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+			<a class="btn pull-right js-toolbar-action" href="../../deutsch/book-output/data-frames.html"><i class="fa fa-language"></i></a>
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Programming in R: An Introduction for Phoneticians</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-frames" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Data Frames<a href="data-frames.html#data-frames" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A very important data structure in R is the data frame which is a two-dimensional table. The rows are also called <em>observations</em>, while the columns are called <em>variables</em> (which should not be confused with the <em>variables</em>, i.e. saved values or objects, from the previous chapter!). In phonetics, we often work with data frames, e.g. when we have extracted acoustic information from speech recordings or measures from a perception experiment and want to analyse those (statistically).</p>
+<div id="import-export" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Import &amp; Export<a href="data-frames.html#import-export" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are several ways of importing a <code>.csv</code> or <code>.txt</code> table in R. If you want to load a table from your hard drive, you can use the <code>Import Dataset</code> assistant shown in the toolbar right above the R environment on the top right. The command used by the assistant to import the data frame will be shown in the console.</p>
+<p>In this course you will use data frames that are provided on a website, which is why we have to write our own command to load them. The command we’ll use is <code>read.table()</code> and its main argument is the path (i.e. the URL in this case) to the data frame (but check the help page of this function for further information on its arguments and further import functions):</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="data-frames.html#cb132-1" tabindex="-1"></a>ai <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt&quot;</span>)</span></code></pre></div>
+<p>Since we will use several data frames from the same website throughout this course, we can optimise our import function so that we don’t have to type or copy &amp; paste the same complicated URL every time. To do so, we store the URL as a variable of the <em>string</em> type and then use the function <code>file.path()</code> with which the URL and file name are concatenated:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="data-frames.html#cb133-1" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf&quot;</span></span>
+<span id="cb133-2"><a href="data-frames.html#cb133-2" tabindex="-1"></a><span class="fu">file.path</span>(url, <span class="st">&quot;ai.txt&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;http://www.phonetik.uni-muenchen.de/~jmh/lehre/Rdf/ai.txt&quot;</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="data-frames.html#cb135-1" tabindex="-1"></a><span class="co"># with the import command:</span></span>
+<span id="cb135-2"><a href="data-frames.html#cb135-2" tabindex="-1"></a>ai <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">file.path</span>(url, <span class="st">&quot;ai.txt&quot;</span>))</span></code></pre></div>
+<p>The counterpart to <code>read.table()</code> is <code>write.table()</code> which is used to save a data frame from R to your hard drive. This function takes the name of the object in R which is to be saved and then the path including the desired file name (<code>./</code> signals the current directory). In addition, we’ll use the optional argument <code>row.names = FALSE</code> so that the function does not add a column for the (in this case, non-existent) row names in the stored table.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="data-frames.html#cb136-1" tabindex="-1"></a><span class="fu">write.table</span>(ai, <span class="fu">file.path</span>(<span class="st">&quot;./&quot;</span>, <span class="st">&quot;ai.txt&quot;</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Of course you cannot just load data frames, you can also write them yourself using the function <code>data.frame()</code>. This function takes as arguments the column names and the values to fill these columns. Here is an example:</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="data-frames.html#cb137-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">240</span>, <span class="dv">220</span>, <span class="dv">250</span>, <span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">520</span>, <span class="dv">510</span>, <span class="dv">605</span>, <span class="dv">670</span>, <span class="dv">613</span>),</span>
+<span id="cb137-2"><a href="data-frames.html#cb137-2" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;o&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>))</span>
+<span id="cb137-3"><a href="data-frames.html#cb137-3" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>##     F1 vowel
+## 1  240     i
+## 2  220     i
+## 3  250     i
+## 4  210     i
+## 5  280     i
+## 6  520     o
+## 7  510     o
+## 8  605     o
+## 9  670     o
+## 10 613     o</code></pre>
+<p>Data frames have their own object class:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="data-frames.html#cb139-1" tabindex="-1"></a><span class="fu">class</span>(df)</span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+</div>
+<div id="characteristics" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Characteristics<a href="data-frames.html#characteristics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When we work with data structures that contain a lot of information, it is important to make yourself familiar with that object. R provides many useful functions to look at data frames or gather information about their characteristics:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="data-frames.html#cb141-1" tabindex="-1"></a><span class="co"># look at data frame in separate panel</span></span>
+<span id="cb141-2"><a href="data-frames.html#cb141-2" tabindex="-1"></a><span class="fu">View</span>(ai)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="data-frames.html#cb142-1" tabindex="-1"></a><span class="co"># return first or last observations</span></span>
+<span id="cb142-2"><a href="data-frames.html#cb142-2" tabindex="-1"></a><span class="fu">head</span>(ai)</span></code></pre></div>
+<pre><code>##     F1 Kiefer  Lippe
+## 1  773 -25.48 -24.60
+## 2  287 -27.03 -26.44
+## 3 1006 -27.25 -27.59
+## 4  814 -26.06 -27.17
+## 5  814 -26.15 -25.93
+## 6  806 -26.37 -24.45</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="data-frames.html#cb144-1" tabindex="-1"></a><span class="fu">tail</span>(ai)</span></code></pre></div>
+<pre><code>##      F1 Kiefer  Lippe
+## 20  888 -25.99 -26.85
+## 21  988 -26.27 -28.27
+## 22  650 -26.50 -24.31
+## 23 1026 -27.10 -24.64
+## 24  992 -28.41 -28.31
+## 25  896 -26.57 -25.69</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="data-frames.html#cb146-1" tabindex="-1"></a><span class="co"># number of rows and/or columns</span></span>
+<span id="cb146-2"><a href="data-frames.html#cb146-2" tabindex="-1"></a><span class="fu">nrow</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 25</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="data-frames.html#cb148-1" tabindex="-1"></a><span class="fu">ncol</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="data-frames.html#cb150-1" tabindex="-1"></a><span class="fu">dim</span>(ai)</span></code></pre></div>
+<pre><code>## [1] 25  3</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="data-frames.html#cb152-1" tabindex="-1"></a><span class="co"># column names</span></span>
+<span id="cb152-2"><a href="data-frames.html#cb152-2" tabindex="-1"></a><span class="fu">colnames</span>(ai)</span></code></pre></div>
+<pre><code>## [1] &quot;F1&quot;     &quot;Kiefer&quot; &quot;Lippe&quot;</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="data-frames.html#cb154-1" tabindex="-1"></a><span class="fu">names</span>(ai)</span></code></pre></div>
+<pre><code>## [1] &quot;F1&quot;     &quot;Kiefer&quot; &quot;Lippe&quot;</code></pre>
+</div>
+<div id="accessing-columns" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Accessing Columns<a href="data-frames.html#accessing-columns" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Although we will work with the modern <em>tidyverse</em> syntax in the following chapters, we want to introduce briefly how to access columns of data frames in a traditional way because this can sometimes be the most efficient way.</p>
+<p>Take a look at your R environment: you’ll see that the simple variables and vectors are listed under “Values” while the two data frames <code>ai</code> and <code>df</code> are listed under “Data”. The environment also shows the number of observations and variables for each data frame, e.g. <code>25 obs. of 3 variables</code>. When you click on the tiny blue icon next to the data frame’s name, it opens an overview of the column names, their object class (<code>int</code> for integers, <code>num</code> for numerics, etc.) as well as the first few values in that column. The same information can be obtained by applying the function <code>str()</code> (<em>structure</em>) to the data frame:</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="data-frames.html#cb156-1" tabindex="-1"></a><span class="fu">str</span>(ai)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    25 obs. of  3 variables:
+##  $ F1    : int  773 287 1006 814 814 806 938 1005 964 931 ...
+##  $ Kiefer: num  -25.5 -27 -27.2 -26.1 -26.2 ...
+##  $ Lippe : num  -24.6 -26.4 -27.6 -27.2 -25.9 ...</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="data-frames.html#cb158-1" tabindex="-1"></a><span class="fu">str</span>(df)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  2 variables:
+##  $ F1   : num  240 220 250 210 280 520 510 605 670 613
+##  $ vowel: chr  &quot;i&quot; &quot;i&quot; &quot;i&quot; &quot;i&quot; ...</code></pre>
+<p>In front of every column in this overview you see the dollar sign. This is actually how you can access columns in data frames: type the data frame’s name, then (without spaces!) the dollar sign, then (again without spaces!) the column name:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="data-frames.html#cb160-1" tabindex="-1"></a>df<span class="sc">$</span>F1</span></code></pre></div>
+<pre><code>##  [1] 240 220 250 210 280 520 510 605 670 613</code></pre>
+<p>You can see here that a column is basically a vector! And that means that you can now apply the functions, which we have previously used to manipulate vectors, to the columns in data frames:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="data-frames.html#cb162-1" tabindex="-1"></a><span class="fu">length</span>(df<span class="sc">$</span>F1)</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="data-frames.html#cb164-1" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>vowel)</span></code></pre></div>
+<pre><code>## 
+## i o 
+## 5 5</code></pre>
+<div class="gray">
+<p><strong>Further Information: Factors in Data Frames</strong></p>
+<p>In the R environment you can see that the column <code>vowel</code> of the data frame <code>df</code> which we created above is a <em>factor</em>, and that this factor has two <em>levels</em> – even though we had filled the column <code>vowel</code> with a vector of strings, and not with a factor! The function <code>data.frame()</code> that generated <code>df</code> has an argument called <code>stringsAsFactors</code> which is set to <code>TRUE</code> by default. That means that the strings in the column <code>vowels</code> were automatically converted into a factor when the data frame was created. The two distinct values (categories) in this column are “i” and “o”, so the factor has two levels.</p>
+<p>When you take another look at the data frame <code>df</code> you’ll also see that the column <code>vowel</code> is not just a factor with two levels, but that the first values in this column are weirdly numbers, and not “i” or “o”. This is because factors are stored as integers in the background (i.e. usually invisible to users of R). These integers are associated with the levels of the factor. So when the environment lists the value 1 in the column <code>vowel</code> of <code>df</code>, it represents the level “i”, while the value 2 represents the level “o”.</p>
+<p>If you want to prevent strings from being converted into factors, you can simply set <code>stringsAsFactors = FALSE</code>:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="data-frames.html#cb166-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">F1 =</span> <span class="fu">c</span>(<span class="dv">240</span>, <span class="dv">220</span>, <span class="dv">250</span>, <span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">520</span>, <span class="dv">510</span>, <span class="dv">605</span>, <span class="dv">670</span>, <span class="dv">613</span>),</span>
+<span id="cb166-2"><a href="data-frames.html#cb166-2" tabindex="-1"></a>                 <span class="at">vowel =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;i&quot;</span>,<span class="st">&quot;o&quot;</span>), <span class="at">each =</span> <span class="dv">5</span>),</span>
+<span id="cb166-3"><a href="data-frames.html#cb166-3" tabindex="-1"></a>                 <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="first-calculations-in-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction-to-the-tidyverse.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "none",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"info": false
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
