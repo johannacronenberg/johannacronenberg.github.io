@@ -2,6 +2,8 @@
 title: Projects
 format:
   html: 
+    resources:
+      - "book/*"
     anchor-sections: false
     grid:
       sidebar-width: 200px
