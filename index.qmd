@@ -1,0 +1,49 @@
+---
+format:
+  html: 
+    anchor-sections: false
+    grid:
+      sidebar-width: 200px
+      body-width: 1500px
+      margin-width: 200px
+      gutter-width: 1.5rem
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/tex-gyre-adventor" type="text/css"/>
+mainfont: Montserrat
+---
+
+::: {.grid}
+
+::: {.g-col-4}
+```{=html}
+<div class="circular-portrait" style="padding-left: 1em; padding-right: 1em;">
+  <a href="https://www.samcronenberg.com/"><img src="img/paris_bySam_square.jpg" style="max-width: 100%; border-radius: 50%; display:block; margin:auto;"></a>
+</div>
+
+<div style="padding-left: 1em; padding-right: 1em; text-align: center; display:block; margin:auto;">
+<a href="https://www.samcronenberg.com/"><p style="size: 20px;">&#xA9; Sam Cronenberg</p></a>
+<h3 class="">Johanna Cronenberg</h3>
+<p>Post Doc<br>Université Paris Cité</p>
+</div>
+```
+:::
+
+::: {.g-col-8}
+### Short Bio
+
+I first fell in love with phonetics in 2013 in an introductory class that was part of my B.A. in Language and Communication. After finishing my philological and linguistic undergraduate studies, I moved to Munich to study at the Institute of Phonetics and Speech Processing. I was awarded my PhD in phonetics as part of the ERC project [InterAccent](https://www.phonetik.uni-muenchen.de/Forschung/interaccent/interAccent.html) supervised by Prof. Jonathan Harrington in 2023. Now I am a Post Doc at the Université Paris Cité where I am working with Prof. Ioana Chitoran on vowel sequences in Romance languages as part of the project [DIPVAR](https://anr.fr/en/funded-projects-and-impact/funded-projects/project/funded/project/b2d9d3668f92a3b9fbbf7866072501ef-90e880de04/?tx_anrprojects_funded%5Bcontroller%5D=Funded&cHash=f211c450876a8dc48b71e2c9ed982722). 
+
+I am interested in all facets of sound change: its historical, phonological, and phonetic origins and the mechanisms that cause its spread. In my research I apply functional analyses, often on large-scale acoustic data, and computational modelling techniques to gain insights into specific sound changes. Most recently, I have worked on the change from pre- to post-aspirated stops in Andalusian Spanish and on the evolution of diphthongs in Romance languages.
+
+### Education
+
+- PhD in Phonetics and Speech Processing, 2023<br>University of Munich
+
+- M.A. Phonetics and Speech Processing, 2018<br>University of Munich
+
+- B.A. Language and Communication, 2016<br>University of Marburg
+
+- B.A. Romance Philology, 2016<br>University of Marburg & University of Madrid
+:::
+
+:::

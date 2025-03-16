@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "[joː&#39;hana]",
+    "section": "",
+    "text": "© Sam Cronenberg\nJohanna Cronenberg\nPost DocUniversité Paris Cité\n\n\n\n\nShort Bio\nI first fell in love with phonetics in 2013 in an introductory class that was part of my B.A. in Language and Communication. After finishing my philological and linguistic undergraduate studies, I moved to Munich to study at the Institute of Phonetics and Speech Processing. I was awarded my PhD in phonetics as part of the ERC project InterAccent supervised by Prof. Jonathan Harrington in 2023. Now I am a Post Doc at the Université Paris Cité where I am working with Prof. Ioana Chitoran on vowel sequences in Romance languages as part of the project DIPVAR.\nI am interested in all facets of sound change: its historical, phonological, and phonetic origins and the mechanisms that cause its spread. In my research I apply functional analyses, often on large-scale acoustic data, and computational modelling techniques to gain insights into specific sound changes. Most recently, I have worked on the change from pre- to post-aspirated stops in Andalusian Spanish and on the evolution of diphthongs in Romance languages.\n\n\nEducation\n\nPhD in Phonetics and Speech Processing, 2023University of Munich\nM.A. Phonetics and Speech Processing, 2018University of Munich\nB.A. Language and Communication, 2016University of Marburg\nB.A. Romance Philology, 2016University of Marburg & University of Madrid"
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Programming in R: An Introduction for Phoneticians\nThis book is available in German and English!"
+  },
+  {
+    "objectID": "publications/index.html",
+    "href": "publications/index.html",
+    "title": "Publications",
+    "section": "",
+    "text": "PhD Thesis\nCronenberg, J. (2023): A Cognitive and Computational Model of the Sound Change from Pre- to Post-Aspiration in Andalusian Spanish. University of Munich. open access\n\n\nPeer-Reviewed Journal Papers\nCronenberg, J. & Chitoran, I. (in prep): On the Diphthong-Hiatus Contrast in Five Romance Languages.\nCronenberg, J. & Chitoran, I. (in prep): Reduction of the Hiatus /ia/ in Laboratory and Naturalistic European Portuguese.\nGubian, M., Cronenberg, J. & Harrington, J. (2023): Phonetic and Phonological Sound Changes in an Agent-Based Model. Speech Communication 147, pp. 93–115. open access\nCoretta, S., Casillas, J. V., Roessig, S., Franke, M., …, Cronenberg, J., …, Roettger, T. B. (2023): Multidimensional signals and analytic flexibility: Estimating degrees of freedom in human speech analyses. Advances in Methods and Practices in Psychological Science 6(3), pp. 1–29. open access\nCronenberg, J., Gubian, M., Harrington, J. & Ruch, H. (2020): A dynamic model of the change from pre- to post-aspiration in Andalusian Spanish. Journal of Phonetics 83, pp. 101016. open access\n\n\nProceedings Papers\nCronenberg, J., Chitoran, I., Lamel, L. & Vasilescu, I. (2024): Crosslinguistic Comparison of Acoustic Variation in the Vowel Sequences /ia/ and /io/ in Four Romance Languages. Interspeech, Kos, Greece. open access\nCronenberg, J., Gubian, M., Harrington, J. & Reichel, V. (2023): Investigating Sound Change through Computational Agent-Based Modelling: An R Package. ICPhS, Prague, Czech Republic. open access\nCronenberg, J., Klingler, N., Kleber, F. & Pucher, M. (2022): On the role of asymmetry in prosodic change of consonant duration: Results from an agent-based model with two German varieties. Speech Prosody, Lisbon, Portugal. open access"
+  },
+  {
+    "objectID": "teaching/index.html",
+    "href": "teaching/index.html",
+    "title": "Teaching",
+    "section": "",
+    "text": "Université Paris Cité, France\nAnalyzing Variability in and out of the Lab Workshop for graduate students 2025\n\n\nUniversity of Michigan, USA\nDynamic Methods to Investigate Aspiration Workshop for PhD students 2021\n\n\nUniversity of Munich, Germany\nProgramming and Statistics in R Undergraduate lecture and tutorial 2020 – 2022\nLaboratory Phonology graduate lecture 2020, 2022\nAdvanced Speech Technology graduate lecture 2019, 2021\nIntroduction to Programming in R and tidyverse workshop for PhD students 2020\nIntroduction to Linear Regression and Mixed Models in R workshop for PhD students 2020"
+  }
+]

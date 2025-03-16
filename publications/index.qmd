@@ -1,0 +1,39 @@
+---
+title: Publications
+format:
+  html: 
+    anchor-sections: false
+    grid:
+      sidebar-width: 200px
+      body-width: 1500px
+      margin-width: 200px
+      gutter-width: 1.5rem
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/tex-gyre-adventor" type="text/css"/>
+mainfont: Montserrat
+---
+
+### PhD Thesis
+
+**Cronenberg, J.** (2023): A Cognitive and Computational Model of the Sound Change from Pre- to Post-Aspiration in Andalusian Spanish. *University of Munich*. [open access](https://edoc.ub.uni-muenchen.de/33026/1/Cronenberg_Johanna.pdf)
+
+### Peer-Reviewed Journal Papers
+
+**Cronenberg, J.** & Chitoran, I. (in prep): On the Diphthong-Hiatus Contrast in Five Romance Languages.
+
+**Cronenberg, J.** & Chitoran, I. (in prep): Reduction of the Hiatus /ia/ in Laboratory and Naturalistic European Portuguese.
+
+Gubian, M., **Cronenberg, J.** & Harrington, J. (2023): Phonetic and Phonological Sound Changes in an Agent-Based Model. *Speech Communication* 147, pp. 93--115. [open access](https://www.sciencedirect.com/science/article/pii/S0167639323000122)
+
+Coretta, S., Casillas, J. V., Roessig, S., Franke, M., ..., **Cronenberg, J.**, ..., Roettger, T. B. (2023): Multidimensional signals and analytic flexibility: Estimating degrees of freedom in human speech analyses. *Advances in Methods and Practices in Psychological Science* 6(3), pp. 1--29. [open access](https://journals.sagepub.com/doi/10.1177/25152459231162567)
+
+**Cronenberg, J.**, Gubian, M., Harrington, J. & Ruch, H. (2020): A dynamic model of the change from pre- to post-aspiration in Andalusian Spanish. *Journal of Phonetics* 83, pp. 101016. [open access](https://www.sciencedirect.com/science/article/pii/S0095447020301078)
+
+### Proceedings Papers
+
+**Cronenberg, J.**, Chitoran, I., Lamel, L. & Vasilescu, I. (2024): Crosslinguistic Comparison of Acoustic Variation in the Vowel Sequences /ia/ and /io/ in Four Romance Languages. *Interspeech*, Kos, Greece. [open access](https://www.isca-archive.org/interspeech_2024/cronenberg24_interspeech.pdf)
+
+**Cronenberg, J.**, Gubian, M., Harrington, J. & Reichel, V. (2023): Investigating Sound Change through Computational Agent-Based Modelling: An R Package. *ICPhS*, Prague, Czech Republic. [open access](https://www.internationalphoneticassociation.org/icphs-proceedings/ICPhS2023/full_papers/583.pdf)
+
+**Cronenberg, J.**, Klingler, N., Kleber, F. & Pucher, M. (2022): On the role of asymmetry in prosodic change of consonant duration: Results from an agent-based model with two German varieties. *Speech Prosody*, Lisbon, Portugal. [open access](https://www.isca-archive.org/speechprosody_2022/cronenberg22_speechprosody.pdf)
+

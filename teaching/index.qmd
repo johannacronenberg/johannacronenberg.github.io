@@ -1,0 +1,49 @@
+---
+title: Teaching
+format:
+  html:
+    anchor-sections: false 
+    grid:
+      sidebar-width: 200px
+      body-width: 1500px
+      margin-width: 200px
+      gutter-width: 1.5rem
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/tex-gyre-adventor" type="text/css"/>
+mainfont: Montserrat
+---
+
+### Université Paris Cité, France
+
+**Analyzing Variability in and out of the Lab**<br>
+Workshop for graduate students<br>
+2025
+
+### University of Michigan, USA
+
+**Dynamic Methods to Investigate Aspiration**<br>
+Workshop for PhD students<br>
+2021
+
+### University of Munich, Germany
+
+**Programming and Statistics in R**<br>
+Undergraduate lecture and tutorial<br>
+2020 – 2022
+
+**Laboratory Phonology**<br>
+graduate lecture<br>
+2020, 2022
+
+**Advanced Speech Technology**<br>
+graduate lecture<br>
+2019, 2021
+
+**Introduction to Programming in R and tidyverse**<br>
+workshop for PhD students<br>
+2020
+
+**Introduction to Linear Regression and Mixed Models in R**<br>
+workshop for PhD students<br>
+2020
+

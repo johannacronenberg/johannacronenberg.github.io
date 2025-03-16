@@ -1,0 +1,23 @@
+---
+title: Projects
+format:
+  html: 
+    anchor-sections: false
+    grid:
+      sidebar-width: 200px
+      body-width: 1500px
+      margin-width: 200px
+      gutter-width: 1.5rem
+    header-includes: |
+      <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/tex-gyre-adventor" type="text/css"/>
+mainfont: Montserrat
+---
+
+```{=html}
+<h3>Programming in R: An Introduction for Phoneticians</h3>
+<p>This book is available in <a href="./book/deutsch/book-output/index.html" target="_blank">German</a> and <a href="./book/english/book-output/index.html" target="_blank">English</a>!</p>
+```
+
+
+
+
