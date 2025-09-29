@@ -18,6 +18,9 @@ mainfont: Montserrat
 ```{=html}
 <h3><a href="https://johannacronenberg.github.io/basic_R/setup" target="_blank"><b>Programming in R: An Introduction for Phoneticians</b></a></h3>
 <p>This book is available in <a href="https://johannacronenberg.github.io/basic_R" target="_blank">German</a> and <a href="https://johannacronenberg.github.io/basic_R/setup" target="_blank">English</a>!<br>You can also switch between the languages by clicking on the little button on the top right once you've opened the book.</p>
+
+<h3><a href="https://johannacronenberg.github.io/stats_R/setup" target="_blank"><b>Statistics in R: An Introduction for Phoneticians</b></a></h3>
+<p>This book is available in <a href="https://johannacronenberg.github.io/stats_R" target="_blank">German</a> and <a href="https://johannacronenberg.github.io/stats_R/setup" target="_blank">English</a>!<br>You can also switch between the languages by clicking on the little button on the top right once you've opened the book.</p>
 ```
 
 
