@@ -28,7 +28,7 @@ website:
     right:
       - icon: envelope
         aria-label: email
-        href: "mailto:johanna.cronenberg@cnrs.fr"
+        href: "mailto:johanna.cronenberg@uni-koeln.de"
       - text: "{{< iconify academicons researchgate >}}"
         href: https://www.researchgate.net/profile/Johanna_Cronenberg
       - text: "{{< iconify academicons google-scholar >}}"
